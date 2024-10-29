@@ -37,11 +37,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
+              "src/styles.sass"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              
             ],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -109,7 +108,7 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+             
             ]
           }
         }
