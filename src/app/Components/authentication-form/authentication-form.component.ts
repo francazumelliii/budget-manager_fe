@@ -47,7 +47,9 @@ export class AuthenticationFormComponent {
 
     this.authService.signup(name, surname, email, password,birthdate)
       .subscribe((response: AuthResponse) => {
-        console.log(response)
+        response.user? this.authService.storeUserInformation(response.user) : null
+        response.jwt ? this.authService.storeToken(response.jwt): null
+
       },(error: any) => {
         console.error(error)
       })
@@ -64,6 +66,8 @@ export class AuthenticationFormComponent {
     this.authService.login(email, password)
       .subscribe((response: AuthResponse) => {
         console.log(response)
+        response.user? this.authService.storeUserInformation(response.user) : null
+        response.jwt ? this.authService.storeToken(response.jwt): null
       },(error: any) => {
         error.status == 401 ? this.responseError = "Email or password invalid": null
         error.status == 404 ? this.responseError = "Email not found": null

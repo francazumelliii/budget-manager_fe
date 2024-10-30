@@ -9,6 +9,7 @@ import { AuthenticationFormComponent } from './Components/authentication-form/au
 import { HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { AvatarComponent } from './Components/avatar/avatar.component';
+import { HomepageComponent } from './Components/homepage/homepage.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AvatarComponent } from './Components/avatar/avatar.component';
     AuthenticationFormComponent,
     SidebarComponent,
     AvatarComponent,
+    HomepageComponent,
 
 
   ],
