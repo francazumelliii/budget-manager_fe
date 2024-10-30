@@ -16,3 +16,10 @@ export interface User{
     children: User[] | null,
     parent: User | null
 }
+
+
+export interface Menu{
+    name: string,
+    icon: string,
+    value: any
+}
