@@ -1,1 +1,21 @@
-<p>homepage works!</p>
+<section class="flex flex-col justify-center space-y-4">
+    <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        <div class="w-full">
+            <app-dynamic-list [list]="recentExpensesList" template="EXPENSE"></app-dynamic-list>
+        </div>
+        <div class="w-full">
+            <app-dynamic-list [list]="recentIncomesList" template="INCOME"></app-dynamic-list>
+        </div>
+    </div>
+    <div class="flex flex-col rounded-lg border border-zinc-700 bg-zinc-900 px-3 w-full">
+        <p class="text-zinc-400 text-left border-b border-zinc-700 py-2 font-bold">Quick Access</p>
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 w-full py-4 gap-10">
+            <app-quickaccess-btn label="+ new Expense" icon="fa-regular fa-credit-card text-fuchsia-500" iconBgColor="bg-fuchsia-900" (click)="openModal('expense')"></app-quickaccess-btn>
+            <app-quickaccess-btn label="+ new Income" icon="fa-regular fa-money-check-dollar text-indigo-500" iconBgColor="bg-indigo-900" (click)="openModal('income')"></app-quickaccess-btn>
+            <app-quickaccess-btn label="+ new Trip" icon="fa-regular fa-suitcase-rolling text-teal-500" iconBgColor="bg-teal-900" (click)="openModal('trip')"></app-quickaccess-btn>
+            <app-quickaccess-btn label="+ add Child" icon="fa-regular fa-user-plus text-red-500" iconBgColor="bg-red-900" (click)="openModal('child')"></app-quickaccess-btn>
+        </div>
+    </div>
+
+
+</section>
