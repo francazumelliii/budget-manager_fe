@@ -1,0 +1,80 @@
+<ng-container *ngIf="type==='expense'">
+    <section class="flex flex-col gap-y-4"> 
+        <div class="flex flex-row justify-between">
+            <!-- name input -->
+            <div class="w-full max-w-sm">
+                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="Subject">
+            </div>
+            <!-- amount input -->
+            <div class="w-full max-w-sm">
+                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="€100.00 " type="number">
+            </div>
+        </div>
+        <!-- description textarea-->
+        <div class="w-full h-full "> 
+            <textarea class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="Add a description"></textarea>
+        </div>
+
+        <!-- frequency select -->
+        <div class="flex flex-row justify-between">
+            <!-- select -->
+            <div class="w-full max-w-sm"> 
+                <app-select label="Frequency" [list]="frequencies"> </app-select>
+            </div> 
+            <!-- name input -->
+            <div class="w-full max-w-sm">
+                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" type="date" [value]="todayDate">
+            </div>
+        </div>
+
+        <div class="flex flex-row justify-between">
+            <!-- category select -->
+            <div class="w-full max-w-sm">      
+                <app-select label="Category" [list]="categories"></app-select>
+            </div>
+            <!-- image selector-->
+            <div class="w-full max-w-sm">
+                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" type="file" >
+            </div>
+        </div>
+
+        <div class="flex flex-row justify-between">
+            <!-- category select -->
+            <div class="w-full max-w-sm" *ngIf="projects.length > 0">      
+                <app-select label="Project (optional)" [list]="projects"></app-select>
+            </div>
+            <div class="w-full " [ngClass]="{'max-w-sm' : projects.length > 0}">      
+                <button class="bg-fuchsia-700 w-full rounded-lg h-full hover:bg-fuchsia-600 text-zinc-900" > 
+                    ADD EXPENSE
+                </button>
+            </div>
+       
+
+        </div>
+
+    </section>
+</ng-container>
+
+
+
+
+
+
+
+
+
+<ng-container *ngIf="type==='income'">
+
+  
+</ng-container>
+<ng-container *ngIf="type==='trip'">
+
+  
+</ng-container>
+<ng-container *ngIf="type==='child'">
+
+  
+</ng-container>
+  
+  
+  
