@@ -10,6 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { AvatarComponent } from './Components/avatar/avatar.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
+import { DynamicListComponent } from './Components/dynamic-list/dynamic-list.component';
+import { QuickaccessBtnComponent } from './Components/quickaccess-btn/quickaccess-btn.component';
+import { ModalComponent } from './Components/modal/modal.component';
+import { QuickaccessModalComponent } from './Components/quickaccess-modal/quickaccess-modal.component';
+import { SelectComponent } from './Components/select/select.component';
 
 
 @NgModule({
@@ -19,6 +24,11 @@ import { HomepageComponent } from './Components/homepage/homepage.component';
     SidebarComponent,
     AvatarComponent,
     HomepageComponent,
+    DynamicListComponent,
+    QuickaccessBtnComponent,
+    ModalComponent,
+    QuickaccessModalComponent,
+    SelectComponent,
 
 
   ],

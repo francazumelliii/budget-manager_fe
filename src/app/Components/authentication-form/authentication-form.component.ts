@@ -18,7 +18,7 @@ export class AuthenticationFormComponent {
 
   signupForm: FormGroup = this.formGroupService.signupForm
   loginForm: FormGroup = this.formGroupService.loginForm
-  template: 'LOGIN' | 'SIGNUP' = 'SIGNUP'
+  template: 'LOGIN' | 'SIGNUP' = 'LOGIN'
   _arePasswordEquals: boolean = false;
   responseError: string = ""
 
