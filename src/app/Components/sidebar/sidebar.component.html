@@ -1,5 +1,5 @@
 <section class="flex h-screen bg-zinc-900 py-4 pe-4">
-    <div class="bg-zinc-900 w-1/5 p-3 flex flex-col space-y-10">
+    <div class="bg-zinc-900 w-1/5 p-3 flex flex-col space-y-10 overflow-y-auto">
         <div class="flex flex-col justify-center items-center mb-5">
             <app-avatar></app-avatar>
             <p class="dark:text-white">{{userName}} {{userSurname}}</p>
@@ -8,14 +8,14 @@
         <div 
             class="flex flex-col space-y-3 dark:text-white p-4 rounded-lg" 
             *ngFor="let menu of menuList"
-            routerLinkActive="active "
-            >
-            <div class="flex items-center space-x-3 hover:text-teal-400" >
+            routerLinkActive="active"
+        >
+            <div class="flex items-center space-x-3 hover:text-teal-400">
                 <i [ngClass]="menu.icon" 
                     class="text-sm h-full dark:text-white hover:text-teal-300 pointer" 
                     [routerLink]="menu.value" 
                     routerLinkActive="text-active"
-                    ></i>
+                ></i>
                 <p class="font-comfortaa text-md h-full dark:text-white hover:text-teal-300 pointer" 
                    [routerLink]="menu.value" 
                    routerLinkActive="text-active"
@@ -25,14 +25,13 @@
             </div>
         </div>
         <!-- logout button -->
-        <div class="align-baseline bottom-3 absolute ps-4 ">
+        <div class="align-baseline bottom-3 absolute ps-4">
             <i class="fa-solid fa-right-from-bracket dark:text-white text-md scale-x-[-1] hover:text-teal-300" (click)="logOut()"></i>
         </div>
     </div>
 
-
     <!-- child component -->
-    <section class="flex-1 p-5 dark:bg-zinc-950 rounded-md">
+    <section class="flex-1 p-5 dark:bg-zinc-950 rounded-md overflow-y-auto">
         <ng-component></ng-component>
     </section>
 </section>
