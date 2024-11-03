@@ -1,0 +1,12 @@
+<div class="modal-overlay" (click)="close()">
+    <div class="modal-content  bg-zinc-800 border border-zinc-600" (click)="$event.stopPropagation()">
+      <div class="modal-header aling-items-center border-b border-zinc-600 ">
+        <h2 class="text-gray-400 font-bold uppercase ">{{ title }}</h2>
+        <button class="close-button text-gray-400 font-light hover:text-red-400"  (click)="close()">x</button>
+      </div>
+      <div class="modal-body">
+        <ng-template #modalContent></ng-template>
+      </div>
+    </div>
+  </div>
+  
