@@ -74,7 +74,12 @@ export class AuthenticationService {
 
   logOut(){
     localStorage.removeItem("token")
+    localStorage.setItem("user", "")
     localStorage.removeItem("user")
     this.router.navigate(['authentication'])
+  }
+
+  get role(){
+    return this.userInformation.role
   }
 }

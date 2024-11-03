@@ -13,7 +13,7 @@ export class DatabaseService {
     private authService: AuthenticationService
     ) {}
 
-    serverUrl: string = "http://localhost:8080"
+    serverUrl: string = "http://localhost:8080/api/v1"
 
 
     get(endpoint: string): Observable<any>{
@@ -41,8 +41,7 @@ export class DatabaseService {
     
 
     get headers(): HttpHeaders{
-      const headers = new HttpHeaders();
-      headers.append('Authorization', `Bearer ${this.authService.token}`);
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.token}`);
       return headers
     }
 }
