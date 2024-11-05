@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver, ApplicationRef, Injector, EmbeddedViewRef, ComponentRef } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ApplicationRef, Injector, EmbeddedViewRef, ComponentRef, ChangeDetectorRef } from '@angular/core';
 import { ModalComponent } from '../Components/modal/modal.component';
 
 
@@ -12,7 +12,7 @@ export class ModalService {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private appRef: ApplicationRef,
-    private injector: Injector
+    private injector: Injector,
   ) {}
   open(component: any, inputs: any = {}, title: string = ''): Promise<ComponentRef<any>> {
     return new Promise((resolve, reject) => {
@@ -61,6 +61,21 @@ export class ModalService {
       this.modalComponentRef.destroy();
       this.modalComponentRef = null;
       this.childComponentRef = null;
+    }
+  }
+  updateChildInputs(inputs: { [key: string]: any }): void {
+    if (this.childComponentRef && this.childComponentRef.instance) {
+      Object.keys(inputs).forEach((key) => {
+        if (key in this.childComponentRef!.instance) {
+          this.childComponentRef!.instance[key] = inputs[key];
+        }
+      });
+  
+      // Rileva modifiche nel componente figlio per assicurare l'aggiornamento del template
+      const changeDetector = this.childComponentRef.injector.get(ChangeDetectorRef);
+      changeDetector.detectChanges();
+    } else {
+      console.error("Child component not initialized or doesn't have inputs.");
     }
   }
 }
