@@ -1,80 +1,448 @@
-<ng-container *ngIf="type==='expense'">
-    <section class="flex flex-col gap-y-4"> 
-        <div class="flex flex-row justify-between">
-            <!-- name input -->
-            <div class="w-full max-w-sm">
-                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="Subject">
-            </div>
-            <!-- amount input -->
-            <div class="w-full max-w-sm">
-                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="€100.00 " type="number">
-            </div>
+<ng-container *ngIf="type === 'expense'">
+  <form [formGroup]="newExpenseForm">
+    <section class="flex flex-col gap-y-4">
+      <div class="flex flex-row justify-between">
+        <!-- name input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newExpenseForm.controls['name'].invalid &&
+                newExpenseForm.controls['name'].touched
+            }"
+            formControlName="name"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Subject"
+          />
         </div>
-        <!-- description textarea-->
-        <div class="w-full h-full "> 
-            <textarea class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" placeholder="Add a description"></textarea>
+        <!-- amount input -->
+        <div class="w-full max-w-sm">
+          <input
+            (input)="checkNumbers('newExpenseForm', 'amount')"
+            [ngClass]="{
+              'border-error':
+                newExpenseForm.controls['amount'].invalid &&
+                newExpenseForm.controls['amount'].touched
+            }"
+            formControlName="amount"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="€100.00 "
+            type="number"
+          />
         </div>
+      </div>
+      <!-- description textarea-->
+      <div class="w-full h-full">
+        <textarea
+          [ngClass]="{
+            'border-error':
+              newExpenseForm.controls['description'].invalid &&
+              newExpenseForm.controls['description'].touched
+          }"
+          formControlName="description"
+          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          placeholder="Add a description"
+        ></textarea>
+      </div>
 
-        <!-- frequency select -->
-        <div class="flex flex-row justify-between">
-            <!-- select -->
-            <div class="w-full max-w-sm"> 
-                <app-select label="Frequency" [list]="frequencies"> </app-select>
-            </div> 
-            <!-- name input -->
-            <div class="w-full max-w-sm">
-                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" type="date" [value]="todayDate">
-            </div>
+      <!-- frequency select -->
+      <div class="flex flex-row justify-between">
+        <!-- select -->
+        <div class="w-full max-w-sm">
+          <app-select
+            label="Frequency"
+            [list]="frequencies"
+            [control]="newExpenseForm.controls['frequency']"
+          >
+          </app-select>
         </div>
-
-        <div class="flex flex-row justify-between">
-            <!-- category select -->
-            <div class="w-full max-w-sm">      
-                <app-select label="Category" [list]="categories"></app-select>
-            </div>
-            <!-- image selector-->
-            <div class="w-full max-w-sm">
-                <input class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow" type="file" >
-            </div>
+        <!-- date input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newExpenseForm.controls['date'].invalid &&
+                newExpenseForm.controls['date'].touched
+            }"
+            formControlName="date"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="date"
+            [value]="todayDate"
+          />
         </div>
+      </div>
 
-        <div class="flex flex-row justify-between">
-            <!-- category select -->
-            <div class="w-full max-w-sm" *ngIf="projects.length > 0">      
-                <app-select label="Project (optional)" [list]="projects"></app-select>
-            </div>
-            <div class="w-full " [ngClass]="{'max-w-sm' : projects.length > 0}">      
-                <button class="bg-fuchsia-700 w-full rounded-lg h-full hover:bg-fuchsia-600 text-zinc-900" > 
-                    ADD EXPENSE
-                </button>
-            </div>
-       
-
+      <div class="flex flex-row justify-between">
+        <!-- category select -->
+        <div class="w-full max-w-sm">
+          <app-select
+            label="Category"
+            [list]="categories"
+            [control]="newExpenseForm.controls['category']"
+          ></app-select>
         </div>
+        <!-- image selector-->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newExpenseForm.controls['image'].invalid &&
+                newExpenseForm.controls['image'].touched
+            }"
+            formControlName="image"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="file"
+          />
+        </div>
+      </div>
 
+      <div class="flex flex-row justify-between">
+        <!-- project select -->
+        <div class="w-full max-w-sm" *ngIf="projects.length > 0">
+          <app-select
+            label="Project (optional)"
+            [list]="projects"
+            [control]="newExpenseForm.controls['project']"
+          ></app-select>
+        </div>
+        <div class="w-full" [ngClass]="{ 'max-w-sm': projects.length > 0 }">
+          <button
+            [disabled]="newExpenseForm.invalid"
+            [ngClass]="{ 'hover:bg-fuchsia-700': newExpenseForm.invalid }"
+            (click)="submitForm('expense')"
+            class="bg-fuchsia-700 w-full rounded-lg h-full hover:bg-fuchsia-600 text-zinc-900"
+          >
+            ADD EXPENSE
+          </button>
+        </div>
+      </div>
     </section>
+  </form>
 </ng-container>
 
+<ng-container *ngIf="type === 'income'">
+  <form [formGroup]="newIncomeForm">
+    <section class="flex flex-col gap-y-4">
+      <div class="flex flex-row justify-between">
+        <!-- name input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newIncomeForm.controls['name'].invalid &&
+                newIncomeForm.controls['name'].touched
+            }"
+            formControlName="name"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Subject"
+          />
+        </div>
+        <!-- amount input -->
+        <div class="w-full max-w-sm">
+          <input
+            (input)="checkNumbers('newIncomeForm', 'amount')"
+            [ngClass]="{
+              'border-error':
+                newIncomeForm.controls['amount'].invalid &&
+                newIncomeForm.controls['amount'].touched
+            }"
+            formControlName="amount"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="€100.00 "
+            type="number"
+          />
+        </div>
+      </div>
+      <!-- description textarea-->
+      <div class="w-full h-full">
+        <textarea
+          [ngClass]="{
+            'border-error':
+              newIncomeForm.controls['description'].invalid &&
+              newIncomeForm.controls['description'].touched
+          }"
+          formControlName="description"
+          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          placeholder="Add a description"
+        ></textarea>
+      </div>
 
+      <!-- frequency select -->
+      <div class="flex flex-row justify-between">
+        <!-- select -->
+        <div class="w-full max-w-sm">
+          <app-select
+            label="Frequency"
+            [list]="frequencies"
+            [control]="newIncomeForm.controls['frequency']"
+          >
+          </app-select>
+        </div>
+        <!-- date input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newIncomeForm.controls['date'].invalid &&
+                newIncomeForm.controls['date'].touched
+            }"
+            formControlName="date"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="date"
+            [value]="todayDate"
+          />
+        </div>
+      </div>
 
+      <div class="flex flex-row justify-between">
+        <!-- image selector-->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newExpenseForm.controls['image'].invalid &&
+                newExpenseForm.controls['image'].touched
+            }"
+            formControlName="image"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="file"
+          />
+        </div>
+      </div>
 
-
-
-
-
-
-<ng-container *ngIf="type==='income'">
-
-  
+      <div class="flex flex-row justify-between">
+        <div class="w-full">
+          <button
+            [disabled]="newIncomeForm.invalid"
+            [ngClass]="{ 'hover:bg-indigo-700': newIncomeForm.invalid }"
+            (click)="submitForm('income')"
+            class="bg-indigo-700 w-full rounded-lg h-14 hover:bg-indigo-600 text-zinc-900"
+          >
+            ADD INCOME
+          </button>
+        </div>
+      </div>
+    </section>
+  </form>
 </ng-container>
-<ng-container *ngIf="type==='trip'">
+<ng-container *ngIf="type === 'trip'">
+  <form [formGroup]="newTripForm">
+    <section class="flex flex-col gap-y-4">
+      <div class="flex flex-row justify-between">
+        <!-- name input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newTripForm.controls['name'].invalid &&
+                newTripForm.controls['name'].touched
+            }"
+            formControlName="name"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Subject"
+          />
+        </div>
+        <!-- amount input -->
+        <div class="w-full max-w-sm">
+          <input
+            (input)="checkNumbers('newTripForm', 'goalAmount')"
+            [ngClass]="{
+              'border-error':
+                newTripForm.controls['goalAmount'].invalid &&
+                newTripForm.controls['goalAmount'].touched
+            }"
+            formControlName="goalAmount"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="€100.00 "
+            type="number"
+          />
+        </div>
+      </div>
+      <!-- description textarea-->
+      <div class="w-full h-full">
+        <textarea
+          [ngClass]="{
+            'border-error':
+              newTripForm.controls['description'].invalid &&
+              newTripForm.controls['description'].touched
+          }"
+          formControlName="description"
+          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          placeholder="Add a description"
+        ></textarea>
+      </div>
 
-  
-</ng-container>
-<ng-container *ngIf="type==='child'">
+      <div class="flex flex-row justify-between">
+        <!-- image selector-->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newTripForm.controls['image'].invalid &&
+                newTripForm.controls['image'].touched
+            }"
+            formControlName="image"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="file"
+          />
+        </div>
+      </div>
 
-  
+      <div class="flex flex-row justify-between">
+        <div class="w-full">
+          <button
+            [disabled]="newTripForm.invalid"
+            [ngClass]="{ 'hover:bg-teal-700': newTripForm.invalid }"
+            (click)="submitForm('trip')"
+            class="bg-teal-700 w-full rounded-lg h-14 hover:bg-teal-600 text-zinc-900"
+          >
+            CREATE TRIP
+          </button>
+        </div>
+      </div>
+    </section>
+  </form>
 </ng-container>
-  
-  
-  
+<ng-container *ngIf="type === 'child'">
+  <form [formGroup]="newChildForm">
+    <section class="flex flex-col gap-y-4">
+      <div class="flex flex-row justify-between">
+        <!-- name input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['name'].invalid &&
+                newChildForm.controls['name'].touched
+            }"
+            formControlName="name"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Name"
+          />
+        </div>
+        <!-- surname input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['surname'].invalid &&
+                newChildForm.controls['surname'].touched
+            }"
+            formControlName="surname"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Surname"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between">
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['email'].invalid &&
+                newChildForm.controls['email'].touched
+            }"
+            formControlName="email"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Email"
+          />
+        </div>
+        <!-- birthdate -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['birthdate'].invalid &&
+                newChildForm.controls['birthdate'].touched
+            }"
+            formControlName="birthdate"
+            (input)="checkBirthdate()"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="date"
+            placeholder="Birthdate"
+          />
+          <small
+            *ngIf="
+              !_isBirthdateValid &&
+              newChildForm.controls['birthdate'].touched
+            "
+            class="text-center text-red-400 text-sm"
+            >User must be < 18 years old</small
+          >
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between">
+        <!-- password input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['password'].invalid &&
+                newChildForm.controls['password'].touched
+            }"
+            formControlName="password"
+            (input) = "checkPassword()"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Password"
+          />
+          <small
+            class="text-xs text-red-400"
+            *ngIf="
+              !_arePasswordEquals &&
+              (newChildForm.get('repeatPassword')?.touched ||
+                newChildForm.get('password')?.touched)
+            "
+          >
+            Password doesn't match
+          </small>
+        </div>
+        <!-- password repeat input -->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['repeatPassword'].invalid &&
+                newChildForm.controls['repeatPassword'].touched
+            }"
+            formControlName="repeatPassword"
+            (input) = "checkPassword()"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            placeholder="Repeat Password"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between">
+        <!-- image selector-->
+        <div class="w-full max-w-sm">
+          <input
+            [ngClass]="{
+              'border-error':
+                newChildForm.controls['image'].invalid &&
+                newChildForm.controls['image'].touched
+            }"
+            formControlName="image"
+            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            type="file"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between">
+        <div class="w-full" [ngClass]="{ 'max-w-sm': projects.length > 0 }">
+          <button
+          [disabled]="(newChildForm.invalid && newChildForm.touched) || !_arePasswordEquals || !_isBirthdateValid"
+            [ngClass]="{ 'hover:bg-red-700': newChildForm.invalid || !_arePasswordEquals || !_isBirthdateValid }"
+            (click)="submitForm('child')"
+            class="bg-red-700 w-full rounded-lg h-14 hover:bg-red-600 text-zinc-900"
+          >
+            ADD CHILD
+          </button>
+        </div>
+      </div>
+      <small class="text-red-400 text-center " *ngIf="responseError.length > 0 && newChildForm.touched">{{responseError}}</small>
+    </section>
+  </form>
+</ng-container>
