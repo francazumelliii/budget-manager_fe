@@ -3,7 +3,7 @@ import { AuthenticationService } from './authentication.service';
 import { Delegate } from '../Classes/delegate';
 import { Parent } from '../Classes/parent';
 import { User } from '../Classes/user';
-import { Expense, Income, Role } from '../Interfaces/interface';
+import { Expense, Income, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, Role } from '../Interfaces/interface';
 import { ServerModule } from '@angular/platform-server';
 import { Observable } from 'rxjs';
 
@@ -42,5 +42,17 @@ export class RoleService {
   }
   lastMonthIncomes(limit: number | null): Observable<Income[]>{
     return this.delegate.lastMonthIncomes(limit)
+  }
+  postExpense(body: PostExpenseRequest): Observable<Expense>{
+    return this.delegate.postExpense(body)
+  }
+  postIncome(body: PostIncomeRequest): Observable<Income>{
+    return this.delegate.postIncome(body)
+  }
+  postTrip(body: PostProjectRequest) :Observable<Project>{
+    return this.delegate.postTrip(body)
+  }
+  postChild(body: PostChildRequest): Observable<User> | any{
+    return this.delegate.postChild(body)
   }
 }
