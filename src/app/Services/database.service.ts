@@ -17,12 +17,12 @@ export class DatabaseService {
 
 
     get(endpoint: string): Observable<any>{
-      console.log(`%c GET REQUEST: ${this.serverUrl}${endpoint}`, "color:#33aaff;")
+      console.log(`%c GET REQUEST: ${this.serverUrl}${endpoint}`, "color:#14b8a6;")
       return this.http.get(`${this.serverUrl}${endpoint}`, {headers: this.headers});
     } 
 
     post(endpoint: string, body: any): Observable<any>{
-      console.log(`%c POST REQUEST: ${this.serverUrl}${endpoint}`, "color:#33aaff;")
+      console.log(`%c POST REQUEST: ${this.serverUrl}${endpoint}`, "color:#ef4444;")
       return this.http.post(`${this.serverUrl}${endpoint}`, body, {headers: this.headers});
     } 
     put(endpoint: string, body: any): Observable<any>{
@@ -30,11 +30,11 @@ export class DatabaseService {
       return this.http.put(`${this.serverUrl}${endpoint}`, body, {headers: this.headers});
     } 
     patch(endpoint: string, body: any): Observable<any>{
-      console.log(`%c PATCH REQUEST: ${this.serverUrl}${endpoint}`, "color:#33aaff;")
+      console.log(`%c PATCH REQUEST: ${this.serverUrl}${endpoint}`, "color:#eab308;")
       return this.http.patch(`${this.serverUrl}${endpoint}`, body, {headers: this.headers});
     } 
     delete(endpoint: string): Observable<any>{
-      console.log(`%c DELETE REQUEST: ${this.serverUrl}${endpoint}`, "color:#33aaff;")
+      console.log(`%c DELETE REQUEST: ${this.serverUrl}${endpoint}`, "color:#d946ef")
       return this.http.post(`${this.serverUrl}${endpoint}`, {headers: this.headers});
     } 
     
