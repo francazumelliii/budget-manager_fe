@@ -154,11 +154,12 @@
 
           <button
             type="submit"
-            [disabled]="(signupForm.invalid && signupForm.touched) || !_arePasswordEquals"
+            [disabled]="(signupForm.invalid && signupForm.touched) || !_arePasswordEquals "
             class="bg-violet-500 hover:bg-violet-600 text-white rounded py-3 disabled:opacity-70 disabled:hover:bg-violet-500"
           >
             Create Account
           </button>
+          <small class="text-xs text-red-400 text-center">{{responseError}}</small>
         </div>
       </form>
     </div>

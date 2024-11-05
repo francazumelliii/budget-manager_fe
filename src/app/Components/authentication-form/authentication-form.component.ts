@@ -51,6 +51,7 @@ export class AuthenticationFormComponent {
         response.jwt ? this.authService.storeToken(response.jwt): null
 
       },(error: any) => {
+        error.status == 409 ? this.responseError = "A user with same email already exists": null
         console.error(error)
       })
     
