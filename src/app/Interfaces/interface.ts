@@ -13,7 +13,7 @@ export interface User{
     name: string,
     surname: string,
     email: string, 
-    birghdate: string,
+    birthdate: string,
     image: string, 
     children: User[] | null,
     parent: User | null
@@ -75,5 +75,41 @@ export interface SimpleAccount{
     name: string,
     surname: string, 
     email: string, 
+    image: string
+}
+
+export interface PostExpenseRequest{
+    name: string,
+      amount: number,
+      description: string,
+      frequency: string,
+      categoryId: number | null,
+      projectId: number | null,
+      image: string,
+      date: string
+}
+
+export interface PostIncomeRequest{
+    name: string, 
+    description: string, 
+    frequency: string, 
+    amount: number, 
+    date: string, 
+    image: string
+}
+
+export interface PostProjectRequest{
+    name: string,
+    description: string, 
+    image: string, 
+    goalAmount: number
+}
+
+export interface PostChildRequest{
+    name: string,
+    surname: string, 
+    email: string, 
+    password: string, 
+    birthdate: string, 
     image: string
 }
