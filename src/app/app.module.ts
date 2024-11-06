@@ -18,6 +18,7 @@ import { SelectComponent } from './Components/select/select.component';
 import { ChartComponent } from './Components/chart/chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     QuickaccessModalComponent,
     SelectComponent,
     ChartComponent,
+    ProfileComponent,
 
 
   ],
