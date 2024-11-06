@@ -14,12 +14,12 @@ export class ChartComponent {
     group: ScaleType.Ordinal
   }; 
   @Input() title: string = ""
-  @Input() view: [number, number] = [500, 250];
+  @Input() view: [number, number] = [500, 225];
   @Input() data: any = []
   @Input() showXAxis: boolean = true;
   @Input() showYAxis: boolean = true;
   @Input() gradient: boolean = false;
-  @Input() showLegend: boolean = true;
+  @Input() showLegend: boolean = false;
   @Input() showXAxisLabel: boolean = true;
   @Input() xAxisLabel: string = '';
   @Input() showYAxisLabel: boolean = true;
