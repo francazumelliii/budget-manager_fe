@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Expense, Income, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, User } from "../Interfaces/interface";
+import { Expense, Income, MonthlyStats, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, User, WeeklyStats } from "../Interfaces/interface";
 
 export interface Delegate{
     lastMonthExpenses(limit: number | null): Observable<Expense[]>;
@@ -13,4 +13,8 @@ export interface Delegate{
     postTrip(body: PostProjectRequest): Observable<Project>;
 
     postChild(body: PostChildRequest): Observable<User> | any;
+
+    monthlyStatsPerWeek(date: string, weeklyDivided: boolean): Observable<WeeklyStats[]>
+
+    monthlyStats(date: string): Observable<MonthlyStats>
 }

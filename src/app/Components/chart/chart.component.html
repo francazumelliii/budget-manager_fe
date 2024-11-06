@@ -1,0 +1,45 @@
+<div class="flex flex-col justify-center items-center">
+  <h1 class="dark: text-zinc-300 font-bold">{{title}}</h1>
+  
+  <ng-container *ngIf="type === 'bar-vertical-2d'">
+    <ngx-charts-bar-vertical-2d
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="data"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [barPadding]="1"
+        [maxXAxisTickLength]="20"
+        [groupPadding]="5"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [legendTitle]="legendTitle"
+        (select)="onSelect($event)"
+        (activate)="onActivate($event)"
+        style="fill: #d4d4d8;"
+        (deactivate)="onDeactivate($event)">
+      </ngx-charts-bar-vertical-2d>
+    </ng-container>
+
+    <ng-container *ngIf="type === 'gauge'">
+      <ngx-charts-gauge
+        [view]="view"
+        [scheme]="scheme"
+        [results]="data"
+        [max]="maxValue"
+        [units]="'€'"
+        [angleSpan]="240"
+        [startAngle]="-120"
+        [bigSegments]="8"
+        style="fill: #d4d4d8;"
+        [smallSegments]="5">
+    </ngx-charts-gauge>
+
+    </ng-container>
+    
+</div>
+

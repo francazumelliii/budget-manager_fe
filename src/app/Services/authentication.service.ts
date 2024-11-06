@@ -82,4 +82,11 @@ export class AuthenticationService {
   get role(){
     return this.userInformation.role
   }
+
+
+  redirect(url: string): void{
+    console.log(`%c REDIRECT: /${url}`, "color:#d9f99d;")
+
+    this.router.navigate([`/${url}`]);
+  }
 }

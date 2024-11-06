@@ -113,3 +113,13 @@ export interface PostChildRequest{
     birthdate: string, 
     image: string
 }
+
+export interface WeeklyStats{
+    name: string,
+    series: {name: string, value: number, extra: any}[]
+}
+
+export interface MonthlyStats{
+    totalExpense: number,
+    totalIncome: number
+}

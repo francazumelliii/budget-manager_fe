@@ -15,6 +15,9 @@ import { QuickaccessBtnComponent } from './Components/quickaccess-btn/quickacces
 import { ModalComponent } from './Components/modal/modal.component';
 import { QuickaccessModalComponent } from './Components/quickaccess-modal/quickaccess-modal.component';
 import { SelectComponent } from './Components/select/select.component';
+import { ChartComponent } from './Components/chart/chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -29,6 +32,7 @@ import { SelectComponent } from './Components/select/select.component';
     ModalComponent,
     QuickaccessModalComponent,
     SelectComponent,
+    ChartComponent,
 
 
   ],
@@ -36,9 +40,11 @@ import { SelectComponent } from './Components/select/select.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxChartsModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
 
 
 

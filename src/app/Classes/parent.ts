@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Delegate } from "./delegate";
 import { DatabaseService } from "../Services/database.service";
 import { Observable } from "rxjs";
-import { Expense, Income, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project } from "../Interfaces/interface";
+import { Expense, Income, MonthlyStats, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, WeeklyStats } from "../Interfaces/interface";
 import { User } from "./user";
 
 @Injectable({
@@ -34,5 +34,11 @@ export class Parent implements Delegate{
     }
     postChild(body: PostChildRequest): Observable<User>{
         return this.dbService.post("/account/me/children", body)
+    }
+    monthlyStatsPerWeek(date: string = "", weeklyDivided: boolean = true): Observable<WeeklyStats[]>{
+        return this.dbService.get(`/account/me/expenses/stats/monthly?date=${date}&weeklyDivided=${weeklyDivided}`)
+    }
+    monthlyStats(date: string = ""): Observable<MonthlyStats>{
+        return this.dbService.get(`/account/me/stats/monthly?date=${date}`)
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expense, Income } from '../../Interfaces/interface';
 
 @Component({
@@ -8,7 +8,7 @@ import { Expense, Income } from '../../Interfaces/interface';
 })
 export class DynamicListComponent {
 
-
+  @Output() click = new EventEmitter<'EXPENSE' | 'INCOME'>();
   @Input() list:any = []
   @Input() template: "INCOME" | "EXPENSE" = "EXPENSE"
 
@@ -17,6 +17,10 @@ export class DynamicListComponent {
     "W": "Weekly",
     "M": "Monthly",
     "Y": "Annual"
+  }
+
+  emitClickEvent(type: "EXPENSE" | "INCOME"){
+    this.click.emit(type);
   }
 
 

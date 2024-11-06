@@ -1,7 +1,7 @@
 import { Component, ComponentRef, OnInit } from '@angular/core';
 import { DatabaseService } from '../../Services/database.service';
 import { RoleService } from '../../Services/role.service';
-import { Category, Expense, Income, PostIncomeRequest, Project, User } from '../../Interfaces/interface';
+import { Category, Expense, Income, MonthlyStats, PostIncomeRequest, Project, User, WeeklyStats } from '../../Interfaces/interface';
 import { ModalService } from '../../Services/modal.service';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
 import { ModalComponent } from '../modal/modal.component';
@@ -10,6 +10,7 @@ import { FormGroupService } from '../../Services/form-group.service';
 import { formatDate } from '@angular/common';
 import { response } from 'express';
 import { title } from 'process';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-homepage',
@@ -22,17 +23,22 @@ export class HomepageComponent implements OnInit{
     private dbService: DatabaseService,
     private roleService: RoleService,
     private modalService: ModalService,
-    private formService: FormGroupService
+    private formService: FormGroupService,
+    private authService: AuthenticationService
   ){}
 
   recentExpensesList: Expense[] = []
   recentIncomesList: Income[] = []
   newExpenseForm !: FormGroup
+  monthlyStats: any = [] 
+  totalIncomes: number = 0;
   newIncomeForm !: FormGroup
   newTripForm !: FormGroup
   newChildForm !: FormGroup
   modal!: QuickaccessModalComponent
   error: string = ""
+  percentage: number = 0;
+  weeklyStats: WeeklyStats[] = []
   
 
 
@@ -40,6 +46,8 @@ export class HomepageComponent implements OnInit{
     this.getLastMonthExpenses();
     this.getLastMonthIncomes()
     this.initFormGroups()
+    this.getMonthlyStatsPerWeek()
+    this.getMonthlyStats()
 
   }
 
@@ -212,5 +220,38 @@ export class HomepageComponent implements OnInit{
       }
     );
 
+  }
+
+  getMonthlyStatsPerWeek(){
+    const date = formatDate(new Date(), "yyyy-MM-dd", "en-US")
+    this.roleService.monthlyStatsPerWeek(date, true)
+      .subscribe((response: WeeklyStats[]) => {
+        this.weeklyStats = response
+      }, (error: any) => {
+        console.error("error", error)
+      })
+  }
+
+  getMonthlyStats(){
+    const date = formatDate(new Date(), "yyyy-MM-dd", "en-US")
+    this.roleService.monthlyStats(date)
+      .subscribe((response: MonthlyStats) => {
+        this.monthlyStats = [{name: "This Month Expenses", value: response.totalExpense}]
+        this.totalIncomes = response.totalIncome
+
+        this.calculatePercentage(response)
+
+      },(error: any) => {
+        console.error(error)
+      })
+  }
+
+  calculatePercentage(item: MonthlyStats){
+    const totalExpense = item.totalExpense  != null ? item.totalExpense : 0
+    const totalIncome = item.totalIncome  != null ? item.totalIncome : 0
+    this.percentage = (totalExpense / totalIncome) * 100
+  }
+  redirect(event: string){
+    this.authService.redirect(`${event.toLowerCase()}s`)
   }
 }
