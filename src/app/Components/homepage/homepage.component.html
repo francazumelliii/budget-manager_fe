@@ -21,13 +21,13 @@
 
     <div class="flex flex-col rounded-lg border border-zinc-700 bg-zinc-900 px-3">
         <p class="text-zinc-400 text-left border-b border-zinc-700 py-2 font-bold">This Month</p>
-        <div class="flex flex-row">
+        <div class="flex flex-col md:flex-row justify-center items-center py-3">
 
-            <div class="col-auto">
+            <div class="col-auto border-e border-zinc-700">
                 <app-chart type="gauge" [data]="monthlyStats" [maxValue]="totalIncomes" title="This Month Situation" [percentage]="percentage"></app-chart>
             </div>
 
-            <div class="col-auto">
+            <div class="col-auto border-s border-zinc-700">
                 <app-chart [data]="weeklyStats" title = "Weekly Stats" ></app-chart>
             </div>
 
