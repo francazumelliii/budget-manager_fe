@@ -4,11 +4,14 @@ import { AuthenticationFormComponent } from './Components/authentication-form/au
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
 import { ProfileComponent } from './Components/profile/profile.component';
+import { Expense } from './Interfaces/interface';
+import { ExpenseComponent } from './Components/expense/expense.component';
 
 const routes: Routes = [
   {path: "", component: AuthenticationFormComponent},
   {path: "homepage", component: SidebarComponent,children: [{ path: '', component: HomepageComponent }]},
   {path: "profile", component: SidebarComponent,children: [{ path: '', component: ProfileComponent }]},
+  {path: "expenses", component: SidebarComponent,children: [{ path: '', component: ExpenseComponent }]},
   {path: "authentication", component: AuthenticationFormComponent},
 ];
 

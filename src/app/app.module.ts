@@ -19,6 +19,9 @@ import { ChartComponent } from './Components/chart/chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './Components/profile/profile.component';
+import { ExpenseComponent } from './Components/expense/expense.component';
+import { TableComponent } from './Components/table/table.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -35,6 +38,9 @@ import { ProfileComponent } from './Components/profile/profile.component';
     SelectComponent,
     ChartComponent,
     ProfileComponent,
+    ExpenseComponent,
+    TableComponent,
+
 
 
   ],
@@ -45,6 +51,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
     NgxChartsModule,
     CommonModule,
     FormsModule,
+    PaginatorModule,
     ReactiveFormsModule,
     BrowserAnimationsModule
 
