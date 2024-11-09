@@ -1,0 +1,20 @@
+<section class="max-h-[85vh] flex flex-col overflow-hidden ">
+    <div class="flex-1 overflow-y-auto flex flex-col">
+      <table class="table-fixed dark:text-zinc-500 w-full border-separate border-spacing-0 h-screen">
+        <ng-content></ng-content>
+      </table>
+    </div>
+  
+    <ng-container *ngIf="showPaginator">
+      <div class="bg-white dark:bg-zinc-800 sticky bottom-0 z-10">
+        <p-paginator
+          (onPageChange)="onPageChange($event)"
+          [rows]="pagination.rows"
+          [first]="pagination.first"
+          [totalRecords]="pagination.totalRecords"
+          [rowsPerPageOptions]="pagination.rowsPerPageOptions"
+        ></p-paginator>
+      </div>
+    </ng-container>
+  </section>
+  
