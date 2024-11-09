@@ -32,7 +32,7 @@ export class ChartComponent {
   domain: string[] = []
 
   ngOnInit(){
-    //this.percentage = 98
+
     if(this.percentage <= 50){
       this.domain = ['#16a34a'] 
     }else if( this.percentage > 50 && this.percentage <=75){
