@@ -22,7 +22,7 @@
 
         <p
           class="font-comfortaa text-md dark:text-white hover:text-teal-300 pointer hidden md:block md:ml-3"
-          [routerLink]="menu.value"
+          routerLink="/{{menu.value}}"
           routerLinkActive="text-active"
           [ngClass]="{ 'text-teal-300': isActive(menu.value) }"
         >
@@ -41,7 +41,7 @@
   </div>
 
   <!-- child component -->
-  <section class="flex-1 p-5 dark:bg-zinc-950 rounded-md overflow-y-auto">
-    <ng-component></ng-component>
+  <section class="flex-1 p-5 dark:bg-zinc-950 rounded-md overflow-y-auto xl:overflow-y-hidden">
+    <router-outlet></router-outlet>
   </section>
 </section>
