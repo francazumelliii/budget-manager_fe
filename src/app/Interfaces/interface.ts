@@ -123,3 +123,24 @@ export interface MonthlyStats{
     totalExpense: number,
     totalIncome: number
 }
+
+export interface TableList{
+    headers: string[],
+    values: any
+}
+export interface Page<T> {
+    page: number;            
+    size: number;            
+    records: T[];            
+    totalRecords: number;    
+    totalPages: number;      
+    filters?: { [key: string]: any }; 
+    orderBy?: string;        
+}
+
+export interface Pagination{
+    rows: number ,
+    first: number ,
+    totalRecords: number ,
+    rowsPerPageOptions: number[]
+}
