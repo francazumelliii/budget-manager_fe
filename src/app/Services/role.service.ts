@@ -6,6 +6,7 @@ import { User } from '../Classes/user';
 import {
   Expense,
   Income,
+  Page,
   PostChildRequest,
   PostExpenseRequest,
   PostIncomeRequest,
@@ -69,5 +70,8 @@ export class RoleService {
   }
   monthlyStats(date: string){
     return this.delegate.monthlyStats(date);
+  }
+  allExpensesPaging(page: number, size: number ,order: string): Observable<Page<Expense>>{
+    return this.delegate.allExpensesPaging(page, size, order)
   }
 }
