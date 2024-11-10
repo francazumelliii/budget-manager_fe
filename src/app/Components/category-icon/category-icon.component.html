@@ -1,0 +1,28 @@
+<div class="h-9 w-9 flex items-center justify-center rounded-full "
+    [ngClass]="{
+        ' bg-pink-800' : category === 'Housing',
+        ' bg-lime-800' : category === 'Utilities',
+        ' bg-green-800' : category === 'Groceries',
+        ' bg-teal-800' : category === 'Transportation',
+        ' bg-sky-800' : category === 'Health & Wellness',
+        ' bg-indigo-800' : category === 'Entertainment',
+        ' bg-violet-800' : category === 'Personal Care',
+        ' bg-fuchsia-800' : category === 'Education',
+        ' bg-amber-800' : category === 'Savings',
+        ' bg-rose-800' : category === 'Extra'
+
+    }">
+    <i class="fa-regular" class="{{categoryClass}} "
+    [ngClass]="{
+        'text-pink-400' : category === 'Housing',
+        'text-lime-400' : category === 'Utilities',
+        'text-green-400' : category === 'Groceries',
+        'text-teal-400' : category === 'Transportation',
+        'text-sky-400' : category === 'Health & Wellness',
+        'text-indigo-400' : category === 'Entertainment',
+        'text-violet-400' : category === 'Personal Care',
+        'text-fuchsia-400' : category === 'Education',
+        'text-amber-400' : category === 'Savings',
+        'text-rose-400' : category === 'Extra'
+    }"></i>
+</div>
