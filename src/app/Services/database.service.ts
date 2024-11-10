@@ -44,4 +44,7 @@ export class DatabaseService {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.token}`);
       return headers
     }
+
+
+    
 }
