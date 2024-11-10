@@ -92,7 +92,6 @@ export class HomepageComponent implements OnInit{
     
   }
   addNewExpense(){
-    console.log("new Expense")
     const name = this.newExpenseForm.get("name")?.value
     const amount = this.newExpenseForm.get("amount")?.value
     const description = this.newExpenseForm.get("description")?.value
