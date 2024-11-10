@@ -22,6 +22,8 @@ import { ProfileComponent } from './Components/profile/profile.component';
 import { ExpenseComponent } from './Components/expense/expense.component';
 import { TableComponent } from './Components/table/table.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { FrequencyIconComponent } from './Components/frequency-icon/frequency-icon.component';
+import { CategoryIconComponent } from './Components/category-icon/category-icon.component';
 
 
 @NgModule({
@@ -40,6 +42,8 @@ import { PaginatorModule } from 'primeng/paginator';
     ProfileComponent,
     ExpenseComponent,
     TableComponent,
+    FrequencyIconComponent,
+    CategoryIconComponent,
 
 
 
