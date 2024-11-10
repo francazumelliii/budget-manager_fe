@@ -1,57 +1,81 @@
-<section class="flex flex-col items-center justify-center w-full container gap-y-4">
-    <div class="flex flex-row justify-between px-4 w-full">
-        <h1 class="dark:text-zinc-50 text-3xl font-bold">Expenses</h1>
+<section
+  class="flex flex-col items-center justify-center w-full container gap-y-4"
+>
+  <div
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3"
+  >
+    <h1 class="dark:text-zinc-50 text-3xl font-bold">Expenses</h1>
 
-        <div class="flex flex-row dark:text-zinc-50 gap-3">
-            <button class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black">+ new Expense</button>
-            <div class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900">
-                <i class="fa-solid fa-filter text-teal-400 text-xl" ></i>
-            </div>
-            <div class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900">
-                <i class="fa-solid fa-arrow-up-wide-short text-teal-400 text-xl "></i>
-            </div>
-            <div class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900">
-                <i class="fa-solid fa-ellipsis text-teal-400 text-xl "></i>
-            </div>
-
-        </div>
+    <div class="flex flex-row dark:text-zinc-50 gap-3">
+      <button
+      (click)="openModal()"
+        class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black"
+      >
+        + new Expense
+      </button>
+      <div
+        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+      >
+        <i class="fa-solid fa-filter text-teal-400 text-xl"></i>
+      </div>
+      <div
+        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+      >
+        <i class="fa-solid fa-arrow-up-wide-short text-teal-400 text-xl"></i>
+      </div>
+      <div
+        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+      >
+        <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
+      </div>
     </div>
-    
+  </div>
 
-    <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
-        <thead>
-            <tr class="sticky top-0 z-10 bg-zinc-900 h-10">
-                <th class="w-1/12"></th>
-                <th >DETAILS</th>
-                <th>CATEGORY</th>
-                <th>FREQUENCY</th>
-                <th>AMOUNT</th>
-                <th>AMOUNT</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of expensesList;index as i" >
-                <td class="w-1/12">
-                    <i class="fa-regular fa-credit-card"></i>
-                </td>
-                <td class="flex flex-col justify-center items-start">
-                    <span class="dark:text-zinc-500">{{item.date}}</span>
-                    <p class="dark:text-zinc-50">{{item.name}}</p>
-                </td>
-                <td class="dark:text-zinc-100">
-                    <span>{{item.category.name}}</span>
-                </td>
-                <td class="dark:text-zinc-100">
-                    <span>{{item.frequency}}</span>
-                </td>
-                <td class="dark:text-zinc-100">
-                    <span>{{item.amount}}</span>
-                </td>
-                <td class="dark:text-zinc-100">
-                    <span>{{item.amount}}</span>
-                </td>
-            </tr>
-        </tbody>
-    </app-table>
+  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
+    <thead>
+      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+        <th class="w-1/12"></th>
+        <th>DETAILS</th>
+        <th>CATEGORY</th>
+        <th>AMOUNT</th>
+        <th>AMOUNT</th>
+        <th>FREQUENCY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of expensesList; index as i"
+        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800"
+        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+      >
+        <td class="w-1/12 text-center">
+          <i class="fa-regular fa-credit-card"></i>
+        </td>
 
+        <td class="flex flex-col justify-center items-start h-full">
+          <span class="dark:text-zinc-500 text-xs font-bold">{{
+            item.date
+          }}</span>
+          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <div class="flex flex-row justify-start items-center gap-x-3">
+            <app-category-icon
+              [category]="item.category.name"
+            ></app-category-icon>
+            <p class="dark:text-zinc-200">{{ item.category.name }}</p>
+          </div>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <span>€ {{ item.amount }}</span>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <span>{{ item.amount }}</span>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
+        </td>
+      </tr>
+    </tbody>
+  </app-table>
 </section>
