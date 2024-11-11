@@ -24,6 +24,8 @@ import { TableComponent } from './Components/table/table.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { FrequencyIconComponent } from './Components/frequency-icon/frequency-icon.component';
 import { CategoryIconComponent } from './Components/category-icon/category-icon.component';
+import { IncomesComponent } from './Components/incomes/incomes.component';
+import { IncomeComponent } from './Components/income/income.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import { CategoryIconComponent } from './Components/category-icon/category-icon.
     TableComponent,
     FrequencyIconComponent,
     CategoryIconComponent,
+    IncomesComponent,
+    IncomeComponent,
 
 
 
