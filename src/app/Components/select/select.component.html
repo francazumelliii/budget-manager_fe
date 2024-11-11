@@ -1,5 +1,6 @@
 <div class="relative">
     <select
+        (change)="change.emit('')"
         [formControl]="ctrl"
         [ngClass]="{'border-error' : ctrl.invalid && ctrl.touched}"
         class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
