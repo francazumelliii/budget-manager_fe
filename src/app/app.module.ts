@@ -24,7 +24,6 @@ import { TableComponent } from './Components/table/table.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { FrequencyIconComponent } from './Components/frequency-icon/frequency-icon.component';
 import { CategoryIconComponent } from './Components/category-icon/category-icon.component';
-import { IncomesComponent } from './Components/incomes/incomes.component';
 import { IncomeComponent } from './Components/income/income.component';
 
 
@@ -46,7 +45,6 @@ import { IncomeComponent } from './Components/income/income.component';
     TableComponent,
     FrequencyIconComponent,
     CategoryIconComponent,
-    IncomesComponent,
     IncomeComponent,
 
 

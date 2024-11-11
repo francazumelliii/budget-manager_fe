@@ -19,4 +19,6 @@ export interface Delegate{
     monthlyStats(date: string): Observable<MonthlyStats>
 
     allExpensesPaging(page: number, size :number ,order: string, direction: string): Observable<Page<Expense>>
+
+    allIncomesPaging(page: number, size: number, order: string, direction: string): Observable<Page<Income>>
 }

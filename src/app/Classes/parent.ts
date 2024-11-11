@@ -44,4 +44,7 @@ export class Parent implements Delegate{
     allExpensesPaging(page: number, size: number ,order: string, direction: string): Observable<Page<Expense>>{
         return this.dbService.get(`/account/me/expenses/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
     }
+    allIncomesPaging(page: number ,size: number, order: string, direction: string): Observable<Page<Income>>{
+        return this.dbService.get(`/account/me/incomes/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
+    }
 }

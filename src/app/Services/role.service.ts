@@ -74,4 +74,7 @@ export class RoleService {
   allExpensesPaging(page: number, size: number ,order: string, direction: string): Observable<Page<Expense>>{
     return this.delegate.allExpensesPaging(page, size, order, direction)
   }
+  allIncomesPaging(page: number, size: number ,order: string, direction :string): Observable<Page<Income>>{
+    return this.delegate.allIncomesPaging(page, size, order, direction)
+  }
 }

@@ -56,7 +56,8 @@ export interface Income{
     amount: number ,
     image: string, 
     createdAt: string, 
-    date: string
+    date: string,
+    frequency: string
 }
 
 export interface Project{
@@ -144,3 +145,4 @@ export interface Pagination{
     totalRecords: number ,
     rowsPerPageOptions: number[]
 }
+
