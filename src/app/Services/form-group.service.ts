@@ -12,6 +12,7 @@ export class FormGroupService {
   newExpenseFormGroup!: FormGroup
   newIncomeFormGroup!: FormGroup
   newTripFormGroup !: FormGroup
+  filterFormGroup !: FormGroup
 
   today: any = new Date();
 
@@ -24,6 +25,7 @@ export class FormGroupService {
     this.buildNewExpenseForm()
     this.buildNewIncomeForm();
     this.buildNewTripForm();
+    this.buildFilterForm()
   } 
 
 
@@ -80,7 +82,18 @@ export class FormGroupService {
       goalAmount: new FormControl(0)
     })
   }
+
+  buildFilterForm(){
+    this.filterFormGroup = this.fb.group({
+      orderBy: new FormControl("date"),
+      direction: new FormControl("ASC")
+    })
+  }
   
+
+  get filterForm(){
+    return this.filterFormGroup
+  }
 
   get loginForm() {
     return this.loginFormGroup;  
