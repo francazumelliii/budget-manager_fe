@@ -1,1 +1,104 @@
-<p>income works!</p>
+<section
+  class="flex flex-col items-center justify-center w-full container gap-y-4"
+>
+  <div
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3"
+  >
+    <h1 class="dark:text-zinc-50 text-3xl font-bold">Incomes</h1>
+
+    <form [formGroup]="filterForm">
+      <div class="flex flex-row dark:text-zinc-50 gap-3">
+        <button
+          (click)="openModal()"
+          class="rounded-md bg-indigo-400 hover:bg-indigo-500 text-sm px-3 text-black"
+        >
+          + new Income
+        </button>
+        <div
+          (click)="showFilterSelect()"
+          class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+        >
+          <i class="fa-solid fa-filter text-indigo-400 text-xl"></i>
+        </div>
+        <div class="flex items-center gap-3">
+          <ng-container *ngIf="!_isSelectVisible; else filterSelect">
+            <div
+              (click)="changeDirection()"
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i
+                class="fa-solid {{
+                  filterForm.get('direction')?.value === 'DESC'
+                    ? 'fa-arrow-up-wide-short'
+                    : 'fa-arrow-down-wide-short'
+                }} text-indigo-400 text-xl"
+              ></i>
+            </div>
+            <div
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i class="fa-solid fa-ellipsis text-indigo-400 text-xl"></i>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
+    <thead>
+      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+        <th class="w-1/12"></th>
+        <th>DETAILS</th>
+        <th>DESCRIPTION</th>
+        <th>AMOUNT</th>
+        <th>EXPIRING DATE</th>
+        <th>FREQUENCY</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of incomesList; index as i"
+        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800"
+        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+      >
+        <td class="w-1/12 text-center">
+          <i class="fa-regular fa-credit-card"></i>
+        </td>
+
+        <td class="flex flex-col justify-center items-start h-full">
+          <span class="dark:text-zinc-500 text-xs font-bold">{{
+            item.date
+          }}</span>
+          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <div class="flex flex-row justify-start items-center gap-x-3">
+            <p class="dark:text-zinc-400 text-xs font-light break-words w-full">{{ item.description }}</p>
+          </div>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <span>€ {{ item.amount }}</span>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+            <span [ngClass]="{'text-blue-300' : !isExpired(item.date)}">{{ item.date }}</span>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
+        </td>
+      </tr>
+    </tbody>
+  </app-table>
+</section>
+
+<ng-template #filterSelect>
+  <div class="w-full">
+    <app-select
+      (change)="getIncomePageWithFilters()"
+      [list]="filterList"
+      label="ORDER BY"
+      [control]="filterForm.controls['orderBy']"
+    >
+    </app-select>
+  </div>
+</ng-template>
