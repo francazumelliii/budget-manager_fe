@@ -6,29 +6,42 @@
   >
     <h1 class="dark:text-zinc-50 text-3xl font-bold">Expenses</h1>
 
-    <div class="flex flex-row dark:text-zinc-50 gap-3">
-      <button
-      (click)="openModal()"
-        class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black"
-      >
-        + new Expense
-      </button>
-      <div
-        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
-      >
-        <i class="fa-solid fa-filter text-teal-400 text-xl"></i>
+    <form [formGroup]="filterForm">
+      <div class="flex flex-row dark:text-zinc-50 gap-3">
+        <button
+          (click)="openModal()"
+          class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black"
+        >
+          + new Expense
+        </button>
+        <div
+          (click)="showFilterSelect()"
+          class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+        >
+          <i class="fa-solid fa-filter text-teal-400 text-xl"></i>
+        </div>
+        <div class="flex items-center gap-3">
+
+          <ng-container *ngIf="!_isSelectVisible; else filterSelect">
+
+            <div
+              (click)="changeDirection()"
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i
+               
+                class="fa-solid {{filterForm.get('direction')?.value === 'DESC' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'}} text-teal-400 text-xl"
+              ></i>
+            </div>
+            <div
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
+            </div>
+          </ng-container>
+        </div>
       </div>
-      <div
-        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
-      >
-        <i class="fa-solid fa-arrow-up-wide-short text-teal-400 text-xl"></i>
-      </div>
-      <div
-        class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
-      >
-        <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
-      </div>
-    </div>
+    </form>
   </div>
 
   <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
@@ -79,3 +92,16 @@
     </tbody>
   </app-table>
 </section>
+
+<ng-template #filterSelect>
+  <div class=" w-full">
+    <app-select
+      (change)="getExpensePageWithFilters()"
+      [list]="filterList"
+      label="ORDER BY"
+      [control]="filterForm.controls['orderBy']"
+    >
+    </app-select>
+  </div>
+</ng-template>
+
