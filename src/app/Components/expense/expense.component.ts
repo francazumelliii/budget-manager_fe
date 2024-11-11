@@ -22,14 +22,14 @@ export class ExpenseComponent implements OnInit {
 
   expensesList: Expense[] = [];
   _isSelectVisible: boolean = false;
-  filterForm: FormGroup = this.formService.filterForm
-
+  filterForm: FormGroup = this.formService.filterForm;
 
   filterList: any = [
     {id: 'date', name: 'DATE'},
     {id: 'name', name: 'NAME'},
     {id: 'amount', name: 'AMOUNT'},
-  ]
+  ];
+  
   error: string = '';
   pagination: Pagination = {
     rows: 10,
@@ -40,7 +40,7 @@ export class ExpenseComponent implements OnInit {
   newExpenseForm: FormGroup = this.formService.newExpenseForm;
 
   ngOnInit(): void {
-    this.getExpensePage(0, this.pagination.rows, 'date', "ASC");
+    this.getExpensePage(0, this.pagination.rows, 'date', 'ASC');
   }
 
   getExpensePage(
@@ -72,13 +72,14 @@ export class ExpenseComponent implements OnInit {
 
   handlePageChange($event: PaginatorState): void {
     if ($event && $event.page !== undefined) {
-      const page = $event.page + 1;
+      const page = $event.page;
       const rows = $event.rows ?? 10;
       this.getExpensePage(page, rows, 'date');
     } else {
       console.error('Page event is missing or undefined');
     }
   }
+
   async openModal() {
     const componentRef = await this.modalService.open(
       QuickaccessModalComponent,
@@ -87,6 +88,7 @@ export class ExpenseComponent implements OnInit {
     );
     componentRef.instance.submit.subscribe((data: any) => this.addNewExpense());
   }
+
   addNewExpense() {
     const name = this.newExpenseForm.get('name')?.value;
     const amount = this.newExpenseForm.get('amount')?.value;
@@ -110,13 +112,15 @@ export class ExpenseComponent implements OnInit {
 
     this.roleService.postExpense(body).subscribe(
       (response: Expense) => {
-        this.expensesList.push(response);
-        this.expensesList.pop();
+
+        this.expensesList.unshift(response); 
         this.modalService.close();
         this.newExpenseForm.reset();
+        this.pagination.totalRecords += 1; 
       },
       (error: any) => {
-        console.error(error), (this.error = error);
+        console.error(error);
+        this.error = error;
         this.modalService.updateChildInputs({ responseError: this.error });
       }
     );
@@ -128,10 +132,11 @@ export class ExpenseComponent implements OnInit {
       this.getExpensePageWithFilters();
     }
   }
-  
-  changeDirection(){
-    this.filterForm.get("direction")?.value === "ASC" ? this.filterForm.get("direction")?.setValue("DESC") : this.filterForm.get("direction")?.setValue("ASC")
-    this.getExpensePageWithFilters()
+
+  changeDirection() {
+    const newDirection = this.filterForm.get("direction")?.value === "ASC" ? "DESC" : "ASC";
+    this.filterForm.get("direction")?.setValue(newDirection);
+    this.getExpensePageWithFilters();
   }
 
   getExpensePageWithFilters() {
@@ -139,5 +144,8 @@ export class ExpenseComponent implements OnInit {
     const direction = this.filterForm.get('direction')?.value || 'ASC';
     this.getExpensePage(0, this.pagination.rows, orderBy, direction);
   }
-  
+
+  isExpired(date: string) {
+    return new Date(date) <= new Date();
+  }
 }

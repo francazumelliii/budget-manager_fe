@@ -10,7 +10,7 @@
       <div class="flex flex-row dark:text-zinc-50 gap-3">
         <button
           (click)="openModal()"
-          class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black"
+          class="rounded-md bg-fuchsia-400 hover:bg-fuchsia-500 text-sm px-3 text-black"
         >
           + new Expense
         </button>
@@ -18,7 +18,7 @@
           (click)="showFilterSelect()"
           class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
         >
-          <i class="fa-solid fa-filter text-teal-400 text-xl"></i>
+          <i class="fa-solid fa-filter text-fuchsia-400 text-xl"></i>
         </div>
         <div class="flex items-center gap-3">
 
@@ -30,13 +30,13 @@
             >
               <i
                
-                class="fa-solid {{filterForm.get('direction')?.value === 'DESC' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'}} text-teal-400 text-xl"
+                class="fa-solid {{filterForm.get('direction')?.value === 'DESC' ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short'}} text-fuchsia-400 text-xl"
               ></i>
             </div>
             <div
               class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
             >
-              <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
+              <i class="fa-solid fa-ellipsis text-fuchsia-400 text-xl"></i>
             </div>
           </ng-container>
         </div>
@@ -51,7 +51,7 @@
         <th>DETAILS</th>
         <th>CATEGORY</th>
         <th>AMOUNT</th>
-        <th>AMOUNT</th>
+        <th>EXPIRING DATE</th>
         <th>FREQUENCY</th>
       </tr>
     </thead>
@@ -83,7 +83,7 @@
           <span>€ {{ item.amount }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <span>{{ item.amount }}</span>
+          <span [ngClass]="{'text-blue-300' : !isExpired(item.date)}">{{ item.date }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
