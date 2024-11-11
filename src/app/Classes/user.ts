@@ -38,7 +38,7 @@ export class User implements Delegate{
     monthlyStats(date: string = ""): Observable<MonthlyStats>{
         return this.dbService.get(`/account/me/stats/monthly?date=${date}`)
     }
-    allExpensesPaging(page: number, size: number ,order: string): Observable<Page<Expense>>{
-        return this.dbService.get(`/account/me/expenses/all?page=${page}&size=${size}&order=${order}`)
+    allExpensesPaging(page: number, size: number ,order: string, direction: string): Observable<Page<Expense>>{
+        return this.dbService.get(`/account/me/expenses/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
     }
 }
