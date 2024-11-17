@@ -11,6 +11,8 @@ import { formatDate } from '@angular/common';
 import { response } from 'express';
 import { title } from 'process';
 import { AuthenticationService } from '../../Services/authentication.service';
+import { ToastService } from '../../Services/toast.service';
+
 
 @Component({
   selector: 'app-homepage',
@@ -24,7 +26,8 @@ export class HomepageComponent implements OnInit{
     private roleService: RoleService,
     private modalService: ModalService,
     private formService: FormGroupService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private toastService: ToastService
   ){}
 
   recentExpensesList: Expense[] = []
@@ -39,8 +42,6 @@ export class HomepageComponent implements OnInit{
   error: string = ""
   percentage: number = 0;
   weeklyStats: WeeklyStats[] = []
-  
-
 
   ngOnInit(){
     this.getLastMonthExpenses();
@@ -48,6 +49,7 @@ export class HomepageComponent implements OnInit{
     this.initFormGroups()
     this.getMonthlyStatsPerWeek()
     this.getMonthlyStats()
+    localStorage.getItem("notification") !== 'shown' ? this.getExpensesInExpiration() : null
 
   }
 
@@ -121,6 +123,7 @@ export class HomepageComponent implements OnInit{
         this.modalService.close()
         this.error = ""
         this.newExpenseForm.reset()
+        this.getLastMonthExpenses()
 
       },(error: any) => {
         this.error = "Internal Server Error, try later..."
@@ -155,6 +158,7 @@ export class HomepageComponent implements OnInit{
         this.modalService.close()
         this.error=""
         this.newIncomeForm.reset()
+        this.getLastMonthIncomes()
 
       }, (error: any) => {
         this.error = "Internal Server Error, try later..."
@@ -253,4 +257,26 @@ export class HomepageComponent implements OnInit{
   redirect(event: string){
     this.authService.redirect(`${event.toLowerCase()}s`)
   }
+  getExpensesInExpiration(){
+    this.roleService.allExpensesInExpiration()
+      .subscribe((response: Expense[]) => {
+        this.buildToastMessages(response)
+      }, (error: any) => {
+        console.error(error)
+      })
+  }
+  buildToastMessages(list: Expense[]){
+    const toasts = list.map(item => {
+      return {
+        severity: 'custom' ,
+        summary: item.name.toUpperCase(),
+        detail: `Expiring: ${item.date}`
+      }
+    })
+    this.toastService.show(toasts)
+    this.authService.storeNotification()
+  }
+
+
+
 }
