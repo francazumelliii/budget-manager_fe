@@ -7,6 +7,8 @@ import { ProfileComponent } from './Components/profile/profile.component';
 import { Expense } from './Interfaces/interface';
 import { ExpenseComponent } from './Components/expense/expense.component';
 import { IncomeComponent } from './Components/income/income.component';
+import { ChildrenComponent } from './Components/children/children.component';
+import { ChildComponent } from './Components/child/child.component';
 
 const routes: Routes = [
   {path: "", component: AuthenticationFormComponent},
@@ -14,6 +16,8 @@ const routes: Routes = [
   {path: "profile", component: SidebarComponent,children: [{ path: '', component: ProfileComponent }]},
   {path: "expenses", component: SidebarComponent,children: [{ path: '', component: ExpenseComponent }]},
   {path: "incomes", component: SidebarComponent,children: [{ path: '', component: IncomeComponent }]},
+  {path: "children", component: SidebarComponent,children: [{ path: '', component: ChildrenComponent }]},
+  {path: "children/:id", component: SidebarComponent,children: [{ path: '', component: ChildComponent }]},
   {path: "authentication", component: AuthenticationFormComponent},
 ];
 
