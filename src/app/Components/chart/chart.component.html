@@ -40,6 +40,16 @@
     </ngx-charts-gauge>
 
     </ng-container>
+    <ng-container *ngIf="type === 'line-chart'">
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="scheme"
+        [results]="data"
+        style="fill: #d4d4d8;"
+
+      ></ngx-charts-line-chart>
+
+    </ng-container>
     
 </div>
 
