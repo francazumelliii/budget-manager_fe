@@ -74,8 +74,8 @@ export class AuthenticationService {
 
   logOut(){
     localStorage.removeItem("token")
-    localStorage.setItem("user", "")
     localStorage.removeItem("user")
+    localStorage.removeItem("notification")
     this.router.navigate(['authentication'])
   }
 
@@ -83,6 +83,9 @@ export class AuthenticationService {
     return this.userInformation.role
   }
 
+  storeNotification(){
+    localStorage.setItem("notification", "shown")
+  }
 
   redirect(url: string): void{
     console.log(`%c REDIRECT: /${url}`, "color:#d9f99d;")
