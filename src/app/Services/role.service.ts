@@ -6,6 +6,7 @@ import { User } from '../Classes/user';
 import {
   Expense,
   Income,
+  MonthlyStats,
   Page,
   PostChildRequest,
   PostExpenseRequest,
@@ -17,6 +18,7 @@ import {
 } from '../Interfaces/interface';
 import { ServerModule } from '@angular/platform-server';
 import { Observable } from 'rxjs';
+import { start } from 'node:repl';
 
 @Injectable({
   providedIn: 'root',
@@ -71,10 +73,30 @@ export class RoleService {
   monthlyStats(date: string){
     return this.delegate.monthlyStats(date);
   }
-  allExpensesPaging(page: number, size: number ,order: string, direction: string): Observable<Page<Expense>>{
-    return this.delegate.allExpensesPaging(page, size, order, direction)
+  allExpensesPaging(childId: number | null, page: number, size: number ,order: string, direction: string): Observable<Page<Expense>> {
+    if(childId == null){
+      return this.delegate.allExpensesPaging(page, size, order, direction)
+    }else{
+      return this.delegate.allChildExpenses(childId,page,size,order,direction)
+    }
   }
-  allIncomesPaging(page: number, size: number ,order: string, direction :string): Observable<Page<Income>>{
-    return this.delegate.allIncomesPaging(page, size, order, direction)
+  allIncomesPaging(childId: number | null , page: number, size: number ,order: string, direction :string): Observable<Page<Income>>{
+    if(childId == null){
+      return this.delegate.allIncomesPaging(page, size, order, direction)
+    }else {
+      return this.delegate.allChildIncomes(childId, page,size,order,direction)
+    }
+  }
+  allExpensesInExpiration(): Observable<Expense[]>{
+    return this.delegate.allExpensesInExpiration()
+  }
+  allChildExpenses(id: number, page: number ,size: number, order: string, direction: string): Observable<Page<Expense>> | null{
+    return this.delegate.allChildExpenses(id, page,size,order,direction)
+  }
+  allChildIncomes(id: number, page: number ,size: number, order: string, direction: string): Observable<Page<Income>> | null{
+    return this.delegate.allChildIncomes(id, page,size,order,direction)
+  }
+  childMonthlyStats(id: number ,date: string | null): Observable<MonthlyStats> | null{
+    return this.delegate.childMonthlyStats(id, date)
   }
 }

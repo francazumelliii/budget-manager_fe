@@ -21,4 +21,12 @@ export interface Delegate{
     allExpensesPaging(page: number, size :number ,order: string, direction: string): Observable<Page<Expense>>
 
     allIncomesPaging(page: number, size: number, order: string, direction: string): Observable<Page<Income>>
+
+    allExpensesInExpiration(): Observable<Expense[]>
+    
+    allChildExpenses(id: number,page: number ,size: number, order: string, direction: string): Observable<Page<Expense>>
+
+    allChildIncomes(id: number,page: number ,size: number, order: string, direction: string): Observable<Page<Income>> 
+
+    childMonthlyStats(id: number, date: string | null): Observable<MonthlyStats> | null
 }

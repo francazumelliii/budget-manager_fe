@@ -4,6 +4,7 @@ import { DatabaseService } from "../Services/database.service";
 import { Observable } from "rxjs";
 import { Expense, Income, MonthlyStats, Page, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, WeeklyStats } from "../Interfaces/interface";
 import { User } from "./user";
+import { start } from "node:repl";
 
 @Injectable({
     providedIn: 'root'
@@ -46,5 +47,17 @@ export class Parent implements Delegate{
     }
     allIncomesPaging(page: number ,size: number, order: string, direction: string): Observable<Page<Income>>{
         return this.dbService.get(`/account/me/incomes/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
+    }
+    allExpensesInExpiration(): Observable<Expense[]>{
+        return this.dbService.get(`/account/me/expenses/expiring`)
+    }
+    allChildExpenses(id: number, page: number ,size: number, order: string, direction: string): Observable<Page<Expense>>{
+        return this.dbService.get(`/account/me/parent/${id}/expenses/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
+    }
+    allChildIncomes(id: number,page: number ,size: number, order: string, direction: string): Observable<Page<Expense>>{
+        return this.dbService.get(`/account/me/parent/${id}/incomes/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
+    }
+    childMonthlyStats(id: number, date: string | null): Observable<MonthlyStats>{
+        return this.dbService.get(`/account/me/parent/${id}/stats${date != null ? ('?date=' + date) : null}`)
     }
 }

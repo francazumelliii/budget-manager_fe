@@ -1,47 +1,103 @@
-import { Injectable } from "@angular/core";
-import { Delegate } from "./delegate";
+import { Injectable } from '@angular/core';
+import { Delegate } from './delegate';
 import { DatabaseService } from '../Services/database.service';
-import { Observable } from "rxjs";
-import { Expense, Income, MonthlyStats, Page, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, WeeklyStats } from "../Interfaces/interface";
+import { Observable, of } from 'rxjs';
+import {
+  Expense,
+  Income,
+  MonthlyStats,
+  Page,
+  PostChildRequest,
+  PostExpenseRequest,
+  PostIncomeRequest,
+  PostProjectRequest,
+  Project,
+  WeeklyStats,
+} from '../Interfaces/interface';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
+export class User implements Delegate {
+  constructor(private dbService: DatabaseService) {}
 
-export class User implements Delegate{
-
-    constructor(
-        private dbService: DatabaseService
-    ){}
-
-    lastMonthExpenses(limit: number | null): Observable<Expense[]>{
-        return this.dbService.get(`/account/me/expenses/recent${limit !== null ? '?limit=' + limit : null}`)
-    }
-    lastMonthIncomes(limit: number | null): Observable<Income[]>{
-        return this.dbService.get(`/account/me/incomes/recent${limit != null ? '?limit=' + limit : null}`)
-    }
-    postExpense(body: PostExpenseRequest): Observable<Expense>{
-        return this.dbService.post("/account/me/expenses", body)
-    }
-    postIncome(body: PostIncomeRequest): Observable<Income>{
-        return this.dbService.post("/account/me/incomes", body)
-    }
-    postTrip(body: PostProjectRequest): Observable<Project>{
-        return this.dbService.post("/account/me/projects", body)
-    }
-    postChild(body: PostChildRequest): any{
-        return null;
-    }
-    monthlyStatsPerWeek(date: string = "", weeklyDivided: boolean = true): Observable<WeeklyStats[]>{
-        return this.dbService.get(`/account/me/expenses/stats/monthly?date=${date}&weeklyDivided=${weeklyDivided}`)
-    }
-    monthlyStats(date: string = ""): Observable<MonthlyStats>{
-        return this.dbService.get(`/account/me/stats/monthly?date=${date}`)
-    }
-    allExpensesPaging(page: number, size: number ,order: string, direction: string): Observable<Page<Expense>>{
-        return this.dbService.get(`/account/me/expenses/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
-    }
-    allIncomesPaging(page: number ,size: number, order: string, direction: string): Observable<Page<Income>>{
-        return this.dbService.get(`/account/me/incomes/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
-    }
+  lastMonthExpenses(limit: number | null): Observable<Expense[]> {
+    return this.dbService.get(
+      `/account/me/expenses/recent${limit !== null ? '?limit=' + limit : null}`
+    );
+  }
+  lastMonthIncomes(limit: number | null): Observable<Income[]> {
+    return this.dbService.get(
+      `/account/me/incomes/recent${limit != null ? '?limit=' + limit : null}`
+    );
+  }
+  postExpense(body: PostExpenseRequest): Observable<Expense> {
+    return this.dbService.post('/account/me/expenses', body);
+  }
+  postIncome(body: PostIncomeRequest): Observable<Income> {
+    return this.dbService.post('/account/me/incomes', body);
+  }
+  postTrip(body: PostProjectRequest): Observable<Project> {
+    return this.dbService.post('/account/me/projects', body);
+  }
+  postChild(body: PostChildRequest): any {
+    return null;
+  }
+  monthlyStatsPerWeek(
+    date: string = '',
+    weeklyDivided: boolean = true
+  ): Observable<WeeklyStats[]> {
+    return this.dbService.get(
+      `/account/me/expenses/stats/monthly?date=${date}&weeklyDivided=${weeklyDivided}`
+    );
+  }
+  monthlyStats(date: string = ''): Observable<MonthlyStats> {
+    return this.dbService.get(`/account/me/stats/monthly?date=${date}`);
+  }
+  allExpensesPaging(
+    page: number,
+    size: number,
+    order: string,
+    direction: string
+  ): Observable<Page<Expense>> {
+    return this.dbService.get(
+      `/account/me/expenses/all?page=${page}&size=${size}&order=${order}&direction=${direction}`
+    );
+  }
+  allIncomesPaging(
+    page: number,
+    size: number,
+    order: string,
+    direction: string
+  ): Observable<Page<Income>> {
+    return this.dbService.get(
+      `/account/me/incomes/all?page=${page}&size=${size}&order=${order}&direction=${direction}`
+    );
+  }
+  allExpensesInExpiration(): Observable<Expense[]> {
+    return this.dbService.get(`/account/me/expenses/expiring`);
+  }
+  allChildExpenses(id: number, page: number ,size: number, order: string, direction: string): Observable<Page<Expense>> {
+    const emptyPage: Page<Expense> = {
+        page: 0,
+        size: page,  
+        records: [],  
+        totalRecords: 0, 
+        totalPages: 0,  
+    };
+    return of(emptyPage);
+  }
+  allChildIncomes(id: number, page: number ,size: number, order: string, direction: string): Observable<Page<Income>> {
+    const emptyPage: Page<Income> = {
+        page: 0,
+        size: page,  
+        records: [],  
+        totalRecords: 0, 
+        totalPages: 0,  
+    };
+    return of(emptyPage);
+  }
+  childMonthlyStats(id: number, date: string | null): null {
+    return null;
+  }
 }
