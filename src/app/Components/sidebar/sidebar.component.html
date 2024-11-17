@@ -3,7 +3,7 @@
     class="bg-zinc-900 w-1/10 md:w-1/5 p-3 flex flex-col space-y-10 overflow-y-auto"
   >
     <div class="flex flex-col justify-center items-center mb-5">
-      <app-avatar></app-avatar>
+      <app-avatar [name]="userName + ' ' + userSurname"></app-avatar>
       <p class="dark:text-white">{{ userName }} {{ userSurname }}</p>
     </div>
 
