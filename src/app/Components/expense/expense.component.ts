@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RoleService } from '../../Services/role.service';
 import { Expense, Page, Pagination } from '../../Interfaces/interface';
 import { PaginatorState } from 'primeng/paginator';
@@ -21,6 +21,7 @@ export class ExpenseComponent implements OnInit {
   ) {}
 
   expensesList: Expense[] = [];
+  @Input() childId: number | null = null;
   _isSelectVisible: boolean = false;
   filterForm: FormGroup = this.formService.filterForm;
 
@@ -40,7 +41,16 @@ export class ExpenseComponent implements OnInit {
   newExpenseForm: FormGroup = this.formService.newExpenseForm;
 
   ngOnInit(): void {
-    this.getExpensePage(0, this.pagination.rows, 'date', 'ASC');
+    if (this.childId== null) {
+      this.getExpensePage(0, this.pagination.rows, 'date', 'ASC');
+    }
+  }
+  
+  ngOnChanges() {
+
+    if (this.expensesList) {
+      this.getExpensePageWithFilters()
+    }
   }
 
   getExpensePage(
@@ -53,9 +63,10 @@ export class ExpenseComponent implements OnInit {
     const sortDirection = direction ?? 'ASC';
 
     this.roleService
-      .allExpensesPaging(page, size, sortOrder, sortDirection)
+      .allExpensesPaging(this.childId, page, size, sortOrder, sortDirection)
       .subscribe(
         (response: Page<Expense>) => {
+
           this.expensesList = response.records;
           this.pagination = {
             rows: size,
@@ -144,6 +155,8 @@ export class ExpenseComponent implements OnInit {
     const direction = this.filterForm.get('direction')?.value || 'ASC';
     this.getExpensePage(0, this.pagination.rows, orderBy, direction);
   }
+ 
+
 
   isExpired(date: string) {
     return new Date(date) <= new Date();
