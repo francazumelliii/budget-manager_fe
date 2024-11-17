@@ -8,6 +8,8 @@ import { ModalService } from '../../Services/modal.service';
 })
 export class ModalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() childComponentType: any;
+  @Input() height: string = 'auto';  
+
   @Input() childComponentInputs: any;
   @Input() title!: string;
 
