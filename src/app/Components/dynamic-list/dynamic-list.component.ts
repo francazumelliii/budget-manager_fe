@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Expense, Income } from '../../Interfaces/interface';
 
 @Component({
@@ -6,11 +6,19 @@ import { Expense, Income } from '../../Interfaces/interface';
   templateUrl: './dynamic-list.component.html',
   styleUrl: './dynamic-list.component.sass'
 })
-export class DynamicListComponent {
+export class DynamicListComponent implements OnInit{
 
-  @Output() click = new EventEmitter<'EXPENSE' | 'INCOME'>();
+  @Output() expand = new EventEmitter<'EXPENSE' | 'INCOME'>();
+  @Output() toggle = new EventEmitter<boolean>();
   @Input() list:any = []
+  @Input() defaultOpened: boolean = true;
   @Input() template: "INCOME" | "EXPENSE" = "EXPENSE"
+  isOpened: boolean = false;
+
+
+  ngOnInit(): void {
+    this.isOpened = this.defaultOpened
+  }
 
   frequency: any = {
     "S": "Single",
@@ -20,7 +28,11 @@ export class DynamicListComponent {
   }
 
   emitClickEvent(type: "EXPENSE" | "INCOME"){
-    this.click.emit(type);
+    this.expand.emit(type);
+    console.log("EMIT CLICK")
+  }
+  switchView(){
+    this.isOpened = !this.isOpened
   }
 
 
