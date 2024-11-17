@@ -8,12 +8,14 @@
 
     <form [formGroup]="filterForm">
       <div class="flex flex-row dark:text-zinc-50 gap-3">
-        <button
-          (click)="openModal()"
-          class="rounded-md bg-indigo-400 hover:bg-indigo-500 text-sm px-3 text-black"
-        >
-          + new Income
-        </button>
+        <ng-container *ngIf="childId == null">
+          <button
+            (click)="openModal()"
+            class="rounded-md bg-indigo-400 hover:bg-indigo-500 text-sm px-3 text-black"
+          >
+            + new Income
+          </button>
+        </ng-container>
         <div
           (click)="showFilterSelect()"
           class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
@@ -74,14 +76,18 @@
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <div class="flex flex-row justify-start items-center gap-x-3">
-            <p class="dark:text-zinc-400 text-xs font-light break-words w-full">{{ item.description }}</p>
+            <p class="dark:text-zinc-400 text-xs font-light break-words w-full">
+              {{ item.description }}
+            </p>
           </div>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <span>€ {{ item.amount }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-            <span [ngClass]="{'text-blue-300' : !isExpired(item.date)}">{{ item.date }}</span>
+          <span [ngClass]="{ 'text-blue-300': !isExpired(item.date) }">{{
+            item.date
+          }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>

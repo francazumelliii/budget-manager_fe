@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PaginatorState } from 'primeng/paginator';
 import { Expense, Income, Page, Pagination, PostIncomeRequest } from '../../Interfaces/interface';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
@@ -20,6 +20,7 @@ export class IncomeComponent {
     private modalService: ModalService,
   ) {}
 
+  @Input() childId: number | null = null;
   incomesList: Income[] = [];
   _isSelectVisible: boolean = false;
   filterForm: FormGroup = this.formService.filterForm;
@@ -40,7 +41,16 @@ export class IncomeComponent {
   newIncomeForm: FormGroup = this.formService.newIncomeForm;
 
   ngOnInit(): void {
-    this.getIncomePage(0, this.pagination.rows, 'date', 'ASC');
+    if (this.incomesList.length === 0) {
+      this.getIncomePage(0, this.pagination.rows, 'date', 'ASC');
+    }
+  }
+  
+  ngOnChanges() {
+
+    if (this.incomesList) {
+      this.getIncomePageWithFilters();
+    }
   }
 
   getIncomePage(
@@ -53,7 +63,7 @@ export class IncomeComponent {
     const sortDirection = direction ?? 'ASC';
 
     this.roleService
-      .allIncomesPaging(page, size, sortOrder, sortDirection)
+      .allIncomesPaging(this.childId, page, size, sortOrder, sortDirection)
       .subscribe(
         (response: Page<Income>) => {
           this.incomesList = response.records;
