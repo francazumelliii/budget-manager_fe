@@ -1,0 +1,73 @@
+<section class="container flex flex-col gap-y-4 overflow-y-auto h-screen">
+  <!-- Header Section -->
+  <div
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
+  >
+    <h1 class="dark:text-zinc-50 text-3xl font-bold">Your Child</h1>
+    <span (click)="goBack()" class="cursor-pointer text-zinc-500 hover:text-zinc-400"
+      ><i class="fa-solid fa-chevron-left"></i> BACK</span
+    >
+  </div>
+
+  <!-- Main Section -->
+  <div class="p-4 grid grid-cols-2 gap-x-4 gap-y-2">
+    <!-- Child Info Section -->
+    <div class="flex flex-row items-center gap-4">
+      <app-avatar
+        [type]="'adventurer'"
+        [name]="child.name + ' ' + child.surname"
+      ></app-avatar>
+      <div class="flex flex-col">
+        <p class="font-bold text-xl">
+          {{ child.name }} {{ child.surname }}
+        </p>
+        <p class="font-normal text-md text-zinc-400">{{ child.email }}</p>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="relative flex flex-col items-center">
+      <app-chart
+        type="gauge"
+        [data]="monthlyStats"
+        [maxValue]="maxValue"
+        title="This Month Situation"
+        [percentage]="percentage"
+      ></app-chart>
+      <small
+        *ngIf="percentage >= 100"
+        class="text-red-400 absolute bottom-0 text-center w-full"
+        >Burning through more than we're bringing in</small
+      >
+    </div>
+
+    <!-- Expenses List -->
+    <div
+      class="w-full transition-all duration-300"
+      [ngClass]="{ 'h-16': !isExpensesOpened, 'h-auto': isExpensesOpened }"
+    >
+      <app-dynamic-list
+      (expand)="openModal('expenses')"
+        [list]="expensesList"
+        [defaultOpened]="true"
+        (toggle)="isExpensesOpened = $event"
+      ></app-dynamic-list>
+    </div>
+
+    <!-- Incomes List -->
+    <div
+      class="w-full transition-all duration-300"
+      [ngClass]="{ 'h-16': !isIncomesOpened, 'h-auto': isIncomesOpened }"
+    >
+      <app-dynamic-list
+        (expand)= "openModal('incomes')"
+        [list]="incomesList"
+        [defaultOpened]="true"
+        [template]="'INCOME'"
+        (toggle)="isIncomesOpened = $event"
+      ></app-dynamic-list>
+    </div>
+
+
+  </div>
+</section>
