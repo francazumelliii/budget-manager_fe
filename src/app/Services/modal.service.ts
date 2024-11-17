@@ -14,35 +14,31 @@ export class ModalService {
     private appRef: ApplicationRef,
     private injector: Injector,
   ) {}
-  open(component: any, inputs: any = {}, title: string = ''): Promise<ComponentRef<any>> {
+  open(component: any, inputs: any = {}, title: string = '', height: string = 'auto'): Promise<ComponentRef<any>> {
     return new Promise((resolve, reject) => {
       if (this.modalComponentRef) {
-        this.close(); // Close any open modals
+        this.close(); 
       }
-
-      // Create a reference to the modal component
+  
       const componentRef = this.componentFactoryResolver
         .resolveComponentFactory(ModalComponent)
         .create(this.injector);
-
-      // Attach the component to Angular's component tree
+  
       this.appRef.attachView(componentRef.hostView);
-
-      // Get the DOM element of the component
+  
       const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
         .rootNodes[0] as HTMLElement;
-
+  
       document.body.appendChild(domElem);
-
-      // Set the type of the child component and its inputs
+  
       const modalInstance = componentRef.instance as ModalComponent;
       modalInstance.childComponentType = component;
-      modalInstance.childComponentInputs = inputs; // Pass inputs here
+      modalInstance.childComponentInputs = inputs; 
       modalInstance.title = title;
-
+      modalInstance.height = height;  
+  
       this.modalComponentRef = componentRef;
-
-      // Wait until the child component is created
+  
       setTimeout(() => {
         this.childComponentRef = modalInstance.childComponentRef;
         if (this.childComponentRef) {
@@ -53,6 +49,7 @@ export class ModalService {
       });
     });
   }
+  
 
 
   close(): void {
