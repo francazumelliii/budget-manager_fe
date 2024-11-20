@@ -1,0 +1,130 @@
+<section
+  class="flex flex-col items-center justify-center w-full container gap-y-4"
+>
+  <div
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3"
+  >
+    <h1 class="dark:text-zinc-50 text-3xl font-bold">Projects</h1>
+
+    <form [formGroup]="filterForm">
+      <div class="flex flex-row dark:text-zinc-50 gap-3">
+        <ng-container>
+          <button
+            (click)="openModal()"
+            class="rounded-md bg-fuchsia-400 hover:bg-fuchsia-500 text-sm px-3 text-black"
+          >
+            + new Project
+          </button>
+        </ng-container>
+        <div
+          (click)="showFilterSelect()"
+          class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+        >
+          <i class="fa-solid fa-filter text-fuchsia-400 text-xl"></i>
+        </div>
+        <div class="flex items-center gap-3">
+          <ng-container *ngIf="!_isSelectVisible; else filterSelect">
+            <div
+              (click)="changeDirection()"
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i
+                class="fa-solid {{
+                  filterForm.get('direction')?.value === 'DESC'
+                    ? 'fa-arrow-up-wide-short'
+                    : 'fa-arrow-down-wide-short'
+                }} text-fuchsia-400 text-xl"
+              ></i>
+            </div>
+            <div
+              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+            >
+              <i class="fa-solid fa-ellipsis text-fuchsia-400 text-xl"></i>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
+    <thead>
+      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+        <th class="w-1/12"></th>
+        <th>DETAILS</th>
+        <th>DESCRIPTION</th>
+        <th>SPENDING GOAL</th>
+        <th>CREATOR</th>
+        <th>PEOPLE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of projectsList; index as i"
+        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800"
+        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+      >
+        <td class="w-1/12 text-center">
+          <i class="fa-regular fa-credit-card"></i>
+        </td>
+
+        <td class="flex flex-col justify-center items-start h-full">
+          <span class="dark:text-zinc-500 text-xs font-bold">{{
+            formatDate(item.createdAt, "yyyy-MM-dd", "en-US")
+          }}</span>
+          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <small class="text-zinc-200 w-full">{{ item.description }}</small>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <span>€ {{ item.goalAmount }}</span>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <div class="flex flex-col">
+            <span>{{ item.creator.name }} {{ item.creator.surname }}</span>
+            <small class="text-zinc-400 font-light">{{
+              item.creator.email
+            }}</small>
+          </div>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <div class="flex items-center">
+            <ng-container *ngFor="let account of item.accounts; let i = index">
+              <app-account-icon
+                *ngIf="i < 4"
+                [name]="account.name + ' ' + account.surname"
+                size="h-8 w-8"
+                class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
+              ></app-account-icon>
+            </ng-container>
+            <div
+            *ngIf="item.creator.email === user.email"
+            (click)="addNewAccount(item)"
+              class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+            >
+              <p
+                class="text-3xl font-light text-zinc-600"
+                style="font-family: Arial, Helvetica, sans-serif"
+              >
+                +
+              </p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </app-table>
+</section>
+
+<ng-template #filterSelect>
+  <div class="w-full">
+    <app-select
+      (change)="getExpensePageWithFilters()"
+      [list]="filterList"
+      label="ORDER BY"
+      [control]="filterForm.controls['orderBy']"
+    >
+    </app-select>
+  </div>
+</ng-template>
