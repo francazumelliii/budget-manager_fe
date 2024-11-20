@@ -35,7 +35,7 @@ export class DatabaseService {
     } 
     delete(endpoint: string): Observable<any>{
       console.log(`%c DELETE REQUEST: ${this.serverUrl}${endpoint}`, "color:#d946ef")
-      return this.http.post(`${this.serverUrl}${endpoint}`, {headers: this.headers});
+      return this.http.delete(`${this.serverUrl}${endpoint}`, {headers: this.headers});
     } 
     
     
