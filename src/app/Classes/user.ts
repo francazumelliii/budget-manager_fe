@@ -12,6 +12,7 @@ import {
   PostIncomeRequest,
   PostProjectRequest,
   Project,
+  SimpleAccount,
   WeeklyStats,
 } from '../Interfaces/interface';
 
@@ -97,7 +98,20 @@ export class User implements Delegate {
     };
     return of(emptyPage);
   }
+  allProjectsPaging(page: number ,size: number ,order: string, direction: string): Observable<Page<Project>>{
+    return this.dbService.get(`/account/me/projects/all?page=${page}&size=${size}&order=${order}&direction=${direction}`)
+  }
   childMonthlyStats(id: number, date: string | null): null {
     return null;
   }
+  searchAccount(email: string): Observable<SimpleAccount>{
+    return this.dbService.get(`/account/search?email=${email}`)
+  }
+  postShareProject(emails: string[], projectId: number): Observable<Project>{
+    const body = {emails: emails, projectId: projectId}
+    return this.dbService.post(`/account/me/project/add`, body)
+  }
+  removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>{
+    return this.dbService.delete(`/account/me/projects/${projectId}/remove?email=${email}&option=${option}`)
+}
 }

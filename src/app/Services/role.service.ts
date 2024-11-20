@@ -14,6 +14,7 @@ import {
   PostProjectRequest,
   Project,
   Role,
+  SimpleAccount,
   WeeklyStats,
 } from '../Interfaces/interface';
 import { ServerModule } from '@angular/platform-server';
@@ -87,6 +88,9 @@ export class RoleService {
       return this.delegate.allChildIncomes(childId, page,size,order,direction)
     }
   }
+  allProjectsPaging(page: number ,size: number, order: string, direction: string): Observable<Page<Project>>{
+    return this.delegate.allProjectsPaging(page, size, order, direction)
+  }
   allExpensesInExpiration(): Observable<Expense[]>{
     return this.delegate.allExpensesInExpiration()
   }
@@ -98,5 +102,14 @@ export class RoleService {
   }
   childMonthlyStats(id: number ,date: string | null): Observable<MonthlyStats> | null{
     return this.delegate.childMonthlyStats(id, date)
+  }
+  searchAccount(email: string): Observable<SimpleAccount>{
+    return this.delegate.searchAccount(email);
+  }
+  postShareProject(emails: string[], projectId: number): Observable<Project>{
+    return this.delegate.postShareProject(emails, projectId);
+  }
+  removeAccountFromProject(projectId: number, email: string, option: 'keep' | 'remove'): Observable<Project>{
+    return this.delegate.removeAccountFromProject(projectId, email, option)
   }
 }

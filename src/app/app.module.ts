@@ -30,6 +30,10 @@ import { MessageService } from 'primeng/api';
 import { ChildrenComponent } from './Components/children/children.component';
 import { CardComponent } from './Components/card/card.component';
 import { ChildComponent } from './Components/child/child.component';
+import { AccountComponent } from './Components/account/account.component';
+import { ProjectComponent } from './Components/project/project.component';
+import { AccountIconComponent } from './Components/account-icon/account-icon.component';
+import { SearchAccountComponent } from './Components/search-account/search-account.component';
 
 
 @NgModule({
@@ -54,6 +58,10 @@ import { ChildComponent } from './Components/child/child.component';
     ChildrenComponent,
     CardComponent,
     ChildComponent,
+    AccountComponent,
+    ProjectComponent,
+    AccountIconComponent,
+    SearchAccountComponent,
 
 
 

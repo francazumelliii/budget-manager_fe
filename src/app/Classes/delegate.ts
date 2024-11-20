@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Expense, Income, MonthlyStats, Page, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, User, WeeklyStats } from "../Interfaces/interface";
+import { Expense, Income, MonthlyStats, Page, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, SimpleAccount, User, WeeklyStats } from "../Interfaces/interface";
 
 export interface Delegate{
     lastMonthExpenses(limit: number | null): Observable<Expense[]>;
@@ -21,6 +21,8 @@ export interface Delegate{
     allExpensesPaging(page: number, size :number ,order: string, direction: string): Observable<Page<Expense>>
 
     allIncomesPaging(page: number, size: number, order: string, direction: string): Observable<Page<Income>>
+    
+    allProjectsPaging(page: number ,size: number ,order: string, direction: string) :Observable<Page<Project>>
 
     allExpensesInExpiration(): Observable<Expense[]>
     
@@ -29,4 +31,10 @@ export interface Delegate{
     allChildIncomes(id: number,page: number ,size: number, order: string, direction: string): Observable<Page<Income>> 
 
     childMonthlyStats(id: number, date: string | null): Observable<MonthlyStats> | null
+
+    searchAccount(email: string): Observable<SimpleAccount>
+    
+    postShareProject(emails: string[], projectId: number): Observable<Project>
+
+    removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>
 }
