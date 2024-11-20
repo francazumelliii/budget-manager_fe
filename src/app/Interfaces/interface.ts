@@ -147,3 +147,7 @@ export interface Pagination{
     rowsPerPageOptions: number[]
 }
 
+export interface ShareRequest{
+    projectId: number,
+    emails: string[]
+}
