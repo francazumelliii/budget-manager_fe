@@ -10,6 +10,9 @@ export class ToastService {
   show(list: { severity: string; summary: string; detail: string }[]) {
     this.messageService.addAll(list);
   }
+  showOne(obj: { severity: string; summary: string; detail: string }){
+    this.messageService.add(obj)
+  }
   clear() {
     this.messageService.clear();
 }
