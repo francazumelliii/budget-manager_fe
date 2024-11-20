@@ -13,6 +13,7 @@ export class FormGroupService {
   newIncomeFormGroup!: FormGroup
   newTripFormGroup !: FormGroup
   filterFormGroup !: FormGroup
+  addAccountFormGroup!: FormGroup
 
   today: any = new Date();
 
@@ -26,6 +27,7 @@ export class FormGroupService {
     this.buildNewIncomeForm();
     this.buildNewTripForm();
     this.buildFilterForm()
+    this.buildAddAccountForm()
   } 
 
 
@@ -89,6 +91,12 @@ export class FormGroupService {
       direction: new FormControl("ASC")
     })
   }
+
+  buildAddAccountForm(){
+    this.addAccountFormGroup = this.fb.group({
+      email: new FormControl("", [Validators.required, Validators.email])
+    })
+  }
   
 
   get filterForm(){
@@ -109,6 +117,9 @@ export class FormGroupService {
   }
   get newTripForm(){
     return this.newTripFormGroup;
+  }
+  get addAccountForm(){
+    return this.addAccountFormGroup;
   }
 
 }
