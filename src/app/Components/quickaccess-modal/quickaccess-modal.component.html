@@ -26,7 +26,7 @@
             }"
             formControlName="amount"
             class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
-            placeholder="€100.00 "
+            [placeholder]="authService.defaultCurrency + '100.00' "
             type="number"
           />
         </div>
@@ -110,7 +110,7 @@
             [disabled]="newExpenseForm.invalid"
             [ngClass]="{ 'hover:bg-fuchsia-700': newExpenseForm.invalid }"
             (click)="submitForm('expense')"
-            class="bg-fuchsia-700 w-full rounded-lg h-full hover:bg-fuchsia-600 text-zinc-900"
+            class="bg-fuchsia-700 w-full h-14 rounded-lg hover:bg-fuchsia-600 text-zinc-900"
           >
             ADD EXPENSE
           </button>
@@ -148,7 +148,7 @@
             }"
             formControlName="amount"
             class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
-            placeholder="€100.00 "
+            [placeholder]="authService.defaultCurrency + '100.00'"
             type="number"
           />
         </div>
@@ -253,7 +253,7 @@
             }"
             formControlName="goalAmount"
             class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
-            placeholder="€100.00 "
+            [placeholder]="authService.defaultCurrency + '100.00'" 
             type="number"
           />
         </div>

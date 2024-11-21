@@ -4,6 +4,7 @@ import { DatabaseService } from '../../Services/database.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormGroupService } from '../../Services/form-group.service';
 import { isNumber } from 'util';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-quickaccess-modal',
@@ -15,7 +16,8 @@ export class QuickaccessModalComponent implements OnInit{
   constructor(
     private formService: FormGroupService,
     private dbService: DatabaseService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public authService: AuthenticationService
   ){
 
   }
