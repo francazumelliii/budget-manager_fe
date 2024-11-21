@@ -47,8 +47,7 @@ export class AuthenticationFormComponent {
 
     this.authService.signup(name, surname, email, password,birthdate)
       .subscribe((response: AuthResponse) => {
-        response.user? this.authService.storeUserInformation(response.user) : null
-        response.jwt ? this.authService.storeToken(response.jwt): null
+        response ? this.storeInfo(response) : null
 
       },(error: any) => {
         error.status == 409 ? this.responseError = "A user with same email already exists": null
@@ -67,8 +66,7 @@ export class AuthenticationFormComponent {
     this.authService.login(email, password)
       .subscribe((response: AuthResponse) => {
         console.log(response)
-        response.user? this.authService.storeUserInformation(response.user) : null
-        response.jwt ? this.authService.storeToken(response.jwt): null
+        response ? this.storeInfo(response) : null
       },(error: any) => {
         error.status == 401 ? this.responseError = "Email or password invalid": null
         error.status == 404 ? this.responseError = "Email not found": null
@@ -77,6 +75,11 @@ export class AuthenticationFormComponent {
 
   }
 
+  storeInfo(response: AuthResponse){
+    response.user? this.authService.storeUserInformation(response.user) : null
+    response.jwt ? this.authService.storeToken(response.jwt): null
+    this.authService.setDefaultCurrency(response.user.defaultCurrency)
+  }
   checkPassword() {
     const password = this.signupForm.controls['password'].value;
     const repeatPassword = this.signupForm.controls['repeatPassword'].value;
