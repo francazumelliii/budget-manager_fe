@@ -112,4 +112,7 @@ export class RoleService {
   removeAccountFromProject(projectId: number, email: string, option: 'keep' | 'remove'): Observable<Project>{
     return this.delegate.removeAccountFromProject(projectId, email, option)
   }
+  deleteExpense(id: number):Observable<any>{
+    return this.delegate.deleteExpense(id)
+  }
 }

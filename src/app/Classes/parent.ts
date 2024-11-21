@@ -73,4 +73,7 @@ export class Parent implements Delegate{
     removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>{
         return this.dbService.delete(`/account/me/projects/${projectId}/remove?email=${email}&option=${option}`)
     }
+    deleteExpense(id: number):Observable<any>{
+        return this.dbService.delete(`/account/me/expenses/${id}`)
+    }
 }

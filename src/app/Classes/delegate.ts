@@ -37,4 +37,6 @@ export interface Delegate{
     postShareProject(emails: string[], projectId: number): Observable<Project>
 
     removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>
+    
+    deleteExpense(id: number):Observable<any>
 }
