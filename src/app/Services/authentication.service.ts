@@ -87,6 +87,14 @@ export class AuthenticationService {
     localStorage.setItem("notification", "shown")
   }
 
+  setDefaultCurrency(value: string = '€'){
+    localStorage.setItem("currency", value ?? '€')
+  }
+
+  get defaultCurrency(){
+    return localStorage.getItem("currency")
+  }
+
   redirect(url: string): void{
     console.log(`%c REDIRECT: /${url}`, "color:#d9f99d;")
 
