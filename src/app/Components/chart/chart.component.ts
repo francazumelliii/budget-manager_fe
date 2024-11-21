@@ -24,11 +24,14 @@ export class ChartComponent implements OnChanges {
   @Input() showXAxisLabel: boolean = true;
   @Input() xAxisLabel: string = '';
   @Input() showYAxisLabel: boolean = true;
+  @Input() units: any = '€'
   @Input() yAxisLabel: string = '';
+  @Input() legend: string = '';
   @Input() legendTitle: string = '';
   @Input() type: string = 'bar-vertical-2d';
   @Input() maxValue: number = 0;
   @Input() percentage: number = 0;
+  @Input() showText: boolean = false;
 
   scheme!: Color;
   domain: string[] = [];
