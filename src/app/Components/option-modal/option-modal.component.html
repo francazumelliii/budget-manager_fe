@@ -1,0 +1,25 @@
+<section
+  class="flex flex-col items-center justify-center container w-[80%] m-auto"
+>
+  <i class="text-8xl fa-solid fa-xmark text-red-400 py-3"></i>
+  <h3 class="text-red-400 text-xl">{{ title }}</h3>
+  <p class="text-zinc-300 text-light">{{ subtitle }}</p>
+  <small *ngIf="description.length > 0" class="text-xs text-zinc-400">{{
+    description
+  }}</small>
+
+  <div class="flex flex-row justify-between w-5/6 py-4">
+    <button
+        (click)="confirm.emit()"
+      class="rounded-lg p-3 bg-red-500 text-zinc-50 text-bold hover:bg-red-600"
+    >
+      {{ confirmLabel }}
+    </button>
+    <button
+    (click)="cancel.emit()"
+      class="rounded-lg p-3 bg-gray-500 text-zinc-50 text-bold hover:bg-gray-600"
+    >
+      {{ cancelLabel }}
+    </button>
+  </div>
+</section>
