@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class FrequencyIconComponent {
   @Input() frequency: string = "";
+  @Input() onlyText: boolean = false;
   
   frequencyString: string = "";
   ngOnInit(): void {

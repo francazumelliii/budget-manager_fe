@@ -1,11 +1,29 @@
-<div class="">
-    <span 
-        class=" px-3 py-1 rounded-xl font-normal text-xs"
-        [ngClass]="{
-            'bg-pink-700 text-pink-950 border border-pink-900' : frequency == 'S',
-            'bg-teal-700 text-teal-950 border border-teal-900' : frequency == 'W',
-            'bg-indigo-700 text-indigo-950 border border-indigo-900' : frequency == 'M',
-            'bg-fuchsia-700 text-fuchsia-950 border border-fuchsia-900' : frequency == 'Y'
-        }"
-        >{{frequencyString}}</span>
-</div>
+<ng-container *ngIf="onlyText === false; else textTemplate">
+  <div class="">
+    <span
+      class="px-3 py-1 rounded-xl font-normal text-xs"
+      [ngClass]="{
+        'bg-pink-700 text-pink-950 border border-pink-900': frequency == 'S',
+        'bg-teal-700 text-teal-950 border border-teal-900': frequency == 'W',
+        'bg-indigo-700 text-indigo-950 border border-indigo-900':
+          frequency == 'M',
+        'bg-fuchsia-700 text-fuchsia-950 border border-fuchsia-900':
+          frequency == 'Y'
+      }"
+      >{{ frequencyString }}</span
+    >
+  </div>
+</ng-container>
+
+<ng-template #textTemplate>
+  <span
+    class="px-3 py-1 rounded-xl font-normal text-xs"
+    [ngClass]="{
+      'text-pink-400': frequency == 'S',
+      'text-teal-400 ': frequency == 'W',
+      'text-indigo-400': frequency == 'M',
+      'text-fuchsia-400': frequency == 'Y'
+    }"
+    >{{ frequency }}</span
+  >
+</ng-template>
