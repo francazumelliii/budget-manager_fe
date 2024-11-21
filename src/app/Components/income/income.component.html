@@ -82,7 +82,7 @@
           </div>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <span>€ {{ item.amount }}</span>
+          <span>{{authService.defaultCurrency}} {{ item.amount.toFixed(2) }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <span [ngClass]="{ 'text-blue-300': !isExpired(item.date) }">{{

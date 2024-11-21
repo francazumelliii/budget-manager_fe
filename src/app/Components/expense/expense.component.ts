@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ModalService } from '../../Services/modal.service';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
 import { formatDate } from '@angular/common';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-expense',
@@ -18,6 +19,7 @@ export class ExpenseComponent implements OnInit {
     private roleService: RoleService,
     private formService: FormGroupService,
     private modalService: ModalService,
+    public authService: AuthenticationService
   ) {}
 
   expensesList: Expense[] = [];

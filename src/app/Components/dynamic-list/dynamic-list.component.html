@@ -36,8 +36,9 @@
             <tr class="text-zinc-500 text-left text-sm">
               <td class="py-1 w-1/3">{{ item.name }}</td>
               <td class="w-1/3">{{ item.category.name }}</td>
-              <td class="w-1/6">{{ frequency[item.frequency] }}</td>
-              <td class="w-1/4 text-end">€ {{ item.amount }}</td>
+              <!--<td class="w-1/6">{{ frequency[item.frequency] }}</td>-->
+              <td class="w-1/6"><app-frequency-icon [frequency]="item.frequency" [onlyText]="true"></app-frequency-icon></td>
+              <td class="w-1/4 text-end">{{defaultCurrency}} {{ item.amount.toFixed(2) }}</td>
             </tr>
           </ng-container>
         </tbody>
@@ -81,8 +82,9 @@
           <tr class="text-zinc-500 text-left text-sm">
             <td class="py-1 w-1/3">{{ item.name }}</td>
             <td class="w-1/3">{{ item.date }}</td>
-            <td class="w-1/6">{{ frequency[item.frequency] }}</td>
-            <td class="w-1/4 text-end">€ {{ item.amount }}</td>
+            <!-- <td class="w-1/6">{{ frequency[item.frequency] }}</td> -->
+            <td class="w-1/6"><app-frequency-icon [frequency]="item.frequency" [onlyText]="true"></app-frequency-icon></td>
+            <td class="w-1/4 text-end">{{defaultCurrency}} {{ item.amount.toFixed(2) }}</td>
           </tr>
         </ng-container>
       </tbody>

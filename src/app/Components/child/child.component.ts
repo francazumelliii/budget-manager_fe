@@ -16,7 +16,7 @@ import { IncomeComponent } from '../income/income.component';
 })
 export class ChildComponent {
   constructor(
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     private route: ActivatedRoute,
     private roleService: RoleService,
     private modalService: ModalService

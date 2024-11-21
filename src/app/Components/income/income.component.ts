@@ -7,6 +7,7 @@ import { RoleService } from '../../Services/role.service';
 import { FormGroupService } from '../../Services/form-group.service';
 import { ModalService } from '../../Services/modal.service';
 import { FormGroup } from '@angular/forms';
+import { AuthenticationService } from '../../Services/authentication.service';
 
 @Component({
   selector: 'app-income',
@@ -18,6 +19,7 @@ export class IncomeComponent {
     private roleService: RoleService,
     private formService: FormGroupService,
     private modalService: ModalService,
+    public authService: AuthenticationService
   ) {}
 
   @Input() childId: number | null = null;

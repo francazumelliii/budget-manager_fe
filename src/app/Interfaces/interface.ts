@@ -15,6 +15,7 @@ export interface User{
     surname: string,
     email: string, 
     birthdate: string,
+    defaultCurrency: string,
     image: string, 
     children: User[] | null,
     parent: User | null

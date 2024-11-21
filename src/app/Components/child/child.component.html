@@ -30,12 +30,14 @@
       <app-chart
         type="gauge"
         [data]="monthlyStats"
+        [units]="authService.defaultCurrency"
         [maxValue]="maxValue"
+        [showText] ="monthlyStats[0].value > 0"
         title="This Month Situation"
         [percentage]="percentage"
       ></app-chart>
       <small
-        *ngIf="percentage >= 100"
+        *ngIf="percentage >= 100 && monthlyStats[0].value > 0"
         class="text-red-400 absolute bottom-0 text-center w-full"
         >Burning through more than we're bringing in</small
       >
@@ -49,6 +51,7 @@
       <app-dynamic-list
       (expand)="openModal('expenses')"
         [list]="expensesList"
+        [defaultCurrency]="authService.defaultCurrency"
         [defaultOpened]="true"
         (toggle)="isExpensesOpened = $event"
       ></app-dynamic-list>
@@ -63,6 +66,7 @@
         (expand)= "openModal('incomes')"
         [list]="incomesList"
         [defaultOpened]="true"
+        [defaultCurrency]="authService.defaultCurrency"
         [template]="'INCOME'"
         (toggle)="isIncomesOpened = $event"
       ></app-dynamic-list>

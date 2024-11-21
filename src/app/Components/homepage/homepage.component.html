@@ -4,6 +4,7 @@
       <app-dynamic-list
         [list]="recentExpensesList"
         template="EXPENSE"
+        [defaultCurrency]="authService.defaultCurrency"
         (expand)="redirect($event)"
       ></app-dynamic-list>
     </div>
@@ -11,6 +12,7 @@
       <app-dynamic-list
         [list]="recentIncomesList"
         template="INCOME"
+        [defaultCurrency]="authService.defaultCurrency"
         (expand)="redirect($event)"
       ></app-dynamic-list>
     </div>
@@ -57,29 +59,49 @@
     <p class="text-zinc-400 text-left border-b border-zinc-700 py-2 font-bold">
       This Month
     </p>
-    <div class="flex flex-col md:flex-row justify-center items-center py-3">
-
-      <div class="col-auto border-e border-zinc-700 relative">
+    <div class="flex flex-col md:flex-row justify-between items-center py-3">
+      <div class="col-auto w-1/2">
+      <div class="col-auto relative ">
         <app-chart
           type="gauge"
           [data]="monthlyStats"
+          [showLegend]="false"
+          [units]="authService.defaultCurrency"
           [maxValue]="totalIncomes"
           title="This Month Situation"
           [percentage]="percentage"
         ></app-chart>
-        <small 
-        *ngIf="percentage >= 100"
-        class="text-red-400 absolute bottom-0 text-center w-full">Burning through more than we're bringing in</small>
+        <small
+          *ngIf="
+            percentage >= 100 && monthlyStats[0].value > 0;
+            else totalValues
+          "
+          class="text-red-400 absolute bottom-0 text-center w-full"
+          >Burning through more than we're bringing in</small
+        >
+        <ng-template #totalValues>
+          <div class="flex flex-row justify-between items-center w-full px-5">
+            <small class="text-zinc-500 text-light"
+              >Expenses: {{authService.defaultCurrency}} {{ monthlyStats[0].value.toFixed(2) }}</small
+            >
+            <small class="text-zinc-500 text-light"
+              >Incomes: {{authService.defaultCurrency}} {{ totalIncomes.toFixed(2) }}</small
+            >
+          </div>
+        </ng-template>
       </div>
+    </div>
 
-      <div class="col-auto border-s border-zinc-700">
-        <app-chart [data]="weeklyStats" title="Weekly Stats"></app-chart>
+    <div class="border-s border-zinc-700 col-auto w-1/2">
+      <div class="col-auto ">
+        <app-chart [data]="weeklyStats" title="Weekly Stats" [units]="authService.defaultCurrency"></app-chart>
       </div>
+    </div>
     </div>
   </div>
 </section>
 
-<p-toast >
+<p-toast>
   <ng-template let-message pTemplate="message">
     <div class="flex flex-row items-center gap-x-4 w-full">
       <i class="fa-solid fa-lightbulb text-xl"></i>

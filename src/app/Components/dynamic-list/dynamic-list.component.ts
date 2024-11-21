@@ -11,6 +11,7 @@ export class DynamicListComponent implements OnInit{
   @Output() expand = new EventEmitter<'EXPENSE' | 'INCOME'>();
   @Output() toggle = new EventEmitter<boolean>();
   @Input() list:any = []
+  @Input() defaultCurrency:any = "€"
   @Input() defaultOpened: boolean = true;
   @Input() template: "INCOME" | "EXPENSE" = "EXPENSE"
   isOpened: boolean = false;
