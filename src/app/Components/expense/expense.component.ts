@@ -8,6 +8,7 @@ import { ModalService } from '../../Services/modal.service';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
 import { formatDate } from '@angular/common';
 import { AuthenticationService } from '../../Services/authentication.service';
+import { OptionModalComponent } from '../option-modal/option-modal.component';
 
 @Component({
   selector: 'app-expense',
@@ -26,6 +27,7 @@ export class ExpenseComponent implements OnInit {
   @Input() childId: number | null = null;
   _isSelectVisible: boolean = false;
   filterForm: FormGroup = this.formService.filterForm;
+  _isUpdateAllowed: boolean = false;
 
   filterList: any = [
     {id: 'date', name: 'DATE'},
@@ -158,9 +160,33 @@ export class ExpenseComponent implements OnInit {
     this.getExpensePage(0, this.pagination.rows, orderBy, direction);
   }
  
+  allowUpdate(){
+    this._isUpdateAllowed = !this._isUpdateAllowed;
+  }
+  async openDeleteModal(id: number){
+    const modalRef = await this.modalService.open(OptionModalComponent, {
+      title: "Are you sure you want to delete the expense? ",
+      subtitle: "the action is irreversible",
+      description: ""
+    }, "DELETE EXPENSE")
+    modalRef.instance.confirm.subscribe((data: any) => {
+      this.deleteExpense(id)
+    })
+    modalRef.instance.cancel.subscribe((data: any) => this.modalService.close())
+  }
 
 
   isExpired(date: string) {
     return new Date(date) <= new Date();
+  }
+
+  deleteExpense(id: number){
+    this.roleService.deleteExpense(id)
+      .subscribe((response: any) => {
+        this.modalService.close()
+        this.getExpensePage()
+      } ,(error: any) => {
+          console.error(error)
+      })
   }
 }

@@ -36,7 +36,8 @@
                 }} text-fuchsia-400 text-xl"
               ></i>
             </div>
-            <div
+            <div 
+            (click)="allowUpdate()"
               class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
             >
               <i class="fa-solid fa-ellipsis text-fuchsia-400 text-xl"></i>
@@ -56,6 +57,7 @@
         <th>AMOUNT</th>
         <th>EXPIRING DATE</th>
         <th>FREQUENCY</th>
+        <th *ngIf="_isUpdateAllowed" class="w-1/12"></th>
       </tr>
     </thead>
     <tbody>
@@ -92,6 +94,12 @@
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
+        </td>
+        <td *ngIf="_isUpdateAllowed" class="" >
+          <div class="flex flex-row justify-center gap-x-5 pointer">
+            <i class="fa-solid fa-pencil hover:text-white text-zinc-400"></i>
+            <i class="fa-solid fa-trash hover:text-white text-zinc-400" (click)="openDeleteModal(item.id)"></i>
+          </div>
         </td>
       </tr>
     </tbody>

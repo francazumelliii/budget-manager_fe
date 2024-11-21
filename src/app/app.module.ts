@@ -34,6 +34,7 @@ import { AccountComponent } from './Components/account/account.component';
 import { ProjectComponent } from './Components/project/project.component';
 import { AccountIconComponent } from './Components/account-icon/account-icon.component';
 import { SearchAccountComponent } from './Components/search-account/search-account.component';
+import { OptionModalComponent } from './Components/option-modal/option-modal.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { SearchAccountComponent } from './Components/search-account/search-accou
     ProjectComponent,
     AccountIconComponent,
     SearchAccountComponent,
+    OptionModalComponent,
 
 
 
