@@ -78,7 +78,7 @@
           <small class="text-zinc-200 w-full">{{ item.description }}</small>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <span>€ {{ item.goalAmount }}</span>
+          <span>{{authService.defaultCurrency}}{{ item.goalAmount }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <div class="flex flex-col">

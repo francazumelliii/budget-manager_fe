@@ -22,7 +22,7 @@ export class ProjectComponent {
     private roleService: RoleService,
     private formService: FormGroupService,
     private modalService: ModalService,
-    private authService: AuthenticationService
+    public authService: AuthenticationService
   ) {}
 
   projectsList: Project[] = [];
