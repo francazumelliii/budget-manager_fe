@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Delegate } from "./delegate";
 import { DatabaseService } from "../Services/database.service";
 import { Observable } from "rxjs";
-import { Expense, Income, MonthlyStats, Page, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
+import { Expense, Income, MonthlyStats, Page, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
 import { User } from "./user";
 import { start } from "node:repl";
 
@@ -76,4 +76,10 @@ export class Parent implements Delegate{
     deleteExpense(id: number):Observable<any>{
         return this.dbService.delete(`/account/me/expenses/${id}`)
     }
+    getProject(id: number ): Observable<Project>{
+        return this.dbService.get(`/account/me/projects/${id}`)
+    }
+    patchShared(obj: PatchSharedRequest, projectId: number, expenseId: number): Observable<Project>{
+        return this.dbService.patch(`/account/me/projects/${projectId}/expense/${expenseId}`, obj)
+      }
 }

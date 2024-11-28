@@ -8,6 +8,7 @@ import {
   Income,
   MonthlyStats,
   Page,
+  PatchSharedRequest,
   PostChildRequest,
   PostExpenseRequest,
   PostIncomeRequest,
@@ -20,6 +21,8 @@ import {
 import { ServerModule } from '@angular/platform-server';
 import { Observable } from 'rxjs';
 import { start } from 'node:repl';
+import { promises } from 'node:dns';
+import exp from 'node:constants';
 
 @Injectable({
   providedIn: 'root',
@@ -114,5 +117,11 @@ export class RoleService {
   }
   deleteExpense(id: number):Observable<any>{
     return this.delegate.deleteExpense(id)
+  }
+  getProject(id: number): Observable<Project>{
+    return this.delegate.getProject(id);
+  }
+  patchShared(obj: PatchSharedRequest, projectId: number ,expenseId: number): Observable<Project>{
+    return this.delegate.patchShared(obj, projectId, expenseId)
   }
 }

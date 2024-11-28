@@ -7,6 +7,7 @@ import {
   Income,
   MonthlyStats,
   Page,
+  PatchSharedRequest,
   PostChildRequest,
   PostExpenseRequest,
   PostIncomeRequest,
@@ -116,5 +117,11 @@ export class User implements Delegate {
   }
   deleteExpense(id: number):Observable<any>{
     return this.dbService.delete(`/account/me/expenses/${id}`)
-}
+  }
+  getProject(id: number ): Observable<Project>{
+    return this.dbService.get(`/account/me/projects/${id}`)
+  }
+  patchShared(obj: PatchSharedRequest, projectId: number, expenseId: number): Observable<Project>{
+    return this.dbService.patch(`/account/me/projects/${projectId}/expense/${expenseId}`, obj)
+  }
 }
