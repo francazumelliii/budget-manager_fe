@@ -11,7 +11,7 @@
         <ng-container>
           <button
             (click)="openModal()"
-            class="rounded-md bg-fuchsia-400 hover:bg-fuchsia-500 text-sm px-3 text-black"
+            class="rounded-md bg-teal-400 hover:bg-teal-500 text-sm px-3 text-black"
           >
             + new Project
           </button>
@@ -20,7 +20,7 @@
           (click)="showFilterSelect()"
           class="flex flex-row items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
         >
-          <i class="fa-solid fa-filter text-fuchsia-400 text-xl"></i>
+          <i class="fa-solid fa-filter text-teal-400 text-xl"></i>
         </div>
         <div class="flex items-center gap-3">
           <ng-container *ngIf="!_isSelectVisible; else filterSelect">
@@ -33,13 +33,13 @@
                   filterForm.get('direction')?.value === 'DESC'
                     ? 'fa-arrow-up-wide-short'
                     : 'fa-arrow-down-wide-short'
-                }} text-fuchsia-400 text-xl"
+                }} text-teal-400 text-xl"
               ></i>
             </div>
             <div
               class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
             >
-              <i class="fa-solid fa-ellipsis text-fuchsia-400 text-xl"></i>
+              <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
             </div>
           </ng-container>
         </div>
@@ -61,26 +61,38 @@
     <tbody>
       <tr
         *ngFor="let item of projectsList; index as i"
-        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800"
-        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800 hover:outline-slate-600"
+        [ngClass]="{ 'bg-zinc-900 ': i % 2 == 0 }"
       >
-        <td class="w-1/12 text-center">
+        <td class="w-1/12 text-center" pointer (click)="redirect(item.id)">
           <i class="fa-regular fa-credit-card"></i>
         </td>
 
-        <td class="flex flex-col justify-center items-start h-full">
+        <td
+          class="flex flex-col justify-center items-start h-full pointer"
+          (click)="redirect(item.id)"
+        >
           <span class="dark:text-zinc-500 text-xs font-bold">{{
             formatDate(item.createdAt, "yyyy-MM-dd", "en-US")
           }}</span>
           <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
         </td>
-        <td class="dark:text-zinc-200 font-bold">
+        <td
+          class="dark:text-zinc-200 font-bold pointer"
+          (click)="redirect(item.id)"
+        >
           <small class="text-zinc-200 w-full">{{ item.description }}</small>
         </td>
-        <td class="dark:text-zinc-200 font-bold">
-          <span>{{authService.defaultCurrency}}{{ item.goalAmount }}</span>
+        <td
+          class="dark:text-zinc-200 font-bold pointer"
+          (click)="redirect(item.id)"
+        >
+          <span>{{ authService.defaultCurrency }}{{ item.goalAmount }}</span>
         </td>
-        <td class="dark:text-zinc-200 font-bold">
+        <td
+          class="dark:text-zinc-200 font-bold pointer"
+          (click)="redirect(item.id)"
+        >
           <div class="flex flex-col">
             <span>{{ item.creator.name }} {{ item.creator.surname }}</span>
             <small class="text-zinc-400 font-light">{{
@@ -99,8 +111,8 @@
               ></app-account-icon>
             </ng-container>
             <div
-            *ngIf="item.creator.email === user.email"
-            (click)="addNewAccount(item)"
+              *ngIf="item.creator.email === user.email"
+              (click)="addNewAccount(item)"
               class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
             >
               <p

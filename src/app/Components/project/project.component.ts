@@ -162,4 +162,8 @@ export class ProjectComponent {
     });
     
   }
+
+  redirect(id: number){
+    this.authService.redirect(`projects/${id}`)
+  }
 }
