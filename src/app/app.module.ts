@@ -32,9 +32,14 @@ import { CardComponent } from './Components/card/card.component';
 import { ChildComponent } from './Components/child/child.component';
 import { AccountComponent } from './Components/account/account.component';
 import { ProjectComponent } from './Components/project/project.component';
+
 import { AccountIconComponent } from './Components/account-icon/account-icon.component';
 import { SearchAccountComponent } from './Components/search-account/search-account.component';
 import { OptionModalComponent } from './Components/option-modal/option-modal.component';
+import { SingleProjectComponent } from './Components/single-project/single-project.component';
+import { ChoosePersonModalComponent } from './Components/choose-person-modal/choose-person-modal.component';
+import { AccountIconCompleteComponent } from './Components/account-icon-complete/account-icon-complete.component';
+
 
 
 @NgModule({
@@ -64,6 +69,9 @@ import { OptionModalComponent } from './Components/option-modal/option-modal.com
     AccountIconComponent,
     SearchAccountComponent,
     OptionModalComponent,
+    SingleProjectComponent,
+    ChoosePersonModalComponent,
+    AccountIconCompleteComponent,
 
 
 

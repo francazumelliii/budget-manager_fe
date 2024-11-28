@@ -1,0 +1,43 @@
+<section class="container flex flex-col items-center gap-y-6">
+  <h1 class="text-teal-200 font-bold text-2xl">
+    Choose Accounts to Split Expense
+  </h1>
+  <div class="flex flex-wrap justify-center w-full gap-6">
+    <!-- SHARED ACCOUNTS -->
+    <div class="flex flex-col items-center w-full md:w-[45%]">
+      <h1 class="text-zinc-100 text-xl font-bold text-center mb-4">
+        SHARED ACCOUNTS
+      </h1>
+      <ul class="flex flex-col gap-3 w-full">
+        <app-account-icon-complete
+          [type]="'REMOVE'"
+          *ngFor="let account of sharedAccount"
+          (buttonClick)="removeFromShared(account)"
+          [account]="account"
+        ></app-account-icon-complete>
+      </ul>
+    </div>
+
+    <!-- NON SHARED ACCOUNTS -->
+    <div class="flex flex-col items-center w-full md:w-[45%]">
+      <h1 class="text-zinc-100 text-xl font-bold text-center mb-4">
+        NON SHARED ACCOUNTS
+      </h1>
+      <ul class="flex flex-col gap-3 w-full">
+        <app-account-icon-complete
+          [type]="'ADD'"
+          (buttonClick)="addToShared(account)"
+          *ngFor="let account of nonSharedAccount"
+          [account]="account"
+        ></app-account-icon-complete>
+      </ul>
+    </div>
+  </div>
+  <small class="text-red-400 font-light text-center text-sm">{{error}}</small>
+  <button
+    (click)="buttonClick.emit({shared: sharedAccount, nonShared: nonSharedAccount})"
+    class="p-3 rounded-lg bg-teal-500 hover:bg-teal-600 text-zinc-50 mt-5"
+  >
+    CONFIRM
+  </button>
+</section>
