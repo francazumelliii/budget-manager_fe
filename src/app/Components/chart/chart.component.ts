@@ -13,7 +13,8 @@ export class ChartComponent implements OnChanges {
     selectable: false,
     group: ScaleType.Ordinal
   };
-
+  
+  @Input() customDomain: string = '#2C2C2C';
   @Input() title: string = "";
   @Input() view: [number, number] = [500, 225];
   @Input() data: any[] = [];
@@ -43,6 +44,7 @@ export class ChartComponent implements OnChanges {
   updateColorScheme() {
     if (this.percentage <= 50 && this.percentage > 0) {
       this.domain = ['#16a34a'];
+
     } else if (this.percentage > 50 && this.percentage <= 75) {
       this.domain = ['#ca8a04'];
     } else if (this.percentage > 75 && this.percentage <= 90) {
@@ -57,6 +59,14 @@ export class ChartComponent implements OnChanges {
       selectable: false,
       group: ScaleType.Ordinal
     };
+    
+  }
+  coloSchemePie: Color = {
+    domain: ['#2dd4bf',this.customDomain],
+    name: '',
+    selectable: false,
+    group: ScaleType.Ordinal
+
   }
 
   constructor() {}

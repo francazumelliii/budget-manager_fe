@@ -1,58 +1,81 @@
 <div class="flex flex-col justify-center items-center">
-  <h1 class="dark: text-zinc-300 font-bold">{{title}}</h1>
-  
+  <h1 class="dark: text-zinc-300 font-bold">{{ title }}</h1>
+
   <ng-container *ngIf="type === 'bar-vertical-2d'">
     <ngx-charts-bar-vertical-2d
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="data"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [legend]="showLegend"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [barPadding]="1"
-        [maxXAxisTickLength]="20"
-        [groupPadding]="5"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        [legendTitle]="legendTitle"
-        (select)="onSelect($event)"
-        (activate)="onActivate($event)"
-        style="fill: #d4d4d8;"
-        (deactivate)="onDeactivate($event)">
-      </ngx-charts-bar-vertical-2d>
-    </ng-container>
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="data"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [barPadding]="1"
+      [maxXAxisTickLength]="20"
+      [groupPadding]="5"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [legendTitle]="legendTitle"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      style="fill: #d4d4d8"
+      (deactivate)="onDeactivate($event)"
+    >
+    </ngx-charts-bar-vertical-2d>
+  </ng-container>
 
-    <ng-container *ngIf="type === 'gauge'">
-      <ngx-charts-gauge
-        [view]="view"
-        [scheme]="scheme"
-        [results]="data"
-        [showText]="showText"
-        [legend]="showLegend"
-        [legendTitle]="legendTitle"
-        [max]="maxValue"
-        [units]="units"
-        [angleSpan]="240"
-        [startAngle]="-120"
-        [bigSegments]="8"
-        style="fill: #d4d4d8;"
-        [smallSegments]="5">
+  <ng-container *ngIf="type === 'gauge'">
+    <ngx-charts-gauge
+      [view]="view"
+      [scheme]="scheme"
+      [results]="data"
+      [showText]="showText"
+      [legend]="showLegend"
+      [legendTitle]="legendTitle"
+      [max]="maxValue"
+      [units]="units"
+      [angleSpan]="240"
+      [startAngle]="-120"
+      [bigSegments]="8"
+      style="fill: #d4d4d8"
+      [smallSegments]="5"
+    >
     </ngx-charts-gauge>
+  </ng-container>
+  <ng-container *ngIf="type === 'line-chart'">
+    <ngx-charts-line-chart
+      [view]="view"
+      [scheme]="scheme"
+      [results]="data"
+      style="fill: #d4d4d8"
+    ></ngx-charts-line-chart>
+  </ng-container>
+  <ng-container *ngIf="type === 'area-chart'">
+    <ngx-charts-area-chart
+      [view]="view"
+      [scheme]="scheme"
+      [results]="data"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="showYAxis"
+      [yAxis]="showXAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [timeline]="true"
 
-    </ng-container>
-    <ng-container *ngIf="type === 'line-chart'">
-      <ngx-charts-line-chart
-        [view]="view"
-        [scheme]="scheme"
-        [results]="data"
-        style="fill: #d4d4d8;"
-
-      ></ngx-charts-line-chart>
-
-    </ng-container>
-    
+      style="fill: #d4d4d8"
+    ></ngx-charts-area-chart>
+  </ng-container>
+  <ng-container *ngIf="type === 'pie-grid'">
+    <ngx-charts-pie-chart
+      [view]="view"
+      [scheme]="scheme"
+      [results]="data"
+      [scheme]="coloSchemePie"
+      
+      style="fill: #d4d4d8"
+    ></ngx-charts-pie-chart>
+  </ng-container>
 </div>
-
