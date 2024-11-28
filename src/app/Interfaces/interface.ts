@@ -42,7 +42,9 @@ export interface Expense{
     date: string,
     image: string, 
     category: Category,
-    projectId: number
+    participants: SimpleAccount[]
+    projectId: number,
+    accountId: number
 }
 export interface Category{
     id: number,
@@ -67,7 +69,7 @@ export interface Project{
     name: string, 
     description: string, 
     image: string,
-    goalAmount: string,
+    goalAmount: number,
     expenses: Expense[]
     createdAt: string, 
     creator: SimpleAccount,
@@ -78,7 +80,8 @@ export interface SimpleAccount{
     name: string,
     surname: string, 
     email: string, 
-    image: string
+    image: string,
+    splitAmount: number
 }
 
 export interface PostExpenseRequest{
@@ -151,4 +154,16 @@ export interface Pagination{
 export interface ShareRequest{
     projectId: number,
     emails: string[]
+}
+
+export interface PatchSharedRequest{
+    shared: SimpleAccount[]
+}
+
+export interface LinearChart{
+    name: string, 
+    series: {
+        name: string,
+        value: any
+    }[]
 }
