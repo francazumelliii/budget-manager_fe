@@ -1,0 +1,27 @@
+<li class="border rounded-lg border-zinc-400 flex flex-row justify-between p-2">
+  <div class="flex flex-row justify-start">
+    <app-account-icon
+      [name]="account.name + ' ' + account.surname"
+      size="w-9 h-9"
+    ></app-account-icon>
+    <div class="flex flex-col justify-center px-2">
+      <p class="text-zinc-200">{{ account.name }} {{ account.surname }}</p>
+      <small class="text-zinc-400 text-light">{{ account.email }}</small>
+    </div>
+  </div>
+  <div
+    class="bg-zinc-700 h-9 w-9 flex flex-row items-center justify-center pointer"
+  >
+    <i
+      *ngIf="type == 'REMOVE'; else addTemplate"
+      (click)="buttonClick.emit()"
+      class="fa-regular fa-xmark text-red-400 hover:text-red-500 text-xl"
+    ></i>
+  </div>
+</li>
+<ng-template #addTemplate> 
+  <i
+      (click)="buttonClick.emit()"
+      class="fa-regular fa-plus text-green-400 hover:text-green-500 text-xl"
+    ></i>
+</ng-template>
