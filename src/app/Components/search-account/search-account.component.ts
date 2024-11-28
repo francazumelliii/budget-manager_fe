@@ -67,8 +67,8 @@ export class SearchAccountComponent {
     const emails = this.accounts.map(a => {return a.email})
     this.roleService.postShareProject(emails, this.project.id)
       .subscribe((response: Project) =>{
-        this.modalService.close();
         this.success.emit(response)
+        this.modalService.close();
       },(error: any) => {
         console.error(error)
       })
