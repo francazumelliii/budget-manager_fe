@@ -1,0 +1,6 @@
+
+
+
+FIX filters,
+UPDATE equal / non equal division
+UPDATE child page with projects
