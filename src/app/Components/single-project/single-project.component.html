@@ -1,0 +1,184 @@
+<section class="container flex flex-col gap-y-5">
+  <div
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3"
+  >
+    <h1 class="dark:text-zinc-50 text-3xl font-bold">Expenses</h1>
+  </div>
+
+  <!-- INFO SECTION-->
+  <div class="flex flex-col items-start justify-center bg-zinc-900 p-2 gap-y-1">
+    <h1 class="text-zinc-50 font-bold text-2xl">{{ project.name }}</h1>
+    <p class="text-zinc-400 text-sm font-light w-full">
+      {{ project.description }}
+    </p>
+    <p class="text-zinc-400 text-sm font-light w-full">
+      {{ formatDate(project.createdAt, "yyyy-MM-dd", "en-US") }}
+    </p>
+    <p class="text-zinc-400 text-sm font-light w-full">
+      Created by {{ project.creator.name }} {{ project.creator.surname }}
+    </p>
+  </div>
+
+  <!-- AMOUNTS SECTION -->
+  <div class="grid grid-cols-4 justify-between items-center gap-x-3">
+    <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
+      <h1>My Share:</h1>
+      <div class="grid grid-cols-3 gap-x-2 items-center">
+        <span class="text-4xl col-span-2"
+          >{{ authService.userInformation.defaultCurrency
+          }}{{ mySplitAmount(project).toFixed(2) }}</span
+        >
+        <span class="text-2xl"
+          >({{ mySplitPercentage(project).toFixed(0) }}%)</span
+        >
+      </div>
+    </div>
+    <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
+      <h1>Spending Goal:</h1>
+      <span class="text-4xl"
+        >{{ authService.userInformation.defaultCurrency
+        }}{{ project.goalAmount.toFixed(2) }}</span
+      >
+    </div>
+    <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
+      <h1>Total Spent:</h1>
+      <span [ngClass]="domain" class="text-4xl"
+        >{{ authService.userInformation.defaultCurrency
+        }}{{ totalSpent.toFixed(2) }}</span
+      >
+    </div>
+    <div class="bg-zinc-900 p-2 h-24 flex flex-col items-center justify-center">
+      <app-chart
+      *ngIf="!overBudget"
+        [showXAxis]="true"
+        [view]="[100, 100]"
+        [showLegend]="true"
+        [showXAxis]="true"
+        [showLegend]="true"
+        [showYAxis]="true"
+        [showYAxisLabel]="true"
+        [data]="chartData"
+        type="pie-grid"
+      >
+      </app-chart>
+      <span *ngIf="overBudget" class="text-red-400 font-bold text-2xl">Over Budget</span>
+    </div>
+  </div>
+
+  <!--PARTICIPANTS SECTION-->
+  <div class="grid grid-cols-2 gap-x-3">
+    <div class="flex flex-col items-center bg-zinc-900 p-2">
+      <p class="text-zinc-50">Participants</p>
+      <div class="flex flex-wrap">
+        <ng-container *ngFor="let user of project.accounts; index as i">
+          <app-account-icon
+            *ngIf="i < 8"
+            [name]="user.name + ' ' + user.surname"
+            [size]="'w-9 h-9'"
+          ></app-account-icon>
+          <ng-container>
+            <div
+              *ngIf="i >= 8"
+              class="h-9 w-9 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 flex items-center justify-center pointer"
+            >
+              <p
+                class="text-3xl font-light text-zinc-600"
+                style="font-family: Arial, Helvetica, sans-serif"
+              >
+                ...
+              </p>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="bg-zinc-900 p-2 flex flex-col items-start justify-center">
+      <p>
+        Total Participants: <span>{{ project.accounts.length + 1 }}</span>
+      </p>
+      <p>
+        Type of split: <span>{{ splitType }}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- TABLE SECTION -->
+  <app-table [showPaginator]="false" [fullHeight]="false">
+    <thead>
+      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+        <th class="w-1/12"></th>
+        <th>DETAILS</th>
+        <th>AMOUNT</th>
+        <th>DIVIDED WITH</th>
+        <th>MY SHARE</th>
+        <th class="w-1/12">ADD PERSON</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of project.expenses; index as i"
+        class="outline outline-1 outline-zinc-950 text-sm bg-zinc-800 h-20"
+        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+      >
+        <td class="w-1/12 text-center">
+          <i class="fa-regular fa-credit-card"></i>
+        </td>
+
+        <td class="flex flex-col justify-center h-20 items-start">
+          <span class="dark:text-zinc-500 text-xs font-bold">{{
+            item.date
+          }}</span>
+          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+        </td>
+        <td class="dark:text-zinc-200 font-bold">
+          <span
+            >{{ authService.defaultCurrency }}
+            {{ item.amount.toFixed(2) }}</span
+          >
+        </td>
+        <td class="dark:text-zinc-200">
+          <div class="flex flex-row items-center">
+            <ng-container
+              *ngFor="let account of item.participants; let i = index"
+            >
+              <app-account-icon
+                *ngIf="i < 4"
+                [name]="account.name + ' ' + account.surname"
+                size="h-8 w-8"
+                class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
+              ></app-account-icon>
+            </ng-container>
+          </div>
+        </td>
+        <td>
+          <div class="flex flex-col items-center p-2">
+            <div class="grid grid-cols-3 gap-x-2 items-center">
+              <span class="text-4xl col-span-2 text-zinc-50"
+                >{{ authService.userInformation.defaultCurrency
+                }}{{ splitAmount(item).toFixed(2) }}</span
+              >
+              <span class="text-2xl"
+                >({{ splitPercentage(item).toFixed(0) }}%)</span
+              >
+            </div>
+          </div>
+        </td>
+
+        <td class="">
+          <div
+            (click)="openModal(item)"
+            class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+          >
+            <p
+              class="text-3xl font-light text-zinc-600"
+              style="font-family: Arial, Helvetica, sans-serif"
+            >
+              +
+            </p>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </app-table>
+</section>
