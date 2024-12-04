@@ -47,6 +47,7 @@ export class FormGroupService {
       password: new FormControl("", [Validators.required, Validators.minLength(8)]),
       repeatPassword: new FormControl("", [Validators.required, Validators.minLength(8)]),
       birthdate: new FormControl("", Validators.required),
+      currency: new FormControl("", Validators.required),
       image: new FormControl("")
     });
   }
@@ -56,7 +57,7 @@ export class FormGroupService {
       amount: new FormControl("", [Validators.required, Validators.min(0.1)]),
       description: new FormControl(""),
       frequency: new FormControl("", Validators.required),
-      date: new FormControl(this.today),
+      date: new FormControl(new Date()),
       category: new FormControl(""),
       image: new FormControl(""),
       project: new FormControl("")
