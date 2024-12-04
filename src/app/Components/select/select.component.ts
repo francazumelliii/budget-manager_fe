@@ -8,11 +8,18 @@ import { AbstractControl, FormControl, FormControlName, FormGroup } from '@angul
 })
 export class SelectComponent   
  {
+  @Input() noneAvailable: boolean = false;
   @Input() list: any[] = [];
+  @Input() selected!: any
   @Input() label: string = "Select an option..";
   @Input() control!: AbstractControl;
   @Output() change = new EventEmitter<any>()
   get ctrl() {
     return this.control as FormControl;
   }
+
+  ngOnInit(){
+    
+  }
+
 }
