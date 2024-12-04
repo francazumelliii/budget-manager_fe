@@ -13,6 +13,9 @@ import { formatDate } from '@angular/common';
 import { ExpenseComponent } from '../expense/expense.component';
 import { ModalService } from '../../Services/modal.service';
 import { ChoosePersonModalComponent } from '../choose-person-modal/choose-person-modal.component';
+import { FormGroup } from '@angular/forms';
+import { FormGroupService } from '../../Services/form-group.service';
+import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
 
 @Component({
   selector: 'app-single-project',
@@ -24,8 +27,11 @@ export class SingleProjectComponent {
     private route: ActivatedRoute,
     private roleService: RoleService,
     public authService: AuthenticationService,
-    private modalService: ModalService
-  ) {}
+    private modalService: ModalService,
+    private formService: FormGroupService
+  ) {
+    this.newExpenseForm = formService.newExpenseForm
+  }
 
   projectId!: number;
   project!: Project;
@@ -37,6 +43,8 @@ export class SingleProjectComponent {
   chartData: any[] = [];
   overBudget: boolean = false;
   splitType: 'EQUAL' | 'NON EQUAL' = 'EQUAL';
+  newExpenseForm!: FormGroup
+  error: string = "";
 
   ngOnInit() {
     this.route.params.subscribe((param) => {
@@ -51,6 +59,7 @@ export class SingleProjectComponent {
         this.project = response;
         this.calculateTotalSpent(response);
         this.valorizeChart(response);
+        this.splitType = this.checkEqualExpenses(response) ? "EQUAL" : "NON EQUAL"
       },
       (error: any) => {
         console.error(error), this.authService.redirect('projects');
@@ -99,6 +108,7 @@ export class SingleProjectComponent {
             (response: Project) => {
               this.project = response;
               this.modalService.close();
+              this.splitType = this.checkEqualExpenses(response) ? 'EQUAL' : 'NON EQUAL';
             },
             (error: any) => {
               console.error(error);
@@ -159,4 +169,63 @@ export class SingleProjectComponent {
       },
     ];
   }
+  goBack(){
+    this.authService.redirect("projects")
+  }
+
+
+  checkEqualExpenses(project: Project): boolean {
+    const totalParticipants = project.accounts.length + 1;
+    return project.expenses.every((exp :Expense) => exp.participants.length == totalParticipants)  
+
+  }
+
+  async openExpenseModal(){
+    this.newExpenseForm.get("project")?.setValue(this.project.id)
+    this.newExpenseForm.get("project")?.disable()
+    const componentRef = await this.modalService.open(
+      QuickaccessModalComponent,
+      { type: 'expense', responseError: this.error },
+      'NEW EXPENSE'
+    );
+    componentRef.instance.submit.subscribe((data: any) => this.addNewExpense());
+  }
+
+  
+  addNewExpense() {
+    const name = this.newExpenseForm.get('name')?.value;
+    const amount = this.newExpenseForm.get('amount')?.value;
+    const description = this.newExpenseForm.get('description')?.value;
+    const frequency = this.newExpenseForm.get('frequency')?.value;
+    const category = this.newExpenseForm.get('category')?.value;
+    const project = this.newExpenseForm.get('project')?.value;
+    const image = this.newExpenseForm.get('image')?.value;
+    const date = this.newExpenseForm.get('date')?.value;
+
+    const body: any = {
+      name: name,
+      amount: amount,
+      description: description,
+      frequency: frequency,
+      categoryId: category,
+      projectId: project,
+      image: image,
+      date: date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : formatDate(new Date(), "yyyy-MM-dd", "en-US")
+    };
+
+    this.roleService.postExpense(body).subscribe(
+      (response: Expense) => {
+        this.project.expenses.push(response)
+        this.modalService.close()
+        this.newExpenseForm.get("project")?.enable()
+      },
+      (error: any) => {
+        this.error = error
+        console.error('Error: ', error);
+      }
+    );
+  }
+  
+  
+  
 }
