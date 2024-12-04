@@ -1,4 +1,4 @@
-<li class="border rounded-lg border-zinc-400 flex flex-row justify-between p-2">
+<li class=" rounded-lg  flex flex-row justify-between p-2" [ngClass]="{'border-zinc-400 border' : borders}">
   <div class="flex flex-row justify-start">
     <app-account-icon
       [name]="account.name + ' ' + account.surname"
@@ -10,6 +10,7 @@
     </div>
   </div>
   <div
+    *ngIf="showButton"
     class="bg-zinc-700 h-9 w-9 flex flex-row items-center justify-center pointer"
   >
     <i

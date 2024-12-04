@@ -8,6 +8,9 @@ import { SimpleAccount } from '../../Interfaces/interface';
   styleUrl: './account-icon-complete.component.sass'
 })
 export class AccountIconCompleteComponent {
+  @Input() borders: boolean = true;
+  @Input() showButton: boolean = true;
+
   @Input() account!: any
   @Input() type: "REMOVE" | "ADD" = "REMOVE"
   @Output() buttonClick =  new EventEmitter<any>()
