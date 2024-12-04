@@ -10,6 +10,7 @@ export class ChoosePersonModalComponent {
   @Input() expense!: Expense;
   @Input() project!: Project;
   @Output() buttonClick = new EventEmitter<any>();
+  @Output() update = new EventEmitter<any>()
 
   sharedAccount: SimpleAccount[] = [];
   nonSharedAccount: SimpleAccount[] = [];
@@ -48,5 +49,6 @@ export class ChoosePersonModalComponent {
     this.sharedAccount.length >= 1 ? (this.error = '') : null;
     this.nonSharedAccount.splice(this.nonSharedAccount.indexOf(account), 1);
     this.sharedAccount.push(account);
+
   }
 }
