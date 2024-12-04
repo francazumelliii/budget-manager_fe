@@ -113,6 +113,7 @@ export class ExpenseComponent implements OnInit {
     const project = this.newExpenseForm.get('project')?.value;
     const image = this.newExpenseForm.get('image')?.value;
     const date = this.newExpenseForm.get('date')?.value;
+    
 
     const body = {
       name: name,
@@ -122,7 +123,7 @@ export class ExpenseComponent implements OnInit {
       categoryId: category,
       projectId: project,
       image: image,
-      date: formatDate(date, 'yyyy-MM-dd', 'en-US'),
+      date: date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : formatDate(new Date(), "yyyy-MM-dd", "en-US")
     };
 
     this.roleService.postExpense(body).subscribe(
