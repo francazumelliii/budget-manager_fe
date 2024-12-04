@@ -37,6 +37,7 @@
               ></i>
             </div>
             <div
+            (click)="allowUpdate()"
               class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
             >
               <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
@@ -56,6 +57,7 @@
         <th>SPENDING GOAL</th>
         <th>CREATOR</th>
         <th>PEOPLE</th>
+        <th *ngIf="_isUpdateAllowed" class="w-1/12"></th>
       </tr>
     </thead>
     <tbody>
@@ -122,6 +124,12 @@
                 +
               </p>
             </div>
+          </div>
+        </td>
+        <td *ngIf="_isUpdateAllowed" class="" >
+          <div class="flex flex-row justify-center gap-x-5 pointer">
+            <i (click) = "openEditModal(item)" class="fa-solid fa-pencil hover:text-white text-zinc-400"></i>
+            <i class="fa-solid fa-trash hover:text-white text-zinc-400" (click)="openDeleteModal(item.id)"></i>
           </div>
         </td>
       </tr>

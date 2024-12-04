@@ -9,6 +9,7 @@ import { PaginatorState } from 'primeng/paginator';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
 import { SearchAccountComponent } from '../search-account/search-account.component';
 import { AuthenticationService } from '../../Services/authentication.service';
+import { OptionModalComponent } from '../option-modal/option-modal.component';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class ProjectComponent {
   filterForm: FormGroup = this.formService.filterForm;
   emails: string[] = [];
   user: User = this.authService.userInformation
+  _isUpdateAllowed: boolean = false;
 
   filterList: any = [
     {id: 'name', name: 'NAME'},
@@ -49,6 +51,9 @@ export class ProjectComponent {
     this.getProjectPage(0, this.pagination.rows, 'name', 'ASC');
   }
   
+  allowUpdate(){
+    this._isUpdateAllowed = !this._isUpdateAllowed
+  }
 
   getProjectPage(
     page: number = 0,
@@ -165,5 +170,67 @@ export class ProjectComponent {
 
   redirect(id: number){
     this.authService.redirect(`projects/${id}`)
+  }
+  async openDeleteModal(id: number){
+    const modalRef = await this.modalService.open(OptionModalComponent, {
+      title: "Are you sure you want to delete this project?",
+      subtitle: "ATTENTION: All the project's expenses will be deleted!",
+      description: "The action is irreversible!",
+      confirmLabel: "CONFIRM",
+      cancelLable: "CANCEL"
+    }, "DELETE PROJECT")
+    modalRef.instance.confirm.subscribe((data: any) => {
+      this.deleteProject(id)
+    })
+    modalRef.instance.cancel.subscribe((data: any) => {
+      this.modalService.close()
+    })
+  }
+
+  async openEditModal(project: Project){
+    this.newProjectForm.get("name")?.setValue(project.name)
+    this.newProjectForm.get("description")?.setValue(project.description)
+    this.newProjectForm.get("goalAmount")?.setValue(project.goalAmount)
+    this.newProjectForm.get("image")?.setValue(project.image)
+
+    const modalRef = await this.modalService.open(QuickaccessModalComponent, {type:"trip", isUpdate: true}, "EDIT TRIP")
+    modalRef.instance.submit.subscribe((data: any) => {
+      this.patchProject(project.id);
+      this.modalService.close()
+    })
+    
+  }
+
+  patchProject(id: number){
+    const name = this.newProjectForm.get("name")?.value;
+    const description = this.newProjectForm.get("description")?.value;
+    const goalAmount = this.newProjectForm.get("goalAmount")?.value;
+    const image = this.newProjectForm.get("image")?.value;
+
+    const body: PostProjectRequest = {
+      name: name, 
+      description: description,
+      image: image,
+      goalAmount: goalAmount
+    }
+    this.roleService.patchProject(body,id ) 
+      .subscribe((response: Project) => {
+        const index = this.projectsList.findIndex(pro => pro.id === id)
+        this.projectsList.splice(index, 1)
+        this.projectsList.push(response)
+      },(error: any ) => {
+        console.error(error)
+      })
+  }
+
+  deleteProject(id: number){
+    this.roleService.deleteProject(id)
+      .subscribe((response: any) => {
+        const index = this.projectsList.findIndex(proj => proj.id == id)
+        this.projectsList.splice(index,1)
+        this.modalService.close()
+      },(error: any) => {
+        console.error(error)
+      })
   }
 }
