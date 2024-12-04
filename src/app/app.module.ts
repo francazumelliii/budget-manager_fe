@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationFormComponent } from './Components/authentication-form/authentication-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from './Components/sidebar/sidebar.component';
 import { AvatarComponent } from './Components/avatar/avatar.component';
 import { HomepageComponent } from './Components/homepage/homepage.component';
@@ -39,6 +39,8 @@ import { OptionModalComponent } from './Components/option-modal/option-modal.com
 import { SingleProjectComponent } from './Components/single-project/single-project.component';
 import { ChoosePersonModalComponent } from './Components/choose-person-modal/choose-person-modal.component';
 import { AccountIconCompleteComponent } from './Components/account-icon-complete/account-icon-complete.component';
+import { Interceptor } from './Security/interceptor.service';
+import { AccountModalComponent } from './Components/account-modal/account-modal.component';
 
 
 
@@ -72,6 +74,7 @@ import { AccountIconCompleteComponent } from './Components/account-icon-complete
     SingleProjectComponent,
     ChoosePersonModalComponent,
     AccountIconCompleteComponent,
+    AccountModalComponent,
 
 
 
@@ -92,6 +95,11 @@ import { AccountIconCompleteComponent } from './Components/account-icon-complete
 
 ],
   providers: [
+    /* {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }, */
     provideClientHydration(),
     MessageService
   ],
