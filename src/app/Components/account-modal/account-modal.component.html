@@ -1,0 +1,109 @@
+<section class="flex flex-col items-center justify-center">
+  <form
+    [formGroup]="form"
+    class="flex flex-col items-center justify-center w-full"
+  >
+    <div class="grid grid-cols-2 container gap-x-5 gap-y-3">
+      <!-- Name Input-->
+      <input
+        formControlName="name"
+        type="text"
+        id="last_name"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Name"
+        required
+        [ngClass]="{
+          'border-error': !form.get('name')?.valid && form.get('name')?.touched
+        }"
+        (blur)="form.get('name')?.markAsTouched()"
+      />
+      <!-- Surname Input -->
+      <input
+        formControlName="surname"
+        type="text"
+        id="last_name"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Surname"
+        required
+        [ngClass]="{
+          'border-error':
+            !form.get('surname')?.valid && form.get('surname')?.touched
+        }"
+        (blur)="form.get('surname')?.markAsTouched()"
+      />
+      <!-- Email Input -->
+      <input
+        formControlName="email"
+        type="text"
+        id="last_name"
+        class=" opacity-60 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Email"
+        required
+        [ngClass]="{
+          'border-error':
+            !form.get('surname')?.valid && form.get('surname')?.touched
+        }"
+        (blur)="form.get('email')?.markAsTouched()"
+      />
+      <!-- Birthdate Input -->
+      <input
+        formControlName="birthdate"
+        type="text"
+        id="last_name"
+        class=" opacity-60 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Birthdate"
+        required
+        [ngClass]="{
+          'border-error':
+            !form.get('birthdate')?.valid && form.get('birthdate')?.touched
+        }"
+        (blur)="form.get('birthdate')?.markAsTouched()"
+      />
+      <!-- Currency Select-->
+      <div class="flex flex-col items-start justify-center ps-1">
+        <p class="text-zinc-200 font-light w-full">Default Currency</p>
+      </div>
+      <app-select
+        [label]="'Choose your currency..'"
+        [list]="defaultCurrencies"
+        [control]="form.controls['currency']"
+        [selected]="authService.defaultCurrency"
+      ></app-select>
+
+      <!-- CSV Button-->
+      <div class="flex flex-col items-start justify-center ps-1">
+        <p class="text-zinc-200 font-light w-full">CSV Export</p>
+      </div>
+      <button class="p-3 rounded-lg bg-zinc-600  text-zinc-50 text-xs hover:bg-zinc-700">
+        DOWNLOAD
+      </button>
+
+        <!-- Confirm Button-->
+        <button
+        class=" mt-8 p-3 rounded-lg bg-gray-600 hover:bg-gray-700 text-zinc-50 text-xs col-span-2"
+        (click)="onSave.emit('')"
+      >
+        SAVE
+      </button>
+
+
+       <!-- Delete Button-->
+       <button
+       class=" text-zinc-400 text-xs  hover:text-gray-600 "
+       [ngClass]="{ 'col-span-2': authService.userInformation.parent === null }"
+       (click)="openConfirmModal('delete')"
+     >
+       DELETE ACCOUNT
+     </button>
+     <!-- Switch Account Button-->
+     <button
+       class="p-3 hover:text-gray-600 text-zinc-400 text-xs"
+       *ngIf="authService.userInformation.parent !== null"
+       (click)="onSwitch.emit('')"
+     >
+       SWITCH TO PARENT
+     </button>
+    </div>
+¯
+  </form>
+</section>
