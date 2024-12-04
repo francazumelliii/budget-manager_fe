@@ -1,6 +1,15 @@
 
 
 
-FIX filters,
-UPDATE equal / non equal division
+
 UPDATE child page with projects
+
+ACCOUNT page (to finish )
+
+EDIT EXPENSE / INCOMES / CHILDREN 
+DELETE children
+
+
+DOWNLOAD
+CURRENCY CHANGE
+FIX DELETE ACCOUNT
