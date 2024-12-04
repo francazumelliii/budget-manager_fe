@@ -26,6 +26,7 @@ export class QuickaccessModalComponent implements OnInit{
   @Output() submit = new EventEmitter();
   @Input() type: string = ""
   @Input() responseError!: string 
+  @Input() isUpdate: boolean = false;
   
   todayDate: any = new Date()
   categories: Category[] = []
@@ -37,6 +38,7 @@ export class QuickaccessModalComponent implements OnInit{
   _isBirthdateValid: boolean = false
   _arePasswordEquals: boolean = false
   error: string = "";
+  _isProjectSelected: boolean = false;
 
   frequencies:{id: any, name: string}[] = [
     {id: "S", name: "Single"},
@@ -121,5 +123,29 @@ checkPassword() {
   const repeatPassword = this.newChildForm.controls['repeatPassword'].value;
   this._arePasswordEquals = password === repeatPassword;
 }
+
+setFrequency() {
+  const projectControl = this.newExpenseForm.controls['project'];
+  const frequencyControl = this.newExpenseForm.controls['frequency'];
+  (console.log(projectControl.value))
+  
+  if (projectControl.value == null || projectControl.value == "") {
+
+    frequencyControl.setValue("x");
+    frequencyControl.enable(); 
+    projectControl.setValue(null);
+    this._isProjectSelected = false;
+  } else if (this.type === "expense" && projectControl.value != null ) {
+
+    frequencyControl.setValue("S");
+    frequencyControl.disable(); 
+    this._isProjectSelected = true; 
+  }
+}
+
+
+
+
+
 
 }

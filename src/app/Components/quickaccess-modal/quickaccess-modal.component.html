@@ -76,6 +76,7 @@
         <!-- category select -->
         <div class="w-full max-w-sm">
           <app-select
+
             label="Category"
             [list]="categories"
             [control]="newExpenseForm.controls['category']"
@@ -100,6 +101,8 @@
         <!-- project select -->
         <div class="w-full max-w-sm" *ngIf="projects.length > 0">
           <app-select
+            [noneAvailable]="true"
+            (change)="setFrequency()"
             label="Project (optional)"
             [list]="projects"
             [control]="newExpenseForm.controls['project']"
@@ -112,7 +115,7 @@
             (click)="submitForm('expense')"
             class="bg-fuchsia-700 w-full h-14 rounded-lg hover:bg-fuchsia-600 text-zinc-900"
           >
-            ADD EXPENSE
+          {{isUpdate ? 'UPDATE' : 'ADD'}} EXPENSE
           </button>
         </div>
       </div>
@@ -218,7 +221,7 @@
             (click)="submitForm('income')"
             class="bg-indigo-700 w-full rounded-lg h-14 hover:bg-indigo-600 text-zinc-900"
           >
-            ADD INCOME
+          {{isUpdate ? 'UPDATE' : 'ADD'}} INCOME
           </button>
         </div>
       </div>
@@ -296,7 +299,7 @@
             (click)="submitForm('trip')"
             class="bg-teal-700 w-full rounded-lg h-14 hover:bg-teal-600 text-zinc-900"
           >
-            CREATE TRIP
+            {{isUpdate ? 'UPDATE' : 'CREATE'}} TRIP
           </button>
         </div>
       </div>
@@ -438,7 +441,7 @@
             (click)="submitForm('child')"
             class="bg-red-700 w-full rounded-lg h-14 hover:bg-red-600 text-zinc-900"
           >
-            ADD CHILD
+          {{isUpdate ? 'UPDATE' : 'ADD'}} CHILD
           </button>
         </div>
       </div>
