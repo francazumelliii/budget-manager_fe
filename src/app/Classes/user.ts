@@ -4,9 +4,11 @@ import { DatabaseService } from '../Services/database.service';
 import { Observable, of } from 'rxjs';
 import {
   Expense,
+  Friend,
   Income,
   MonthlyStats,
   Page,
+  PatchAccountRequest,
   PatchSharedRequest,
   PostChildRequest,
   PostExpenseRequest,
@@ -124,4 +126,20 @@ export class User implements Delegate {
   patchShared(obj: PatchSharedRequest, projectId: number, expenseId: number): Observable<Project>{
     return this.dbService.patch(`/account/me/projects/${projectId}/expense/${expenseId}`, obj)
   }
+  getFriends(): Observable<Friend[]>{
+    return this.dbService.get(`/account/me/friends`)
+  }
+  patchAccount(body: PatchAccountRequest): Observable<User>{
+    return this.dbService.patch("/account/me",body)
+  } 
+  deleteAccount():Observable<any>{
+    return this.dbService.delete("/account/me")
+  }
+  deleteProject(id: number): Observable<any>{
+    return this.dbService.delete(`/account/me/projects/${id}`)
+  }
+  patchProject(body: PostProjectRequest, id: number): Observable<Project>{
+    return this.dbService.patch(`/account/me/projects/${id}`, body)
+  }
+
 }

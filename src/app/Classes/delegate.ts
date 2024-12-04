@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Expense, Income, MonthlyStats, Page, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, SimpleAccount, User, WeeklyStats } from "../Interfaces/interface";
+import { Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, SimpleAccount, User, WeeklyStats } from "../Interfaces/interface";
 
 export interface Delegate{
     lastMonthExpenses(limit: number | null): Observable<Expense[]>;
@@ -43,4 +43,15 @@ export interface Delegate{
     getProject(id: number): Observable<Project>
     
     patchShared(obj: PatchSharedRequest, projectId: number ,expenseId: number): Observable<Project>
+    
+    getFriends():Observable<Friend[]>
+
+    patchAccount(body: PatchAccountRequest): Observable<any>
+
+    deleteAccount(): Observable<any>
+
+    deleteProject(id: number): Observable<any>
+
+    patchProject(body: PostProjectRequest, id: number): Observable<Project>
+
 }

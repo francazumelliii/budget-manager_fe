@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Delegate } from "./delegate";
 import { DatabaseService } from "../Services/database.service";
 import { Observable } from "rxjs";
-import { Expense, Income, MonthlyStats, Page, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
+import { Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
 import { User } from "./user";
 import { start } from "node:repl";
 
@@ -81,5 +81,20 @@ export class Parent implements Delegate{
     }
     patchShared(obj: PatchSharedRequest, projectId: number, expenseId: number): Observable<Project>{
         return this.dbService.patch(`/account/me/projects/${projectId}/expense/${expenseId}`, obj)
-      }
+    }
+    getFriends(): Observable<Friend[]>{
+        return this.dbService.get(`/account/me/friends`)
+    }
+    patchAccount(body: PatchAccountRequest): Observable<any>{
+        return this.dbService.patch("/account/me",body)
+    }
+    deleteAccount():Observable<any>{
+        return this.dbService.delete("/account/me")
+    }
+    deleteProject(id: number): Observable<any>{
+        return this.dbService.delete(`/account/me/projects/${id}`)
+    }
+    patchProject(body: PostProjectRequest, id: number): Observable<Project>{
+        return this.dbService.patch(`/account/me/projects/${id}`, body)
+    }
 }
