@@ -11,7 +11,7 @@
         (click)="switchView()"
       ></i>
       <p class="text-zinc-400 text-left py-2 font-bold w-full">
-        Recent Expenses
+        {{title}}
       </p>
 
       <i
@@ -58,7 +58,7 @@
       [ngClass]="{ 'fa-caret-down': !isOpened, 'fa-caret-up': 'isOpened' }"
       (click)="switchView()"
     ></i>
-    <p class="text-zinc-400 text-left py-2 font-bold w-full">Recent Incomes</p>
+    <p class="text-zinc-400 text-left py-2 font-bold w-full">{{title}}</p>
 
     <i
         class="fa-solid fa-up-right-and-down-left-from-center text-zinc-400 pointer hover:text-zinc-200"

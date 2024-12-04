@@ -4,37 +4,34 @@ import { Expense, Income } from '../../Interfaces/interface';
 @Component({
   selector: 'app-dynamic-list',
   templateUrl: './dynamic-list.component.html',
-  styleUrl: './dynamic-list.component.sass'
+  styleUrl: './dynamic-list.component.sass',
 })
-export class DynamicListComponent implements OnInit{
-
+export class DynamicListComponent implements OnInit {
+  @Input() title: string = 'title';
   @Output() expand = new EventEmitter<'EXPENSE' | 'INCOME'>();
   @Output() toggle = new EventEmitter<boolean>();
-  @Input() list:any = []
-  @Input() defaultCurrency:any = "€"
+  @Input() list: any = [];
+  @Input() defaultCurrency: any = '€';
   @Input() defaultOpened: boolean = true;
-  @Input() template: "INCOME" | "EXPENSE" = "EXPENSE"
+  @Input() template: 'INCOME' | 'EXPENSE' = 'EXPENSE';
   isOpened: boolean = false;
 
-
   ngOnInit(): void {
-    this.isOpened = this.defaultOpened
+    this.isOpened = this.defaultOpened;
   }
 
   frequency: any = {
-    "S": "Single",
-    "W": "Weekly",
-    "M": "Monthly",
-    "Y": "Annual"
-  }
+    S: 'Single',
+    W: 'Weekly',
+    M: 'Monthly',
+    Y: 'Annual',
+  };
 
-  emitClickEvent(type: "EXPENSE" | "INCOME"){
+  emitClickEvent(type: 'EXPENSE' | 'INCOME') {
     this.expand.emit(type);
-    console.log("EMIT CLICK")
+    console.log('EMIT CLICK');
   }
-  switchView(){
-    this.isOpened = !this.isOpened
+  switchView() {
+    this.isOpened = !this.isOpened;
   }
-
-
 }
