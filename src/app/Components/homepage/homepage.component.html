@@ -2,6 +2,7 @@
   <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-4 w-full">
     <div class="w-full">
       <app-dynamic-list
+      [title]="'This Month Expenses'"
         [list]="recentExpensesList"
         template="EXPENSE"
         [defaultCurrency]="authService.defaultCurrency"
@@ -10,6 +11,7 @@
     </div>
     <div class="w-full">
       <app-dynamic-list
+      [title]="'This Month Incomes'"
         [list]="recentIncomesList"
         template="INCOME"
         [defaultCurrency]="authService.defaultCurrency"

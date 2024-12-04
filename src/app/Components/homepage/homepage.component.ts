@@ -130,7 +130,7 @@ export class HomepageComponent implements OnInit {
       categoryId: category,
       projectId: project,
       image: image,
-      date: formatDate(date, 'yyyy-MM-dd', 'en-US'),
+      date: date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : formatDate(new Date(), "yyyy-MM-dd", "en-US")
     };
 
     this.roleService.postExpense(body).subscribe(
@@ -167,7 +167,7 @@ export class HomepageComponent implements OnInit {
       name: name,
       description: description,
       amount: amount,
-      date: formatDate(date, 'yyyy-MM-dd', 'en-US'),
+      date: date ? formatDate(date, 'yyyy-MM-dd', 'en-US') : formatDate(new Date(), "yyyy-MM-dd", "en-US"),
       frequency: frequency,
       image: image,
     };
