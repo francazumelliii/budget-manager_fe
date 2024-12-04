@@ -5,9 +5,11 @@ import { Parent } from '../Classes/parent';
 import { User } from '../Classes/user';
 import {
   Expense,
+  Friend,
   Income,
   MonthlyStats,
   Page,
+  PatchAccountRequest,
   PatchSharedRequest,
   PostChildRequest,
   PostExpenseRequest,
@@ -123,5 +125,20 @@ export class RoleService {
   }
   patchShared(obj: PatchSharedRequest, projectId: number ,expenseId: number): Observable<Project>{
     return this.delegate.patchShared(obj, projectId, expenseId)
+  }
+  getFriends(): Observable<Friend[]>{
+    return this.delegate.getFriends()
+  }
+  patchAccount(body: PatchAccountRequest) :Observable<any>{
+    return this.delegate.patchAccount(body)
+  }
+  deleteAccount():Observable<any>{
+    return this.delegate.deleteAccount()
+  }
+  deleteProject(id: number): Observable<any>{
+    return this.delegate.deleteProject(id)
+  }
+  patchProject(body: PostProjectRequest, id: number){
+    return this.delegate.patchProject(body, id)
   }
 }
