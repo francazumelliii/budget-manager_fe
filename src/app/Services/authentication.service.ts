@@ -1,9 +1,9 @@
 import { formatDate, getLocaleDateFormat } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DeferBlockBehavior } from '@angular/core/testing';
 import { AuthResponse, User } from '../Interfaces/interface';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -100,4 +100,39 @@ export class AuthenticationService {
 
     this.router.navigate([`/${url}`]);
   }
+
+  validateToken() {
+    console.log('AuthenticationService - Validating token...');
+  
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      console.log('AuthenticationService - No token found');
+      return of(false);  
+    }
+    
+    const headers: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+  
+    return this.http.get(`${this.serverUrl}/api/v1/auth/validate`, { headers })
+      .pipe(
+        map((response: any) => {
+          console.log('AuthenticationService - Token validation response:', response);
+          if (response && response.isValid) {
+            console.log('AuthenticationService - Token is valid');
+            return true;
+          } else {
+            console.log('AuthenticationService - Token is invalid');
+            return false;
+          }
+        }),
+        catchError((error) => {
+          console.error('AuthenticationService - Error during token validation', error);
+          return of(false);  
+        })
+      );
+  }
+  
+  
 }
