@@ -1,4 +1,6 @@
 import { Timestamp } from "rxjs"
+import { ProjectComponent } from '../Components/project/project.component';
+import { StringOrNumberOrDate } from "@swimlane/ngx-charts";
 
 export interface Interface {
 }
@@ -166,4 +168,19 @@ export interface LinearChart{
         name: string,
         value: any
     }[]
+
+}
+
+export interface Friend{
+    name: string, 
+    surname: string, 
+    email: string,
+    project: Project,
+    addedAt: string
+}
+
+export interface PatchAccountRequest{
+    name: string,
+    surname: string,
+    defaultCurrency: string
 }
