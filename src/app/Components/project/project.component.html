@@ -37,7 +37,7 @@
               ></i>
             </div>
             <div
-            (click)="allowUpdate()"
+              (click)="allowUpdate()"
               class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
             >
               <i class="fa-solid fa-ellipsis text-teal-400 text-xl"></i>
@@ -48,7 +48,11 @@
     </form>
   </div>
 
-  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
+  <app-table
+    (pageChange)="handlePageChange($event)"
+    [pagination]="pagination"
+ 
+  >
     <thead>
       <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
         <th class="w-1/12"></th>
@@ -70,14 +74,13 @@
           <i class="fa-regular fa-credit-card"></i>
         </td>
 
-        <td
-          class="flex flex-col justify-center items-start h-full pointer"
-          (click)="redirect(item.id)"
-        >
-          <span class="dark:text-zinc-500 text-xs font-bold">{{
-            formatDate(item.createdAt, "yyyy-MM-dd", "en-US")
-          }}</span>
-          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+        <td class="" (click)="redirect(item.id)">
+          <div class="flex flex-col justify-center items-start h-full pointer">
+            <span class="dark:text-zinc-500 text-xs font-bold">{{
+              item.createdAt | date : "dd-MMM-yyyy"
+            }}</span>
+            <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+          </div>
         </td>
         <td
           class="dark:text-zinc-200 font-bold pointer"
@@ -126,10 +129,16 @@
             </div>
           </div>
         </td>
-        <td *ngIf="_isUpdateAllowed" class="" >
+        <td *ngIf="_isUpdateAllowed" class="">
           <div class="flex flex-row justify-center gap-x-5 pointer">
-            <i (click) = "openEditModal(item)" class="fa-solid fa-pencil hover:text-white text-zinc-400"></i>
-            <i class="fa-solid fa-trash hover:text-white text-zinc-400" (click)="openDeleteModal(item.id)"></i>
+            <i
+              (click)="openEditModal(item)"
+              class="fa-solid fa-pencil hover:text-white text-zinc-400"
+            ></i>
+            <i
+              class="fa-solid fa-trash hover:text-white text-zinc-400"
+              (click)="openDeleteModal(item.id)"
+            ></i>
           </div>
         </td>
       </tr>
