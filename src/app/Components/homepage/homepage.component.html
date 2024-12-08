@@ -76,12 +76,11 @@
         <small
           *ngIf="
             percentage >= 100 && monthlyStats[0].value > 0;
-            else totalValues
           "
           class="text-red-400 absolute bottom-0 text-center w-full"
-          >Burning through more than we're bringing in</small
+          >Out Of Budget :(</small
         >
-        <ng-template #totalValues>
+
           <div class="flex flex-row justify-between items-center w-full px-5">
             <small class="text-zinc-500 text-light"
               >Expenses: {{authService.defaultCurrency}} {{ monthlyStats[0].value.toFixed(2) }}</small
@@ -90,7 +89,7 @@
               >Incomes: {{authService.defaultCurrency}} {{ totalIncomes.toFixed(2) }}</small
             >
           </div>
-        </ng-template>
+
       </div>
     </div>
 
