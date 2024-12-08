@@ -120,8 +120,12 @@ export class RoleService {
   deleteExpense(id: number):Observable<any>{
     return this.delegate.deleteExpense(id)
   }
-  getProject(id: number): Observable<Project>{
-    return this.delegate.getProject(id);
+  getProject(childId: number | null , id: number): Observable<Project>{
+    if(childId === null){
+      return this.delegate.getProject(id);
+    }else{
+      return this.delegate.childProjectById(childId,id)
+    }
   }
   patchShared(obj: PatchSharedRequest, projectId: number ,expenseId: number): Observable<Project>{
     return this.delegate.patchShared(obj, projectId, expenseId)
@@ -138,7 +142,19 @@ export class RoleService {
   deleteProject(id: number): Observable<any>{
     return this.delegate.deleteProject(id)
   }
-  patchProject(body: PostProjectRequest, id: number){
+  patchProject(body: PostProjectRequest, id: number): Observable<Project>{
     return this.delegate.patchProject(body, id)
+  }
+  patchExpense(body: PostExpenseRequest, id: number): Observable<Expense>{
+    return this.delegate.patchExpense(body, id)
+  }
+  patchIncome(body: PostIncomeRequest, id: number): Observable<Income>{
+    return this.delegate.patchIncome(body, id)
+  }
+  deleteIncome(id: number): Observable<any>{
+    return this.delegate.deleteIncome(id)
+  }
+  allChildProjects(id: number): Observable<Project[]>{
+    return this.delegate.allChildProjects(id)
   }
 }
