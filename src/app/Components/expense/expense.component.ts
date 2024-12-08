@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RoleService } from '../../Services/role.service';
-import { Expense, Page, Pagination } from '../../Interfaces/interface';
+import { Expense, Page, Pagination, PostExpenseRequest } from '../../Interfaces/interface';
 import { PaginatorState } from 'primeng/paginator';
 import { FormGroupService } from '../../Services/form-group.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -140,6 +140,52 @@ export class ExpenseComponent implements OnInit {
         this.modalService.updateChildInputs({ responseError: this.error });
       }
     );
+  }
+  async openEditModal(expense: Expense){
+    this.newExpenseForm.get("name")?.setValue(expense.name)
+    this.newExpenseForm.get("amount")?.setValue(expense.amount)
+    this.newExpenseForm.get("description")?.setValue(expense.description)
+    this.newExpenseForm.get("frequency")?.setValue(expense.frequency)
+    this.newExpenseForm.get("category")?.setValue(expense.category.id)
+    this.newExpenseForm.get("project")?.setValue(expense.projectId ?? '')
+    this.newExpenseForm.get("date")?.setValue(expense.date)
+    this.newExpenseForm.get("image")?.setValue(expense.image)
+    const modalRef = await this.modalService.open(QuickaccessModalComponent, {type: "expense", isUpdate: true}, "UPDATE EXPENSE")
+    modalRef.instance.submit.subscribe((data: any) => {
+      this.patchExpense(expense.id)
+    })
+
+  }
+  patchExpense(id: number){
+    const name = this.newExpenseForm.get("name")?.value;
+    const description = this.newExpenseForm.get("description")?.value;
+    const amount = this.newExpenseForm.get("amount")?.value;
+    const frequency = this.newExpenseForm.get("frequency")?.value;
+    const category = this.newExpenseForm.get("category")?.value;
+    const project = this.newExpenseForm.get("project")?.value;
+    const image = this.newExpenseForm.get("image")?.value;
+    const date = formatDate(this.newExpenseForm.get("date")?.value, "yyyy-MM-dd", "en-US")
+
+    const body: PostExpenseRequest = {
+      name: name,
+      description: description,
+      amount: amount, 
+      frequency: frequency,
+      categoryId: category,
+      projectId: project >= 0 ? project : null,
+      date: date,
+      image: image
+    }
+    this.roleService.patchExpense(body, id)
+      .subscribe((response: Expense) => {
+        const index = this.expensesList.findIndex((exp: Expense) => exp.id === id)
+        this.expensesList.splice(index,1)
+        this.expensesList.push(response)
+        this.modalService.close();
+
+      },(error: any) => {
+        console.error(error)
+      })
   }
 
   showFilterSelect() {

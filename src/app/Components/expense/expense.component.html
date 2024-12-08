@@ -90,7 +90,7 @@
           <span>{{authService.defaultCurrency}} {{ item.amount.toFixed(2) }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <span [ngClass]="{ 'text-red-300': isExpired(item.date) }">{{
+          <span [ngClass]="{ 'text-blue-200': !isExpired(item.date)}">{{
             item.date | date: "dd MMM yyyy"
           }}</span>
         </td>
@@ -99,7 +99,7 @@
         </td>
         <td *ngIf="_isUpdateAllowed" class="" >
           <div class="flex flex-row justify-center gap-x-5 pointer">
-            <i class="fa-solid fa-pencil hover:text-white text-zinc-400"></i>
+            <i class="fa-solid fa-pencil hover:text-white text-zinc-400" (click)="openEditModal(item)"></i>
             <i class="fa-solid fa-trash hover:text-white text-zinc-400" (click)="openDeleteModal(item.id)"></i>
           </div>
         </td>
