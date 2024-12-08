@@ -11,7 +11,7 @@ import { Pagination } from '../../Interfaces/interface';
 export class TableComponent {
   @Input() showPaginator: boolean = true;
   @Input() fullHeight: boolean = true;
-  @Input() height: string = "";
+  @Input() height: string = "85vh";
   @Output() pageChange = new EventEmitter<PaginatorState>()
   @Input() pagination: Pagination = {
     rows: 10,

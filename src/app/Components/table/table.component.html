@@ -1,4 +1,4 @@
-<section class="max-h-[85vh] flex flex-col overflow-hidden ">
+<section class="flex flex-col overflow-hidden" [ngStyle]="{ 'max-height': height }">
     <div class="flex-1 overflow-y-auto flex flex-col">
       <table class="table-fixed dark:text-zinc-500 w-full border-separate border-spacing-0 " [ngClass]="{'h-screen': fullHeight}" [ngStyle]="{ 'min-height': height }">
         <ng-content></ng-content>
