@@ -36,12 +36,14 @@
                 }} text-indigo-400 text-xl"
               ></i>
             </div>
-            <div
-              (click)="allowUpdate()"
-              class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
-            >
-              <i class="fa-solid fa-ellipsis text-indigo-400 text-xl"></i>
-            </div>
+            <ng-container *ngIf="childId === null">
+              <div
+                (click)="allowUpdate()"
+                class="flex items-center justify-center rounded-md border border-zinc-500 w-9 h-9 bg-zinc-800 pointer hover:bg-zinc-900"
+              >
+                <i class="fa-solid fa-ellipsis text-indigo-400 text-xl"></i>
+              </div>
+            </ng-container>
           </ng-container>
         </div>
       </div>
@@ -72,7 +74,7 @@
 
         <td class="flex flex-col justify-center items-start h-full">
           <span class="dark:text-zinc-500 text-xs font-bold">{{
-            item.date | date: "dd MMM yyyy"
+            item.date | date : "dd MMM yyyy"
           }}</span>
           <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
         </td>
@@ -84,20 +86,29 @@
           </div>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <span>{{authService.defaultCurrency}} {{ item.amount.toFixed(2) }}</span>
+          <span
+            >{{ authService.defaultCurrency }}
+            {{ item.amount.toFixed(2) }}</span
+          >
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <span [ngClass]="{ 'text-blue-200': !isExpired(item.date) }">{{
-            item.date | date: "dd MMM yyyy"
+            item.date | date : "dd MMM yyyy"
           }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
         </td>
-        <td *ngIf="_isUpdateAllowed" class="" >
+        <td *ngIf="_isUpdateAllowed" class="">
           <div class="flex flex-row justify-center gap-x-5 pointer">
-            <i class="fa-solid fa-pencil hover:text-white text-zinc-400" (click)="openEditModal(item)"></i>
-            <i class="fa-solid fa-trash hover:text-white text-zinc-400" (click)="openDeleteModal(item.id)"></i>
+            <i
+              class="fa-solid fa-pencil hover:text-white text-zinc-400"
+              (click)="openEditModal(item)"
+            ></i>
+            <i
+              class="fa-solid fa-trash hover:text-white text-zinc-400"
+              (click)="openDeleteModal(item.id)"
+            ></i>
           </div>
         </td>
       </tr>

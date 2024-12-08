@@ -184,6 +184,8 @@ export class SingleProjectComponent {
   async openExpenseModal(){
     this.newExpenseForm.get("project")?.setValue(this.project.id)
     this.newExpenseForm.get("project")?.disable()
+    this.newExpenseForm.get("frequency")?.setValue("S")
+    this.newExpenseForm.get("frequency")?.disable()
     const componentRef = await this.modalService.open(
       QuickaccessModalComponent,
       { type: 'expense', responseError: this.error },
@@ -219,6 +221,9 @@ export class SingleProjectComponent {
         this.project.expenses.push(response)
         this.modalService.close()
         this.newExpenseForm.get("project")?.enable()
+        this.newExpenseForm.get("project")?.setValue("")
+        this.newExpenseForm.get("frequency")?.enable()
+        this.newExpenseForm.get("frequency")?.setValue("")
       },
       (error: any) => {
         this.error = error

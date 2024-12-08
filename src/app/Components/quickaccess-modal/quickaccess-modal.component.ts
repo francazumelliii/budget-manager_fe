@@ -66,6 +66,16 @@ export class QuickaccessModalComponent implements OnInit{
     this.newChildForm = this.formService.signupForm
 
   }
+  resetForms(){
+    this.newExpenseForm.reset();
+    this.newExpenseForm.get("frequency")?.setValue("")
+    this.newExpenseForm.get("project")?.setValue("")
+    this.newExpenseForm.get("category")?.setValue("")
+    this.newIncomeForm.reset();
+    this.newIncomeForm.get("frequency")?.setValue("")
+    this.newTripForm.reset();
+    this.newChildForm.reset();
+  }
 
   getAllCategories(){
     this.dbService.get("/categories/all")
@@ -127,24 +137,26 @@ checkPassword() {
 setFrequency() {
   const projectControl = this.newExpenseForm.controls['project'];
   const frequencyControl = this.newExpenseForm.controls['frequency'];
-  (console.log(projectControl.value))
+  (console.log(projectControl.value, frequencyControl.value))
   
-  if (projectControl.value == null || projectControl.value == "") {
-
-    frequencyControl.setValue("x");
-    frequencyControl.enable(); 
-    projectControl.setValue(null);
-    this._isProjectSelected = false;
-  } else if (this.type === "expense" && projectControl.value != null ) {
+   if (this.type === "expense" && projectControl.value !== "" ) {
 
     frequencyControl.setValue("S");
     frequencyControl.disable(); 
     this._isProjectSelected = true; 
+  }else{
+    frequencyControl.enable();   
+    console.log("ENABLED FREQUENCY") 
+    frequencyControl.setValue("");
+    projectControl.setValue("");
+    this._isProjectSelected = false;
   }
 }
 
 
-
+ngOnDestroy(): void {
+  this.resetForms()
+}
 
 
 
