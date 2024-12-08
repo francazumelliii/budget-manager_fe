@@ -4,16 +4,21 @@
     class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
   >
     <h1 class="dark:text-zinc-50 text-3xl font-bold">Your Account</h1>
-    <span (click)="openSettingsModal()" class="cursor-pointer text-zinc-500 hover:text-zinc-400"
-        ><i class="fa-solid fa-gear text-3xl"></i> </span
-      > 
+    <span
+      (click)="openSettingsModal()"
+      class="cursor-pointer text-zinc-500 hover:text-zinc-400"
+      ><i class="fa-solid fa-gear text-3xl"></i>
+    </span>
   </div>
 
   <!-- Main Section -->
   <div class="p-4 grid grid-cols-2 gap-x-4 gap-y-2">
-    <!-- Child Info Section -->
-    <div class="flex flex-row items-center gap-4">
-      <app-avatar [name]="user.name + ' ' + user.surname"></app-avatar>
+    <!-- User Info Section -->
+    <div class="flex flex-row items-center gap-4 rounded-lg bg-zinc-900 py-2">
+      <div class="flex flex-col justify-center items-center gap-y-3 ">
+        <app-avatar [name]="user.name + ' ' + user.surname"></app-avatar>
+        <i class="fa-solid fa-pencil text-zinc-600 rounded-md pointer border border-zinc-600 p-1 hover:bg-zinc-800 hover:text-zinc-500" (click)="openAvatarModal()"></i>
+      </div>
       <div class="flex flex-col">
         <p class="font-bold text-xl">{{ user.name }} {{ user.surname }}</p>
         <p class="font-normal text-md text-zinc-400">{{ user.email }}</p>
@@ -21,7 +26,9 @@
     </div>
 
     <!-- Chart Section -->
-    <div class="relative flex flex-col items-center">
+    <div
+      class="relative flex flex-col items-center rounded-lg bg-zinc-900 py-2"
+    >
       <app-chart
         type="gauge"
         [data]="monthlyStats"
@@ -34,27 +41,48 @@
       <small
         *ngIf="percentage >= 100 && monthlyStats[0].value > 0"
         class="text-red-400 absolute bottom-0 text-center w-full"
-        >Burning through more than we're bringing in</small
+        >Out Of Budget :(</small
       >
+      <div class="flex flex-row justify-between items-center w-full px-5">
+        <small class="text-zinc-500 text-light"
+          >Expenses: {{ authService.defaultCurrency }}
+          {{ monthlyStats[0].value.toFixed(2) }}</small
+        >
+        <small class="text-zinc-500 text-light"
+          >Incomes: {{ authService.defaultCurrency }}
+          {{ totalIncomes.toFixed(2) }}</small
+        >
+      </div>
     </div>
   </div>
 
-  <div class="flex flex-col items-center justify-center gap-y-4">
-    <h1 class="text-zinc-50 font-light text-xl">Your Friends</h1>
-    <ul class="flex flex-col gap-3 w-full">
-      <div class="grid grid-cols-2 place-items-center px-4 rounded-lg border" *ngFor="let account of friends">
-        <div class="col-auto w-full">
-          <app-account-icon-complete
-            [borders] = "false"
-            [account]="account"
-            [showButton]="false"
-          ></app-account-icon-complete>
+  <div class="px-4 flex flex-col justify-center items-center w-full">
+    <div
+      class="flex flex-col items-center w-full justify-center gap-y-4 bg-zinc-900 rounded-lg p-4"
+    >
+      <h1 class="text-zinc-50 font-light text-xl">My Friends</h1>
+      <ul class="flex flex-col gap-3 w-full">
+        <div
+          class="grid grid-cols-2 place-items-center px-4 rounded-lg border border-zinc-800"
+          *ngFor="let account of friends"
+        >
+          <div class="col-auto w-full">
+            <app-account-icon-complete
+              [borders]="false"
+              [account]="account"
+              [showButton]="false"
+            ></app-account-icon-complete>
+          </div>
+          <div class="col-auto w-full grid grid-cols-2">
+            <p class="text-zinc-100 text-md text-right col-auto font-light">
+              {{ account.project.name }}
+            </p>
+            <p class="text-zinc-400 text-md text-right col-auto font-light">
+              Since {{ account.addedAt | date : "dd MMM yyyy" }}
+            </p>
+          </div>
         </div>
-        <div class="col-auto w-full grid grid-cols-2">
-          <p class="text-zinc-100 text-md text-right col-auto font-light">{{account.project.name}}</p>
-          <p class="text-zinc-400 text-md text-right col-auto font-light">Since {{account.addedAt | date: "dd MMM yyyy"}}</p>
-        </div>
-      </div>
-    </ul>
+      </ul>
+    </div>
   </div>
 </section>
