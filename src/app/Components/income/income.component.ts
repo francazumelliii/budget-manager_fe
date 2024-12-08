@@ -8,6 +8,7 @@ import { FormGroupService } from '../../Services/form-group.service';
 import { ModalService } from '../../Services/modal.service';
 import { FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../../Services/authentication.service';
+import { OptionModalComponent } from '../option-modal/option-modal.component';
 
 @Component({
   selector: 'app-income',
@@ -26,6 +27,7 @@ export class IncomeComponent {
   incomesList: Income[] = [];
   _isSelectVisible: boolean = false;
   filterForm: FormGroup = this.formService.filterForm;
+  _isUpdateAllowed: boolean = false; 
 
   filterList: any = [
     {id: 'date', name: 'DATE'},
@@ -82,6 +84,34 @@ export class IncomeComponent {
       );
   }
 
+  allowUpdate(){
+    this._isUpdateAllowed = !this._isUpdateAllowed;
+  }
+
+  async openDeleteModal(id: number){
+    const modalRef = await this.modalService.open(OptionModalComponent, {
+      title: "Are you sure you want to delete the income? ",
+      subtitle: "the action is irreversible",
+      description: ""
+    }, "DELETE INCOME")
+    modalRef.instance.confirm.subscribe((data: any) => {
+      this.deleteIncome(id)
+    })
+    modalRef.instance.cancel.subscribe((data: any) => this.modalService.close())
+  }
+
+
+  deleteIncome(id: number){
+    this.roleService.deleteIncome(id)
+      .subscribe((response: any) => {
+        const index = this.incomesList.findIndex((inc: Income) => inc.id === id)
+        this.incomesList.splice(index,1)
+        this.modalService.close()
+      }, (error: any)=> {
+        console.error(error)
+      })
+  }
+
   handlePageChange($event: PaginatorState): void {
     if ($event && $event.page !== undefined) {
       const page = $event.page;
@@ -132,6 +162,51 @@ export class IncomeComponent {
       }
     );
   }
+
+  async openEditModal(income: Income){
+
+    this.newIncomeForm.get("name")?.setValue(income.name)
+    this.newIncomeForm.get("description")?.setValue(income.description)
+    this.newIncomeForm.get("amount")?.setValue(income.amount)
+    this.newIncomeForm.get("image")?.setValue(income.image)
+    this.newIncomeForm.get("frequency")?.setValue(income.frequency)
+    this.newIncomeForm.get("date")?.setValue(income.date)
+
+    const modalRef = await this.modalService.open(QuickaccessModalComponent, {type:"income", isUpdate: true}, "UPDATE INCOME")
+    modalRef.instance.submit.subscribe((data :any) => {
+      this.patchIncome(income.id)
+    })
+
+  }
+
+  patchIncome(id: number){
+    const name = this.newIncomeForm.get("name")?.value;
+    const description = this.newIncomeForm.get("description")?.value;
+    const amount = this.newIncomeForm.get("amount")?.value;
+    const image = this.newIncomeForm.get("image")?.value;
+    const frequency = this.newIncomeForm.get("frequency")?.value;
+    const date = formatDate(this.newIncomeForm.get("date")?.value, "yyyy-MM-dd", "en-US");
+
+    const body: PostIncomeRequest = {
+      name: name,
+      description: description,
+      amount: amount,
+      image: image,
+      date: date, 
+      frequency: frequency
+    }
+    this.roleService.patchIncome(body, id)
+      .subscribe((response: Income) => {
+        const index = this.incomesList.findIndex((income: Income) => income.id === id)
+        this.incomesList.slice(index,1)
+        this.incomesList.push(response)
+        this.modalService.close()
+      },(error: any)=> {
+        console.error(error)
+      })
+
+  }
+
 
   showFilterSelect() {
     this._isSelectVisible = !this._isSelectVisible;
