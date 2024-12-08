@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   Expense,
@@ -32,7 +32,8 @@ export class SingleProjectComponent {
   ) {
     this.newExpenseForm = formService.newExpenseForm
   }
-
+  @Input() childId: number | null = null;
+  @Input() childProjectId : number | null = null
   projectId!: number;
   project!: Project;
   totalSpent: number = 0;
@@ -49,12 +50,12 @@ export class SingleProjectComponent {
   ngOnInit() {
     this.route.params.subscribe((param) => {
       this.projectId = param['id'];
-      this.getProject(param['id']);
+        this.getProject(this.childId === null ? param['id'] : this.childProjectId);
     });
   }
 
   getProject(id: number) {
-    this.roleService.getProject(id).subscribe(
+    this.roleService.getProject(this.childId, id).subscribe(
       (response: Project) => {
         this.project = response;
         this.calculateTotalSpent(response);

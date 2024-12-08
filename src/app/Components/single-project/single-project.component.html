@@ -1,14 +1,16 @@
-<section class="container flex flex-col gap-y-5">
-  <div
-    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
-  >
-    <h1 class="dark:text-zinc-50 text-3xl font-bold">Project</h1>
-    <span
-      (click)="goBack()"
-      class="cursor-pointer text-zinc-500 hover:text-zinc-400"
-      ><i class="fa-solid fa-chevron-left"></i> BACK</span
+<section class="container flex flex-col gap-y-5 h-full">
+  <ng-container *ngIf="childId === null">
+    <div
+      class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
     >
-  </div>
+      <h1 class="dark:text-zinc-50 text-3xl font-bold">Project</h1>
+      <span
+        (click)="goBack()"
+        class="cursor-pointer text-zinc-500 hover:text-zinc-400"
+        ><i class="fa-solid fa-chevron-left"></i> BACK</span
+      >
+    </div>
+  </ng-container>
 
   <!-- INFO SECTION-->
   <div class="flex flex-col items-start justify-center bg-zinc-900 p-2 gap-y-1">
@@ -111,92 +113,101 @@
   </div>
 
   <!-- TABLE SECTION -->
-  <app-table [showPaginator]="false" [fullHeight]="false">
-    <thead>
-      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
-        <th class="w-1/12">
-          <div class="w-full flex justify-center">
-            <div
-              (click)="openExpenseModal()"
-              class="w-8 h-8 rounded-full bg-zinc-700 pointer flex items-center justify-center hover:text-zinc-300"
-            >
-              <i class="fa-solid fa-plus"></i>
-            </div>
-          </div>
-        </th>
-        <th>DETAILS</th>
-        <th>AMOUNT</th>
-        <th>DIVIDED WITH</th>
-        <th>MY SHARE</th>
-        <th class="w-1/12"><i class="fa-solid fa-user-plus"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let item of project.expenses; index as i"
-        class="outline outline-1 outline-zinc-950 text-sm bg-zinc-800 h-20"
-        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
-      >
-        <td class="w-1/12 text-center">
-          <i class="fa-regular fa-credit-card"></i>
-        </td>
+  <div class="container h-full">
+    <app-table [showPaginator]="false" height="40vh">
+      <thead class="relative">
+        <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+          <th class="w-1/12">
 
-        <td class="flex flex-col justify-center h-20 items-start">
-          <span class="dark:text-zinc-500 text-xs font-bold">{{
-            item.date
-          }}</span>
-          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
-        </td>
-        <td class="dark:text-zinc-200 font-bold">
-          <span
-            >{{ authService.defaultCurrency }}
-            {{ item.amount.toFixed(2) }}</span
-          >
-        </td>
-        <td class="dark:text-zinc-200">
-          <div class="flex flex-row items-center">
-            <ng-container
-              *ngFor="let account of item.participants; let i = index"
-            >
-              <app-account-icon
-                *ngIf="i < 4"
-                [name]="account.name + ' ' + account.surname"
-                size="h-8 w-8"
-                class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
-              ></app-account-icon>
+            <ng-container *ngIf="childId === null">
+              <div class="w-full flex justify-center">
+                <div
+                  (click)="openExpenseModal()"
+                  class="w-8 h-8 rounded-full bg-zinc-700 pointer flex items-center justify-center hover:text-zinc-300"
+                >
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+              </div>
             </ng-container>
-          </div>
-        </td>
-        <td>
-          <div class="flex flex-col items-center p-2">
-            <div class="grid grid-cols-3 gap-x-2 items-center">
-              <span class="text-4xl col-span-2 text-zinc-50"
-                >{{ authService.userInformation.defaultCurrency
-                }}{{ splitAmount(item).toFixed(2) }}</span
-              >
-              <span class="text-lg"
-                >({{ splitPercentage(item).toFixed(0) }}%)</span
-              >
-            </div>
-          </div>
-        </td>
+          </th>
+          <th>DETAILS</th>
+          <th>AMOUNT</th>
+          <th>DIVIDED WITH</th>
+          <th>{{childId === null ? 'MY SHARE' : "YOUR CHILD SHARE"}}</th>
+          <ng-container *ngIf="childId === null">
+            <th class="w-1/12"><i class="fa-solid fa-user-plus"></i></th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of project.expenses; index as i"
+          class="outline outline-1 outline-zinc-950 text-sm bg-zinc-800 h-20"
+          [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+        >
+          <td class="w-1/12 text-center">
+            <i class="fa-regular fa-credit-card"></i>
+          </td>
 
-        <td class="">
-          <div class=" flex items-center justify-center">
-            <div
-              (click)="openModal(item)"
-              class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+          <td class="flex flex-col justify-center h-20 items-start">
+            <span class="dark:text-zinc-500 text-xs font-bold">{{
+              item.date
+            }}</span>
+            <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+          </td>
+          <td class="dark:text-zinc-200 font-bold">
+            <span
+              >{{ authService.defaultCurrency }}
+              {{ item.amount.toFixed(2) }}</span
             >
-              <p
-                class="text-3xl font-light text-zinc-600"
-                style="font-family: Arial, Helvetica, sans-serif"
+          </td>
+          <td class="dark:text-zinc-200">
+            <div class="flex flex-row items-center">
+              <ng-container
+                *ngFor="let account of item.participants; let i = index"
               >
-                +
-              </p>
+                <app-account-icon
+                  *ngIf="i < 4"
+                  [name]="account.name + ' ' + account.surname"
+                  size="h-8 w-8"
+                  class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
+                ></app-account-icon>
+              </ng-container>
             </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </app-table>
+          </td>
+          <td>
+            <div class="flex flex-col items-center p-2">
+              <div class="grid grid-cols-3 gap-x-2 items-center">
+                <span class="text-4xl col-span-2 text-zinc-50"
+                  >{{ authService.userInformation.defaultCurrency
+                  }}{{ splitAmount(item).toFixed(2) }}</span
+                >
+                <span class="text-lg"
+                  >({{ splitPercentage(item).toFixed(0) }}%)</span
+                >
+              </div>
+            </div>
+          </td>
+
+          <ng-container *ngIf="childId === null">
+            <td class="">
+              <div class="flex items-center justify-center">
+                <div
+                  (click)="openModal(item)"
+                  class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+                >
+                  <p
+                    class="text-3xl font-light text-zinc-600"
+                    style="font-family: Arial, Helvetica, sans-serif"
+                  >
+                    +
+                  </p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </app-table>
+  </div>
 </section>

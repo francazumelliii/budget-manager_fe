@@ -1,10 +1,12 @@
-<section class="container flex flex-col gap-y-4 overflow-y-auto h-screen">
+<section class="container flex flex-col gap-y-4 h-screen">
   <!-- Header Section -->
   <div
     class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
   >
     <h1 class="dark:text-zinc-50 text-3xl font-bold">Your Child</h1>
-    <span (click)="goBack()" class="cursor-pointer text-zinc-500 hover:text-zinc-400"
+    <span
+      (click)="goBack()"
+      class="cursor-pointer text-zinc-500 hover:text-zinc-400"
       ><i class="fa-solid fa-chevron-left"></i> BACK</span
     >
   </div>
@@ -18,9 +20,7 @@
         [name]="child.name + ' ' + child.surname"
       ></app-avatar>
       <div class="flex flex-col">
-        <p class="font-bold text-xl">
-          {{ child.name }} {{ child.surname }}
-        </p>
+        <p class="font-bold text-xl">{{ child.name }} {{ child.surname }}</p>
         <p class="font-normal text-md text-zinc-400">{{ child.email }}</p>
       </div>
     </div>
@@ -32,7 +32,7 @@
         [data]="monthlyStats"
         [units]="authService.defaultCurrency"
         [maxValue]="maxValue"
-        [showText] ="monthlyStats[0].value > 0"
+        [showText]="monthlyStats[0].value > 0"
         title="This Month Situation"
         [percentage]="percentage"
       ></app-chart>
@@ -49,7 +49,7 @@
       [ngClass]="{ 'h-16': !isExpensesOpened, 'h-auto': isExpensesOpened }"
     >
       <app-dynamic-list
-      (expand)="openModal('expenses')"
+        (expand)="openModal('expenses')"
         [list]="expensesList"
         [defaultCurrency]="authService.defaultCurrency"
         [defaultOpened]="true"
@@ -63,7 +63,7 @@
       [ngClass]="{ 'h-16': !isIncomesOpened, 'h-auto': isIncomesOpened }"
     >
       <app-dynamic-list
-        (expand)= "openModal('incomes')"
+        (expand)="openModal('incomes')"
         [list]="incomesList"
         [defaultOpened]="true"
         [defaultCurrency]="authService.defaultCurrency"
@@ -71,6 +71,88 @@
         (toggle)="isIncomesOpened = $event"
       ></app-dynamic-list>
     </div>
+    
+    <!-- PROJECTS SECTION -->
+    <div class="col-span-2">
+      <app-table [showPaginator]="false"  [fullHeight]="false" height="40vh">
+        <thead>
+          <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+            <th class="w-1/12"></th>
+            <th>DETAILS</th>
+            <th>DESCRIPTION</th>
+            <th>SPENDING GOAL</th>
+            <th>CREATOR</th>
+            <th>PEOPLE</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            
+            *ngFor="let item of projectsList; index as i"
+            class=" outline outline-1 outline-zinc-950 text-sm bg-zinc-800 hover:outline-slate-600"
+            [ngClass]="{ 'bg-zinc-900 ': i % 2 == 0 }"
+          >
+            <td class=" w-1/12 text-center pointer " (click)="openModal('project', item.id)">
+              <i class="fa-regular fa-credit-card"></i>
+            </td>
+    
+            <td
+            (click)="openModal('project', item.id)"
+              class=""
+            >
+              <div class="flex flex-col justify-center items-start pointer ">
+              <span class="dark:text-zinc-500 text-xs font-bold">{{
+                item.createdAt | date: "dd MMM yyy"
+              }}</span>
+              <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+              </div>
+            </td>
+            <td
+            (click)="openModal('project', item.id)"
+              class="dark:text-zinc-200 font-bold pointer "
+
+            >
+              <small class="text-zinc-200 w-full">{{ item.description }}</small>
+            </td>
+            <td
+            (click)="openModal('project', item.id)"
+              class="dark:text-zinc-200 font-bold pointer"
+
+            >
+              <span>{{ authService.defaultCurrency }}{{ item.goalAmount }}</span>
+            </td>
+            <td
+            (click)="openModal('project', item.id)"
+              class="dark:text-zinc-200 font-bold pointer"
+
+            >
+              <div class="flex flex-col">
+                <span>{{ item.creator.name }} {{ item.creator.surname }}</span>
+                <small class="text-zinc-400 font-light">{{
+                  item.creator.email
+                }}</small>
+              </div>
+            </td>
+            <td class="dark:text-zinc-200 font-bold" (click)="openModal('project', item.id)">
+              <div class="flex items-center">
+                <ng-container *ngFor="let account of item.accounts; let i = index">
+                  <app-account-icon
+                    *ngIf="i < 4"
+                    [name]="account.name + ' ' + account.surname"
+                    size="h-8 w-8"
+                    class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
+                  ></app-account-icon>
+                </ng-container>
+              
+              </div>
+            </td>
+         
+          </tr>
+        </tbody>
+      </app-table>
+    </div>
+
 
 
   </div>

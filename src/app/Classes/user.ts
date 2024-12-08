@@ -140,6 +140,57 @@ export class User implements Delegate {
   }
   patchProject(body: PostProjectRequest, id: number): Observable<Project>{
     return this.dbService.patch(`/account/me/projects/${id}`, body)
+  
   }
+  patchExpense(body: PostExpenseRequest, id: number): Observable<Expense>{
+    return this.dbService.patch(`/account/me/expenses/${id}`, body)
+  }
+  patchIncome(body: PostIncomeRequest, id: number): Observable<Income>{
+      return this.dbService.patch(`/account/me/incomes/${id}`, body)
+  }
+  deleteIncome(id: number): Observable<any>{
+    return this.dbService.delete(`/account/me/incomes/${id}`)
+  }
+  allChildProjects(id: number): Observable<Project[]>{
+    const project: Project = {
+      id: 0,
+      name: "", 
+      description: "", 
+      image: "",
+      goalAmount: 0,
+      expenses: [],
+      createdAt: "", 
+      creator: {
+        name: "",
+        surname: "",
+        email: '',
+        image: '',
+        splitAmount: 0
+      },
+      accounts: []
 
+    }
+    return of(Array(project))
+  }
+  childProjectById(childId: number | null, projectId: number): Observable<Project>{
+    const project: Project = {
+      id: 0,
+      name: "", 
+      description: "", 
+      image: "",
+      goalAmount: 0,
+      expenses: [],
+      createdAt: "", 
+      creator: {
+        name: "",
+        surname: "",
+        email: '',
+        image: '',
+        splitAmount: 0
+      },
+      accounts: []
+
+    }
+    return of (project)
+}
 }
