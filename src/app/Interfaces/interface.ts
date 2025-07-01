@@ -23,6 +23,19 @@ export interface User{
     parent: User | null
     role: Role
 }
+export interface Account{
+
+    id: number 
+    name: string,
+    surname: string,
+    email: string, 
+    birthdate: string,
+    defaultCurrency: string,
+    image: string, 
+    children: User[] | null,
+    parent: User | null
+    role: Role
+}
 export enum Role{
     PARENT,
     USER
@@ -79,6 +92,7 @@ export interface Project{
 }
 
 export interface SimpleAccount{
+    id: number | null,
     name: string,
     surname: string, 
     email: string, 
@@ -183,4 +197,9 @@ export interface PatchAccountRequest{
     name: string,
     surname: string,
     defaultCurrency: string
+}
+
+export interface PatchChildRequest{
+    name: string,
+    surname: string
 }

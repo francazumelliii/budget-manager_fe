@@ -1,6 +1,6 @@
 import { formatDate, getLocaleDateFormat } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { DeferBlockBehavior } from '@angular/core/testing';
 import { AuthResponse, User } from '../Interfaces/interface';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) {}
+  @Output() roleSwitched: EventEmitter<any> = new EventEmitter()
 
   serverUrl: string = 'http://localhost:8080';
 
@@ -134,5 +135,9 @@ export class AuthenticationService {
       );
   }
   
+  emitRoleSwitch(){
+    this.roleSwitched.emit()
+  }
+
   
 }

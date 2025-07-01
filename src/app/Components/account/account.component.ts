@@ -1,6 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { AuthenticationService } from '../../Services/authentication.service';
-import { Friend, MonthlyStats, SimpleAccount, User } from '../../Interfaces/interface';
+import {
+  AuthResponse,
+  Friend,
+  MonthlyStats,
+  User,
+} from '../../Interfaces/interface';
 import { RoleService } from '../../Services/role.service';
 import { formatDate } from '@angular/common';
 import { ModalService } from '../../Services/modal.service';
@@ -8,37 +13,35 @@ import { AccountModalComponent } from '../account-modal/account-modal.component'
 import { FormGroupService } from '../../Services/form-group.service';
 import { FormGroup } from '@angular/forms';
 import { OptionModalComponent } from '../option-modal/option-modal.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrl: './account.component.sass'
+  styleUrl: './account.component.sass',
 })
 export class AccountComponent {
-
-  user!:User
-  patchForm !: FormGroup
+  user!: User;
+  patchForm!: FormGroup;
   constructor(
     public authService: AuthenticationService,
     private roleService: RoleService,
     private modalService: ModalService,
     private formService: FormGroupService
-    ){
-    this.user = this.authService.userInformation
-    this.patchForm = this.formService.signupForm
-  
+  ) {
+    this.user = this.authService.userInformation;
+    this.patchForm = this.formService.signupForm;
   }
-  monthlyStats: any[] = []
+  monthlyStats: any[] = [];
   totalIncomes: number = 0;
+  _isEditAllowed: boolean = false
   percentage: number = 0;
-  friends: Friend[] = [] 
-
-
-
+  friends: Friend[] = [];
 
   ngOnInit(): void {
-   this.getMonthlyStats()
-   this.getAllFriends()
+    this.getMonthlyStats();
+    this.getAllFriends();
   }
 
   getMonthlyStats() {
@@ -48,7 +51,7 @@ export class AccountComponent {
         this.monthlyStats = [
           { name: 'This Month Expenses', value: response.totalExpense },
         ];
-        this.totalIncomes = response.totalIncome
+        this.totalIncomes = response.totalIncome;
 
         this.calculatePercentage(response);
       },
@@ -63,88 +66,112 @@ export class AccountComponent {
     this.percentage = (totalExpense / totalIncome) * 100;
   }
 
-  getAllFriends(){
-    this.roleService.getFriends()
-      .subscribe((response: Friend[]) => {
+  getAllFriends() {
+    this.roleService.getFriends().subscribe(
+      (response: Friend[]) => {
         this.friends = response;
-      },(error: any) => {
-        console.error(error)
-      })
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
-  async openSettingsModal(){
-    const modalRef = await this.modalService.open(AccountModalComponent, {}, "UPDATE ACCOUNT")
+  async openSettingsModal() {
+    const modalRef = await this.modalService.open(
+      AccountModalComponent,
+      {},
+      'UPDATE ACCOUNT'
+    );
     modalRef.instance.onDelete.subscribe((data: any) => {
-      this.openConfirmModal()
-    })
+      this.deleteAccount()
+    });
 
     modalRef.instance.onSave.subscribe((data: any) => {
-      this.patchAccount()
-    })
+      this.patchAccount();
+    });
 
     modalRef.instance.onSwitch.subscribe((data: any) => {
-      this.switchToParent()
-    })
+      this.switchToParent();
+    });
+
+    modalRef.instance.onExport.subscribe((data: any) => {
+      this.exportData();
+    });
   }
 
-  openConfirmModal(){
-    this.roleService.deleteAccount()
-      .subscribe(async (response: any) => {
-        const modalRef = await this.modalService.open(OptionModalComponent, {
-          title: "Are you sure you want to delete your account? ",
-          subtitle: "This option is irreversible",
-          description: "",
-          confirmLabel: "CONFIRM",
-          cancelLabel: "CANCEL"
-        }, "DELETE ACCOUNT")
-        modalRef.instance.confirm.subscribe((data: any) => {
-          this.deleteAccount()
-        })
-        modalRef.instance.cancel.subscribe((data: any) => {
-          this.modalService.close();
-        })
-        
+ 
 
-      }, (error: any) => {
-        console.log(error)
-      })
-  }
-
-  patchAccount(){
-    const name = this.patchForm.get("name")?.value;
-    const surname = this.patchForm.get("surname")?.value;
-    const currency = this.patchForm.get("currency")?.value;
+  patchAccount() {
+    const name = this.patchForm.get('name')?.value;
+    const surname = this.patchForm.get('surname')?.value;
+    const currency = this.patchForm.get('currency')?.value;
     const body = {
       name: name,
-      surname: surname, 
-      defaultCurrency: currency
-    }
-    this.roleService.patchAccount(body)
-      .subscribe((response: User) => {
-        this.user = response
-        this.authService.storeUserInformation(response)
-        this.authService.setDefaultCurrency(response.defaultCurrency)
-        this.modalService.close()
-      },(error: any) => {
-        console.error(error)
-      })
+      surname: surname,
+      defaultCurrency: currency,
+    };
+    this.roleService.patchAccount(body).subscribe(
+      (response: User) => {
+        this.user = response;
+        this.authService.storeUserInformation(response);
+        this.authService.setDefaultCurrency(response.defaultCurrency);
+        this.modalService.close();
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
-  switchToParent(){
-    // TODO implement
+  switchToParent() {
+    this.roleService.switchToParent().subscribe(
+      (response: AuthResponse) => {
+        this.authService.storeToken(response.jwt);
+        this.authService.storeUserInformation(response.user);
+        this.authService.emitRoleSwitch();
+        this.modalService.close();
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
-  deleteAccount(){
-    this.roleService.deleteAccount()
-      .subscribe((response: any) => {
-        this.modalService.close()
-        this.authService.logOut()
-      },(error: any)=> {
-        console.error(error)
-      })
+  deleteAccount() {
+    console.log("delete")
+    this.roleService.deleteAccount().subscribe(
+      (response: any) => {
+        console.log("Successfully deleted")
+        this.modalService.close();
+        this.authService.logOut();
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
-  openAvatarModal(){
+  openAvatarModal() {
     
   }
+  
 
+  exportData() {
+    console.log("EXPORTING")
+    this.roleService.exportData().subscribe(
+      (blob: Blob) => {
+        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        link.href = url;
+        link.download = 'user_data.xlsx';
+        link.click();
+        window.URL.revokeObjectURL(url);
+        this.modalService.close()
+      },
+      (error: any) => {
+        this.modalService.updateChildInputs({responseError: "Download error... try later"})
+        console.error('Download error:', error);
+      }
+    );
+  }
 }

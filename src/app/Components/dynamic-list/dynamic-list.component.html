@@ -1,4 +1,4 @@
-<div class="flex flex-col rounded-lg border border-zinc-700 bg-zinc-900 px-3">
+<div class="flex flex-col rounded-lg border bg-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 px-3">
   <ng-container *ngIf="template === 'EXPENSE'; else incomeTemplate">
     <div
       (click)="switchView()"
@@ -6,16 +6,16 @@
       class="flex flex-row pointer justify-start gap-x-4 items-center border-b border-zinc-700"
     >
       <i
-        class="fa-solid text-zinc-400 pointer hover:text-zinc-200"
+        class="fa-solid dark:text-zinc-400 text-zinc-700 hover:text-zinc-950 pointer dark:hover:text-zinc-200"
         [ngClass]="{ 'fa-caret-down': !isOpened, 'fa-caret-up': 'isOpened' }"
         (click)="switchView()"
       ></i>
-      <p class="text-zinc-400 text-left py-2 font-bold w-full">
+      <p class="dark:text-zinc-400 text-zinc-700 text-left py-2 font-bold w-full">
         {{title}}
       </p>
 
       <i
-        class="fa-solid fa-up-right-and-down-left-from-center text-zinc-400 pointer hover:text-zinc-200"
+        class="fa-solid fa-up-right-and-down-left-from-center text-zinc-700 hover:text-zinc-950 dark:text-zinc-400 pointer dark:hover:text-zinc-200"
         (click)="emitClickEvent(template); $event.stopPropagation()"
         *ngIf="isOpened"
       ></i>
@@ -23,7 +23,7 @@
     <ng-container *ngIf="isOpened">
       <table class="w-full">
         <thead>
-          <tr class="text-zinc-400 text-left text-sm">
+          <tr class="dark:text-zinc-400 text-zinc-700 text-left text-sm">
             <th class="py-2 w-1/3">Subject</th>
             <th class="w-1/3">Category</th>
             <th class="w-1/6">Frequency</th>
@@ -33,7 +33,7 @@
         <tbody>
           <ng-container *ngFor="let item of list; let i = index">
             <!-- main row -->
-            <tr class="text-zinc-500 text-left text-sm">
+            <tr class=" text-zinc-700 hover:text-zinc-950 dark:text-zinc-400 pointer dark:hover:text-zinc-200 text-left text-sm">
               <td class="py-1 w-1/3">{{ item.name }}</td>
               <td class="w-1/3">{{ item.category.name }}</td>
               <!--<td class="w-1/6">{{ frequency[item.frequency] }}</td>-->
@@ -54,14 +54,14 @@
     class="flex flex-row pointer justify-start gap-x-4 items-center border-b border-zinc-700"
   >
     <i
-      class="fa-solid text-zinc-400 pointer hover:text-zinc-200"
+      class="fa-solid dark:text-zinc-400 text-zinc-700 hover:text-zinc-950 pointer dark:hover:text-zinc-200"
       [ngClass]="{ 'fa-caret-down': !isOpened, 'fa-caret-up': 'isOpened' }"
       (click)="switchView()"
     ></i>
-    <p class="text-zinc-400 text-left py-2 font-bold w-full">{{title}}</p>
+    <p class="dark:text-zinc-400 text-zinc-700 text-left py-2 font-bold w-full">{{title}}</p>
 
     <i
-        class="fa-solid fa-up-right-and-down-left-from-center text-zinc-400 pointer hover:text-zinc-200"
+        class="fa-solid fa-up-right-and-down-left-from-center  text-zinc-700 hover:text-zinc-950 dark:text-zinc-400 pointer dark:hover:text-zinc-200"
         (click)="emitClickEvent(template); $event.stopPropagation()"
         *ngIf="isOpened"
       ></i>
@@ -69,7 +69,7 @@
   <ng-container *ngIf="isOpened">
     <table class="w-full">
       <thead>
-        <tr class="text-zinc-400 text-left text-sm">
+        <tr class="dark:text-zinc-400 text-zinc-700  text-left text-sm">
           <th class="py-2 w-1/3">Subject</th>
           <th class="w-1/3">Date</th>
           <th class="w-1/6">Frequency</th>
@@ -79,9 +79,9 @@
       <tbody>
         <ng-container *ngFor="let item of list; let i = index">
           <!-- main row -->
-          <tr class="text-zinc-500 text-left text-sm">
+          <tr class="dark:text-zinc-500 text-zinc-600 text-left text-sm">
             <td class="py-1 w-1/3">{{ item.name }}</td>
-            <td class="w-1/3">{{ item.date }}</td>
+            <td class="w-1/3">{{ item.date | date: "dd MMM yyyy" }}</td>
             <!-- <td class="w-1/6">{{ frequency[item.frequency] }}</td> -->
             <td class="w-1/6"><app-frequency-icon [frequency]="item.frequency" [onlyText]="true"></app-frequency-icon></td>
             <td class="w-1/4 text-end">{{defaultCurrency}} {{ item.amount.toFixed(2) }}</td>

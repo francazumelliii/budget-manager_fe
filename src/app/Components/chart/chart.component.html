@@ -1,5 +1,5 @@
 <div class="flex flex-col justify-center items-center">
-  <h1 class="dark: text-zinc-300 font-bold">{{ title }}</h1>
+  <h1 class="text-zinc-700 dark:text-zinc-300 font-bold">{{ title }}</h1>
 
   <ng-container *ngIf="type === 'bar-vertical-2d'">
     <ngx-charts-bar-vertical-2d
@@ -20,7 +20,7 @@
       [legendTitle]="legendTitle"
       (select)="onSelect($event)"
       (activate)="onActivate($event)"
-      style="fill: #d4d4d8"
+      [style]="{'fill: #d4d4d8' : themeService.isDarkMode, 'fill:#000000' :!themeService.isDarkMode}"
       (deactivate)="onDeactivate($event)"
     >
     </ngx-charts-bar-vertical-2d>
@@ -74,8 +74,8 @@
       [scheme]="scheme"
       [results]="data"
       [scheme]="coloSchemePie"
-      
       style="fill: #d4d4d8"
+
     ></ngx-charts-pie-chart>
   </ng-container>
 </div>

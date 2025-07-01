@@ -1,9 +1,9 @@
 <section class="container flex flex-col gap-y-4 h-screen">
   <!-- Header Section -->
   <div
-    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 dark:bg-zinc-950"
   >
-    <h1 class="dark:text-zinc-50 text-3xl font-bold">Your Child</h1>
+    <h1 class="dark:text-zinc-50 text-zinc-700 text-3xl font-bold">Your Child</h1>
     <span
       (click)="goBack()"
       class="cursor-pointer text-zinc-500 hover:text-zinc-400"
@@ -14,17 +14,56 @@
   <!-- Main Section -->
   <div class="p-4 grid grid-cols-2 gap-x-4 gap-y-2">
     <!-- Child Info Section -->
-    <div class="flex flex-row items-center gap-4">
-      <app-avatar
-        [type]="'adventurer'"
-        [name]="child.name + ' ' + child.surname"
-      ></app-avatar>
-      <div class="flex flex-col">
-        <p class="font-bold text-xl">{{ child.name }} {{ child.surname }}</p>
-        <p class="font-normal text-md text-zinc-400">{{ child.email }}</p>
-      </div>
-    </div>
 
+    <div class="flex flex-row items-center justify-between w-full p-4 space-x-2 rounded-lg ">
+      <!-- Avatar Section -->
+      <div class="flex items-center justify-center w-2/12">
+        <app-avatar
+          [style]="'adventurer'"
+          [name]="
+            editForm.get('name')?.value + ' ' + editForm.get('surname')?.value
+          "
+          class="w-16 h-16"
+        ></app-avatar>
+      </div>
+    
+      <!-- Form Section -->
+      <form class="flex flex-col items-start justify-center w-8/12 space-y-2" [formGroup]="editForm">
+        <div class="flex flex-row items-center space-x-2" >
+          <input
+            [ngClass]="{'border border-zinc-300 bg-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 cursor-text' : _isEditAllowed, 'bg-transparent' : !_isEditAllowed}"
+            class="w-5/12 font-bold text-lg rounded-md focus:outline-none px-2 "
+            formControlName="name"
+            placeholder="Name"
+          />
+          <input
+          [ngClass]="{'border border-zinc-300 bg-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 cursor-text' : _isEditAllowed, 'bg-transparent' : !_isEditAllowed}"
+            class="w-5/12 font-bold text-lg  rounded-md  bg-transparent focus:outline-none px-2"
+            formControlName="surname"
+            placeholder="Surname"
+          />
+        </div>
+        <div class="w-full">
+          <input
+            class="w-full font-normal rounded-md text-md text-zinc-400 bg-transparent focus:outline-none px-2"
+            formControlName="email"
+            placeholder="Email"
+          />
+        </div>
+      </form>
+    
+      <!-- Edit Button Section -->
+      <div
+        (click)="allowEdit()"
+        class="flex items-center justify-center w-2/12 py-2 rounded-lg pointer hover:bg-zinc-300  dark:hover:bg-zinc-900"
+      >
+        <i class="fa-regular  text-xl fa-pencil text-zinc-500" *ngIf="!_isEditAllowed"></i>
+        <i class="fa-regular  text-xl fa-check text-green-400 " *ngIf="_isEditAllowed" (click)="patchChild()"></i>
+      </div>
+      <i class="fa-solid  text-xl fa-trash text-zinc-700 hover:text-zinc-500 pointer " *ngIf="_isEditAllowed" (click)="openDeleteModal()"></i>
+
+    </div>
+    
     <!-- Chart Section -->
     <div class="relative flex flex-col items-center">
       <app-chart
@@ -38,7 +77,7 @@
       ></app-chart>
       <small
         *ngIf="percentage >= 100 && monthlyStats[0].value > 0"
-        class="text-red-400 absolute bottom-0 text-center w-full"
+        class="text-red-600 dark:text-red-400 absolute bottom-0 text-center w-full"
         >Burning through more than we're bringing in</small
       >
     </div>
@@ -51,6 +90,7 @@
       <app-dynamic-list
         (expand)="openModal('expenses')"
         [list]="expensesList"
+        [title]="'Last Month Expenses'"
         [defaultCurrency]="authService.defaultCurrency"
         [defaultOpened]="true"
         (toggle)="isExpensesOpened = $event"
@@ -65,67 +105,67 @@
       <app-dynamic-list
         (expand)="openModal('incomes')"
         [list]="incomesList"
+        [title]="'Last Month Incomes'"
         [defaultOpened]="true"
         [defaultCurrency]="authService.defaultCurrency"
         [template]="'INCOME'"
         (toggle)="isIncomesOpened = $event"
       ></app-dynamic-list>
     </div>
-    
+
     <!-- PROJECTS SECTION -->
     <div class="col-span-2">
-      <app-table [showPaginator]="false"  [fullHeight]="false" height="40vh">
+      <app-table [showPaginator]="false" [fullHeight]="false" height="40vh">
         <thead>
-          <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+          <tr class="sticky top-0 z-10 bg-zinc-300 dark:bg-zinc-950  h-10">
             <th class="w-1/12"></th>
             <th>DETAILS</th>
             <th>DESCRIPTION</th>
             <th>SPENDING GOAL</th>
             <th>CREATOR</th>
             <th>PEOPLE</th>
-
           </tr>
         </thead>
         <tbody>
+          
           <tr
-            
             *ngFor="let item of projectsList; index as i"
-            class=" outline outline-1 outline-zinc-950 text-sm bg-zinc-800 hover:outline-slate-600"
-            [ngClass]="{ 'bg-zinc-900 ': i % 2 == 0 }"
+            class="outline outline-1 outline-zinc-950 text-sm bg-zinc-800 hover:outline-slate-600"
+            [ngClass]="{ 'bg-zinc-50 dark:bg-zinc-900': i % 2 == 0 }"
+
           >
-            <td class=" w-1/12 text-center pointer " (click)="openModal('project', item.id)">
+            <td
+              class="w-1/12 text-center pointer"
+              (click)="openModal('project', item.id)"
+            >
               <i class="fa-regular fa-credit-card"></i>
             </td>
-    
-            <td
-            (click)="openModal('project', item.id)"
-              class=""
-            >
-              <div class="flex flex-col justify-center items-start pointer ">
-              <span class="dark:text-zinc-500 text-xs font-bold">{{
-                item.createdAt | date: "dd MMM yyy"
-              }}</span>
-              <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+
+            <td (click)="openModal('project', item.id)" class="">
+              <div class="flex flex-col justify-center items-start pointer">
+                <span class="dark:text-zinc-500 text-xs font-bold">{{
+                  item.createdAt | date : "dd MMM yyy"
+                }}</span>
+                <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
               </div>
             </td>
             <td
-            (click)="openModal('project', item.id)"
-              class="dark:text-zinc-200 font-bold pointer "
-
+              (click)="openModal('project', item.id)"
+              class="dark:text-zinc-200 font-bold pointer"
             >
               <small class="text-zinc-200 w-full">{{ item.description }}</small>
             </td>
             <td
-            (click)="openModal('project', item.id)"
+              (click)="openModal('project', item.id)"
               class="dark:text-zinc-200 font-bold pointer"
-
             >
-              <span>{{ authService.defaultCurrency }}{{ item.goalAmount }}</span>
+              <span
+                >{{ authService.defaultCurrency }}{{ item.goalAmount }}</span
+              >
             </td>
             <td
-            (click)="openModal('project', item.id)"
+              (click)="openModal('project', item.id)"
               class="dark:text-zinc-200 font-bold pointer"
-
             >
               <div class="flex flex-col">
                 <span>{{ item.creator.name }} {{ item.creator.surname }}</span>
@@ -134,9 +174,14 @@
                 }}</small>
               </div>
             </td>
-            <td class="dark:text-zinc-200 font-bold" (click)="openModal('project', item.id)">
+            <td
+              class="dark:text-zinc-200 font-bold"
+              (click)="openModal('project', item.id)"
+            >
               <div class="flex items-center">
-                <ng-container *ngFor="let account of item.accounts; let i = index">
+                <ng-container
+                  *ngFor="let account of item.accounts; let i = index"
+                >
                   <app-account-icon
                     *ngIf="i < 4"
                     [name]="account.name + ' ' + account.surname"
@@ -144,16 +189,11 @@
                     class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
                   ></app-account-icon>
                 </ng-container>
-              
               </div>
             </td>
-         
           </tr>
         </tbody>
       </app-table>
     </div>
-
-
-
   </div>
 </section>

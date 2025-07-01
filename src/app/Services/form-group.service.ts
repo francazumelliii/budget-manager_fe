@@ -47,8 +47,9 @@ export class FormGroupService {
       password: new FormControl("", [Validators.required, Validators.minLength(8)]),
       repeatPassword: new FormControl("", [Validators.required, Validators.minLength(8)]),
       birthdate: new FormControl("", Validators.required),
-      currency: new FormControl("", Validators.required),
-      image: new FormControl("")
+      currency: new FormControl(""),
+      image: new FormControl(""),
+      terms: [false, Validators.requiredTrue]
     });
   }
   buildNewExpenseForm(){

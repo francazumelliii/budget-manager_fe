@@ -1,12 +1,12 @@
-<li class=" rounded-lg  flex flex-row justify-between p-2" [ngClass]="{'border-zinc-400 border' : borders}">
+<li class=" rounded-lg  flex flex-row justify-between p-2" [ngClass]="{ ' border border-zinc-100 dark:border-zinc-400 ' : borders}">
   <div class="flex flex-row justify-start">
     <app-account-icon
       [name]="account.name + ' ' + account.surname"
       size="w-9 h-9"
     ></app-account-icon>
     <div class="flex flex-col justify-center px-2">
-      <p class="text-zinc-200">{{ account.name }} {{ account.surname }}</p>
-      <small class="text-zinc-400 text-light">{{ account.email }}</small>
+      <p class="dark:text-zinc-200 text-zinc-600">{{ account.name }} {{ account.surname }}</p>
+      <small class="dark:text-zinc-400 text-zinc-500 text-light">{{ account.email }}</small>
     </div>
   </div>
   <div

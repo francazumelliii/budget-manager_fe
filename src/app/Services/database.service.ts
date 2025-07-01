@@ -37,6 +37,10 @@ export class DatabaseService {
       console.log(`%c DELETE REQUEST: ${this.serverUrl}${endpoint}`, "color:#d946ef")
       return this.http.delete(`${this.serverUrl}${endpoint}`, {headers: this.headers});
     } 
+    getBlob(endpoint: string): Observable<any>{
+      console.log(`%c GET REQUEST (BLOB): ${this.serverUrl}${endpoint}`, "color:#8b5cf6;")
+      return this.http.get<Blob>(`${this.serverUrl}${endpoint}`, {headers: this.headers, responseType: 'blob' as 'json'});
+    } 
     
     
 

@@ -1,10 +1,12 @@
 <section class="flex flex-col overflow-hidden" [ngStyle]="{ 'max-height': height }">
     <div class="flex-1 overflow-y-auto flex flex-col">
-      <table class="table-fixed dark:text-zinc-500 w-full border-separate border-spacing-0 " [ngClass]="{'h-screen': fullHeight}" [ngStyle]="{ 'min-height': height }">
+      <table class="table-fixed text-zinc-700 dark:text-zinc-500 w-full border-separate border-spacing-0 " [ngClass]="{'h-screen': fullHeight}" [ngStyle]="{ 'min-height': height }">
+      
         <ng-content></ng-content>
       </table>
     </div>
   
+    
     <ng-container *ngIf="showPaginator">
       <div class="bg-white dark:bg-zinc-800 sticky bottom-0 z-10">
         <p-paginator

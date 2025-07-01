@@ -41,6 +41,7 @@ import { ChoosePersonModalComponent } from './Components/choose-person-modal/cho
 import { AccountIconCompleteComponent } from './Components/account-icon-complete/account-icon-complete.component';
 import { Interceptor } from './Security/interceptor.service';
 import { AccountModalComponent } from './Components/account-modal/account-modal.component';
+import { ProjectIconComponent } from './Components/project-icon/project-icon.component';
 
 
 
@@ -75,6 +76,7 @@ import { AccountModalComponent } from './Components/account-modal/account-modal.
     ChoosePersonModalComponent,
     AccountIconCompleteComponent,
     AccountModalComponent,
+    ProjectIconComponent,
 
 
 

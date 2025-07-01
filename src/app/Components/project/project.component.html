@@ -48,27 +48,24 @@
     </form>
   </div>
 
-  <app-table
-    (pageChange)="handlePageChange($event)"
-    [pagination]="pagination"
- 
-  >
+  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
     <thead>
-      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
+      <tr class="sticky top-0 z-10 bg-zinc-300 dark:bg-zinc-950 h-10">
         <th class="w-1/12"></th>
-        <th>DETAILS</th>
-        <th>DESCRIPTION</th>
-        <th>SPENDING GOAL</th>
-        <th>CREATOR</th>
-        <th>PEOPLE</th>
+        <th class="text-xs md:text-base">DETAILS</th>
+        <th class="text-xs md:text-base hidden md:block">DESCRIPTION</th>
+        <th class="text-xs md:text-base">SPENDING GOAL</th>
+        <th class="text-xs md:text-base">CREATOR</th>
+        <th class="text-xs md:text-base">PEOPLE</th>
         <th *ngIf="_isUpdateAllowed" class="w-1/12"></th>
       </tr>
     </thead>
     <tbody>
       <tr
         *ngFor="let item of projectsList; index as i"
-        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800 hover:outline-slate-600"
-        [ngClass]="{ 'bg-zinc-900 ': i % 2 == 0 }"
+        class="h-9 outline outline-1 outline-zinc-200 dark:outline-zinc-950 text-sm bg-zinc-200 dark:bg-zinc-800 hover:outline-slate-600"
+        [ngClass]="{ 'bg-zinc-50 dark:bg-zinc-900': i % 2 == 0 }"
+
       >
         <td class="w-1/12 text-center" pointer (click)="redirect(item.id)">
           <i class="fa-regular fa-credit-card"></i>
@@ -83,24 +80,24 @@
           </div>
         </td>
         <td
-          class="dark:text-zinc-200 font-bold pointer"
+          class="dark:text-zinc-200 font-bold pointer hidden md:flex items-center h-full"
           (click)="redirect(item.id)"
         >
-          <small class="text-zinc-200 w-full">{{ item.description }}</small>
+          <small class="text-zinc-500 text-xs font-light break-words  w-full">{{ item.description }}</small>
         </td>
         <td
-          class="dark:text-zinc-200 font-bold pointer"
+          class="dark:text-zinc-200 font-bold pointer" 
           (click)="redirect(item.id)"
         >
-          <span>{{ authService.defaultCurrency }}{{ item.goalAmount }}</span>
+          <span class="text-xs md:text-base">{{ authService.defaultCurrency }}{{ item.goalAmount }}</span>
         </td>
         <td
           class="dark:text-zinc-200 font-bold pointer"
           (click)="redirect(item.id)"
         >
           <div class="flex flex-col">
-            <span>{{ item.creator.name }} {{ item.creator.surname }}</span>
-            <small class="text-zinc-400 font-light">{{
+            <span  class="text-xs md:text-base">{{ item.creator.name }} {{ item.creator.surname }}</span>
+            <small class="text-zinc-400 font-light hidden md:block">{{
               item.creator.email
             }}</small>
           </div>
@@ -111,17 +108,17 @@
               <app-account-icon
                 *ngIf="i < 4"
                 [name]="account.name + ' ' + account.surname"
-                size="h-8 w-8"
+                size="md:h-8 md:w-8 w-5 h-5"
                 class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
               ></app-account-icon>
             </ng-container>
             <div
               *ngIf="item.creator.email === user.email"
               (click)="addNewAccount(item)"
-              class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+              class="md:h-8 md:w-8 w-5 h-5 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
             >
               <p
-                class="text-3xl font-light text-zinc-600"
+                class="md:text-3xl font-light text-zinc-600 text-xs"
                 style="font-family: Arial, Helvetica, sans-serif"
               >
                 +
@@ -131,14 +128,33 @@
         </td>
         <td *ngIf="_isUpdateAllowed" class="">
           <div class="flex flex-row justify-center gap-x-5 pointer">
-            <i
-              (click)="openEditModal(item)"
-              class="fa-solid fa-pencil hover:text-white text-zinc-400"
-            ></i>
-            <i
-              class="fa-solid fa-trash hover:text-white text-zinc-400"
-              (click)="openDeleteModal(item.id)"
-            ></i>
+            <ng-container
+              *ngIf="item.creator.email === authService.userInformation.email"
+            >
+              <i
+                (click)="openEditModal(item)"
+                class="fa-solid fa-pencil hover:text-white text-zinc-400"
+              ></i>
+            </ng-container>
+            <ng-container
+              *ngIf="item.creator.email === authService.userInformation.email"
+            >
+              <i
+                class="fa-solid fa-trash hover:text-white text-zinc-400"
+                (click)="openDeleteModal(item.id)"
+              ></i>
+            </ng-container>
+            <ng-container
+              *ngIf="item.creator.email !== authService.userInformation.email"
+            >
+              <div class="flex flex-row items-center justify-center gap-x-2 " (click)="openExitModal(item.id)" >
+                <small class="text-zinc-400  hover:text-white">LEAVE</small>
+                <i
+                  class="fa-solid fa-right-from-bracket text-zinc-400  hover:text-white"
+                  
+                ></i>
+              </div>
+            </ng-container>
           </div>
         </td>
       </tr>

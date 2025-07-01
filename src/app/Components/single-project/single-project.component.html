@@ -13,43 +13,61 @@
   </ng-container>
 
   <!-- INFO SECTION-->
-  <div class="flex flex-col items-start justify-center bg-zinc-900 p-2 gap-y-1">
-    <h1 class="text-zinc-50 font-bold text-2xl">{{ project.name }}</h1>
-    <p class="text-zinc-400 text-sm font-light w-full">
-      {{ project.description }}
-    </p>
-    <p class="text-zinc-400 text-sm font-light w-full">
-      {{ project.createdAt | date : "mediumDate" }}
-    </p>
-    <p class="text-zinc-400 text-sm font-light w-full">
-      Created by {{ project.creator.name }} {{ project.creator.surname }}
-    </p>
+  <div class="grid grid-cols-10 items-center justify-between bg-zinc-900">
+    <div
+      class="flex flex-col items-start justify-center p-2 gap-y-1 col-span-8"
+    >
+      <h1 class="text-zinc-50 font-bold text-2xl">{{ project.name }}</h1>
+      <p class="text-zinc-400 text-sm font-light w-full">
+        {{ project.description }}
+      </p>
+      <p class="text-zinc-400 text-sm font-light w-full">
+        {{ project.createdAt | date : "mediumDate" }}
+      </p>
+      <p class="text-zinc-400 text-sm font-light w-full">
+        Created by {{ project.creator.name }} {{ project.creator.surname }}
+      </p>
+    </div>
+    <div class="flex flex-row items-center justify-center col-span-2 gap-x-2">
+      <ng-container
+        *ngIf="project.creator.email === authService.userInformation.email"
+      >
+        <i
+          class="fa-solid fa-pencil text-zinc-600 rounded-md pointer p-1 hover:bg-zinc-800 hover:text-zinc-500"
+          (click)="openEditModal()"
+        ></i>
+        <i
+          class="fa-solid fa-trash text-zinc-600 rounded-md pointer p-1 hover:bg-zinc-800 hover:text-zinc-500"
+          (click)="openDeleteModal()"
+        ></i>
+      </ng-container>
+    </div>
   </div>
 
   <!-- AMOUNTS SECTION -->
-  <div class="grid grid-cols-4 justify-between items-center gap-x-3">
+  <div class="grid  grid-cols-2 md:grid-cols-4 justify-between items-center gap-x-3 gap-y-2 md:gap-y-0">
     <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
       <h1>My Share:</h1>
       <div class="grid grid-cols-3 gap-x-2 items-center">
-        <span class="text-4xl col-span-2"
+        <span class=" text-xl md:text-4xl col-span-2"
           >{{ authService.userInformation.defaultCurrency
           }}{{ mySplitAmount(project).toFixed(2) }}</span
         >
-        <span class="text-2xl"
+        <span class="text-lg md:text-2xl"
           >({{ mySplitPercentage(project).toFixed(0) }}%)</span
         >
       </div>
     </div>
     <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
       <h1>Spending Goal:</h1>
-      <span class="text-4xl"
+      <span class="text-xl md:text-4xl"
         >{{ authService.userInformation.defaultCurrency
         }}{{ project.goalAmount.toFixed(2) }}</span
       >
     </div>
     <div class="flex flex-col items-center bg-zinc-900 p-2 h-24">
       <h1>Total Spent:</h1>
-      <span [ngClass]="domain" class="text-4xl"
+      <span [ngClass]="domain" class="text-xl md:text-4xl"
         >{{ authService.userInformation.defaultCurrency
         }}{{ totalSpent.toFixed(2) }}</span
       >
@@ -81,13 +99,14 @@
       <div class="flex flex-wrap">
         <ng-container *ngFor="let user of project.accounts; index as i">
           <app-account-icon
-            *ngIf="i < 8"
+            *ngIf="i < 12"
             [name]="user.name + ' ' + user.surname"
             [size]="'w-9 h-9'"
           ></app-account-icon>
+
           <ng-container>
             <div
-              *ngIf="i >= 8"
+              *ngIf="i >= 12"
               class="h-9 w-9 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 flex items-center justify-center pointer"
             >
               <p
@@ -99,6 +118,17 @@
             </div>
           </ng-container>
         </ng-container>
+        <div
+          (click)="addAccountToProject()"
+          class="h-9 w-9 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300  flex items-center justify-center pointer"
+        >
+          <p
+            class="text-3xl font-light text-zinc-600"
+            style="font-family: Arial, Helvetica, sans-serif"
+          >
+            +
+          </p>
+        </div>
       </div>
     </div>
 
@@ -114,28 +144,27 @@
 
   <!-- TABLE SECTION -->
   <div class="container h-full">
-    <app-table [showPaginator]="false" height="40vh">
+    <app-table [showPaginator]="false" height="40vh" [fullHeight]="false">
       <thead class="relative">
         <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
-          <th class="w-1/12">
-
+          <th class="w-1/12 ">
             <ng-container *ngIf="childId === null">
               <div class="w-full flex justify-center">
                 <div
                   (click)="openExpenseModal()"
-                  class="w-8 h-8 rounded-full bg-zinc-700 pointer flex items-center justify-center hover:text-zinc-300"
+                  class=" w-5 h-5 md:w-8 md:h-8 rounded-full bg-zinc-700 pointer flex items-center justify-center hover:text-zinc-300"
                 >
                   <i class="fa-solid fa-plus"></i>
                 </div>
               </div>
             </ng-container>
           </th>
-          <th>DETAILS</th>
-          <th>AMOUNT</th>
-          <th>DIVIDED WITH</th>
-          <th>{{childId === null ? 'MY SHARE' : "YOUR CHILD SHARE"}}</th>
+          <th class="text-xs md:text-md">DETAILS</th>
+          <th class="text-xs md:text-md">AMOUNT</th>
+          <th class="text-xs md:text-md">DIVIDED WITH</th>
+          <th class="text-xs md:text-md">{{ childId === null ? "MY SHARE" : "YOUR CHILD SHARE" }}</th>
           <ng-container *ngIf="childId === null">
-            <th class="w-1/12"><i class="fa-solid fa-user-plus"></i></th>
+            <th class="w-1/12 text-xs md:text-md"><i class="fa-solid fa-user-plus"></i></th>
           </ng-container>
         </tr>
       </thead>
@@ -149,11 +178,14 @@
             <i class="fa-regular fa-credit-card"></i>
           </td>
 
-          <td class="flex flex-col justify-center h-20 items-start">
-            <span class="dark:text-zinc-500 text-xs font-bold">{{
-              item.date
-            }}</span>
-            <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+          <td class="">
+            <div class="flex flex-col justify-center h-20 items-start">
+              <span class="dark:text-zinc-500 text-xs md:text-xs font-bold">{{
+                item.date
+              }}</span>
+              <p class="dark:text-zinc-200 font-bold text-xs md:text-md">{{ item.name }}</p>
+              <small class="dark:text-zinc-500 text-xs md:text-xs font-light ">by {{ getUserName(item) }}</small>
+            </div>
           </td>
           <td class="dark:text-zinc-200 font-bold">
             <span
@@ -169,7 +201,7 @@
                 <app-account-icon
                   *ngIf="i < 4"
                   [name]="account.name + ' ' + account.surname"
-                  size="h-8 w-8"
+                  size=" h-5 w-5 md:h-8 md:w-8"
                   class="rounded-full border-1 border-zinc-200 -ml-3 first:ml-0"
                 ></app-account-icon>
               </ng-container>
@@ -177,12 +209,12 @@
           </td>
           <td>
             <div class="flex flex-col items-center p-2">
-              <div class="grid grid-cols-3 gap-x-2 items-center">
-                <span class="text-4xl col-span-2 text-zinc-50"
+              <div class="grid grid-rows-2 md:grid-cols-3 gap-x-2 items-center">
+                <span class=" text-md md:text-2xl col-span-2 text-zinc-50"
                   >{{ authService.userInformation.defaultCurrency
                   }}{{ splitAmount(item).toFixed(2) }}</span
                 >
-                <span class="text-lg"
+                <span class="text-xs md:text-md col-span-1"
                   >({{ splitPercentage(item).toFixed(0) }}%)</span
                 >
               </div>
@@ -194,10 +226,10 @@
               <div class="flex items-center justify-center">
                 <div
                   (click)="openModal(item)"
-                  class="h-8 w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
+                  class="h-5 w-5 md:h-8 md:w-8 rounded-full border-1 border-zinc-50 bg-zinc-100 hover:bg-zinc-300 -ml-3 flex items-center justify-center pointer"
                 >
                   <p
-                    class="text-3xl font-light text-zinc-600"
+                    class=" text-xs md:text-3xl font-light text-zinc-600"
                     style="font-family: Arial, Helvetica, sans-serif"
                   >
                     +

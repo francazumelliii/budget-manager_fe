@@ -236,4 +236,8 @@ export class ExpenseComponent implements OnInit {
           console.error(error)
       })
   }
+
+  projectPageRedirect(id: number){
+    this.authService.redirect(`projects/${id}`)
+  }
 }

@@ -20,11 +20,14 @@ export class AuthenticationFormComponent {
   loginForm: FormGroup = this.formGroupService.loginForm
   template: 'LOGIN' | 'SIGNUP' = 'LOGIN'
   _arePasswordEquals: boolean = false;
+  _isBirthdateValid: boolean = false;
+  _isPasswordLengthValid: boolean = false;
   responseError: string = ""
 
 
   ngOnInit(): void {
-    
+    this.signupForm.reset()
+    this.loginForm.reset();
   }
 
 
@@ -37,8 +40,9 @@ export class AuthenticationFormComponent {
   submitSignupForm(){
     if(!this.signupForm.touched){
       return
-      // TODO check birthdate validity
+     
     }
+    
     const name = this.signupForm.controls['name'].value;
     const surname = this.signupForm.controls['surname'].value;
     const email = this.signupForm.controls['email'].value;
@@ -51,6 +55,7 @@ export class AuthenticationFormComponent {
 
       },(error: any) => {
         error.status == 409 ? this.responseError = "A user with same email already exists": null
+        error.status == 406 ? this.responseError = "You must be 18+": null
         console.error(error)
       })
     
@@ -83,7 +88,10 @@ export class AuthenticationFormComponent {
   checkPassword() {
     const password = this.signupForm.controls['password'].value;
     const repeatPassword = this.signupForm.controls['repeatPassword'].value;
-    this._arePasswordEquals = password === repeatPassword;
+
+    this._arePasswordEquals = password.toString() === repeatPassword.toString();
+
+    this._isPasswordLengthValid = this._arePasswordEquals ? password.length >= 8 : true;
   }
 
   
@@ -91,6 +99,17 @@ export class AuthenticationFormComponent {
     this.signupForm.reset()
     this.loginForm.reset()
     
+  }
+
+  checkBirthdate(){
+    if(!this.signupForm.get("birthdate")?.touched) return ;
+
+    const birthdate = new Date(this.signupForm.get("birthdate")?.value);
+    const today = new Date();
+    const age = today.getFullYear() - birthdate.getFullYear()
+    this._isBirthdateValid = age >= 18 && age < 100
+
+
   }
 
 }

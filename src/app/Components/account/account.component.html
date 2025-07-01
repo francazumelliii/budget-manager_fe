@@ -1,7 +1,7 @@
 <section class="container flex flex-col gap-y-4 overflow-y-auto h-screen">
   <!-- Header Section -->
   <div
-    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 bg-zinc-950"
+    class="flex flex-row justify-between px-4 w-full border-b border-zinc-600 pb-3 sticky top-0 dark:bg-zinc-950"
   >
     <h1 class="dark:text-zinc-50 text-3xl font-bold">Your Account</h1>
     <span
@@ -12,12 +12,12 @@
   </div>
 
   <!-- Main Section -->
-  <div class="p-4 grid grid-cols-2 gap-x-4 gap-y-2">
+  <div class="p-4 flex flex-col md:grid md:grid-cols-2 gap-x-4 gap-y-2">
     <!-- User Info Section -->
-    <div class="flex flex-row items-center gap-4 rounded-lg bg-zinc-900 py-2">
+    <div class="flex flex-row items-center gap-4 rounded-lg bg-zinc-300 dark:bg-zinc-900 py-2">
       <div class="flex flex-col justify-center items-center gap-y-3 ">
         <app-avatar [name]="user.name + ' ' + user.surname"></app-avatar>
-        <i class="fa-solid fa-pencil text-zinc-600 rounded-md pointer border border-zinc-600 p-1 hover:bg-zinc-800 hover:text-zinc-500" (click)="openAvatarModal()"></i>
+        <!--<i class="fa-solid fa-pencil text-zinc-600 rounded-md pointer p-1 hover:bg-zinc-800 hover:text-zinc-500" (click)="openAvatarModal()"></i>-->
       </div>
       <div class="flex flex-col">
         <p class="font-bold text-xl">{{ user.name }} {{ user.surname }}</p>
@@ -27,7 +27,7 @@
 
     <!-- Chart Section -->
     <div
-      class="relative flex flex-col items-center rounded-lg bg-zinc-900 py-2"
+      class="relative flex flex-col items-center rounded-lg bg-zinc-300 dark:bg-zinc-900 py-4 md:py-2"
     >
       <app-chart
         type="gauge"
@@ -40,15 +40,15 @@
       ></app-chart>
       <small
         *ngIf="percentage >= 100 && monthlyStats[0].value > 0"
-        class="text-red-400 absolute bottom-0 text-center w-full"
+        class="text-red-600 dark:text-red-400 absolute bottom-0 text-center w-full"
         >Out Of Budget :(</small
       >
       <div class="flex flex-row justify-between items-center w-full px-5">
-        <small class="text-zinc-500 text-light"
+        <small class="dark:text-zinc-500 text-zinc-700 text-light"
           >Expenses: {{ authService.defaultCurrency }}
           {{ monthlyStats[0].value.toFixed(2) }}</small
         >
-        <small class="text-zinc-500 text-light"
+        <small class="dark:text-zinc-500 text-zinc-700 text-light"
           >Incomes: {{ authService.defaultCurrency }}
           {{ totalIncomes.toFixed(2) }}</small
         >
@@ -58,12 +58,12 @@
 
   <div class="px-4 flex flex-col justify-center items-center w-full">
     <div
-      class="flex flex-col items-center w-full justify-center gap-y-4 bg-zinc-900 rounded-lg p-4"
+      class="flex flex-col items-center w-full justify-center gap-y-4 bg-zinc-300 dark:bg-zinc-900 rounded-lg p-4"
     >
-      <h1 class="text-zinc-50 font-light text-xl">My Friends</h1>
+      <h1 class="dark:text-zinc-50 font-light text-xl text-zinc-700">My Friends</h1>
       <ul class="flex flex-col gap-3 w-full">
         <div
-          class="grid grid-cols-2 place-items-center px-4 rounded-lg border border-zinc-800"
+          class="md:grid md:grid-cols-2 place-items-center px-4 rounded-lg border border-zinc-800"
           *ngFor="let account of friends"
         >
           <div class="col-auto w-full">
@@ -74,10 +74,10 @@
             ></app-account-icon-complete>
           </div>
           <div class="col-auto w-full grid grid-cols-2">
-            <p class="text-zinc-100 text-md text-right col-auto font-light">
+            <p class="text-zinc-700 dark:text-zinc-100 text-md text-right col-auto font-light">
               {{ account.project.name }}
             </p>
-            <p class="text-zinc-400 text-md text-right col-auto font-light">
+            <p class="dark:text-zinc-400 text-zinc-600 text-md text-right col-auto font-light">
               Since {{ account.addedAt | date : "dd MMM yyyy" }}
             </p>
           </div>

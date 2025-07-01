@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, SimpleAccount, User, WeeklyStats } from '../Interfaces/interface';
+import { Account, AuthResponse, Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchChildRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, SimpleAccount, User, WeeklyStats } from '../Interfaces/interface';
 
 export interface Delegate{
     lastMonthExpenses(limit: number | null): Observable<Expense[]>;
@@ -36,7 +36,7 @@ export interface Delegate{
     
     postShareProject(emails: string[], projectId: number): Observable<Project>
 
-    removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>
+    removeAccountFromProject(projectId: number ,email: string): Observable<Project>
     
     deleteExpense(id: number):Observable<any>
 
@@ -63,5 +63,13 @@ export interface Delegate{
     allChildProjects(id: number): Observable<Project[]>
 
     childProjectById(childId: number | null, projectId: number ): Observable<Project>
+
+    patchChild(childId: number | null, body: PatchChildRequest): Observable<Account>
+
+    deleteChild(childId: number | null): Observable<any>
+
+    switchToParent(): Observable<AuthResponse>
+
+    exportData(): Observable<Blob>
 
 }

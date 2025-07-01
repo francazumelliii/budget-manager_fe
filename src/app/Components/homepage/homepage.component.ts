@@ -6,6 +6,7 @@ import {
   Expense,
   Income,
   MonthlyStats,
+  PostChildRequest,
   PostIncomeRequest,
   Project,
   User,
@@ -226,19 +227,24 @@ export class HomepageComponent implements OnInit {
     const birthdate = this.newChildForm.get('birthdate')?.value;
     const image = this.newChildForm.get('image')?.value;
 
-    const body = {
+    const body: PostChildRequest= {
       name: name,
       surname: surname,
       email: email,
       password: password,
       birthdate: birthdate,
       image: image,
+
     };
 
     this.roleService.postChild(body).subscribe(
       (response: User) => {
+        const user = this.authService.userInformation
+        user.children.push(response)
+        this.authService.storeUserInformation(user)
         this.modalService.close();
         this.error = '';
+        this.authService.redirect("children")
       },
       (error: any) => {
         if (error.status == 409) {

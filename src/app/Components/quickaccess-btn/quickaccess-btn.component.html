@@ -1,6 +1,6 @@
-<div class="grid grid-cols-2 gap-3 rounded-lg bg-zinc-800 py-5 px-5 items-center cursor-pointer" (click)="emitClickEvent()">
+<div class="grid grid-cols-2 gap-3 rounded-lg bg-zinc-400 dark:bg-zinc-800 py-5 px-5 items-center cursor-pointer" (click)="emitClickEvent()">
     <div class="flex items-center justify-center w-16 h-16 rounded-full" [ngClass]="iconBgColor">
         <i [ngClass]="icon" class="text-xl text-white"></i>
     </div>
-    <p class="text-zinc-400 text-lg font-medium">{{label}}</p>
+    <p class="dark:text-zinc-400 text-zinc-800 text-lg font-medium">{{label}}</p>
 </div>

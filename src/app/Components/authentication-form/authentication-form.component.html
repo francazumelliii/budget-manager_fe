@@ -1,12 +1,13 @@
-
-<h1 class=" text-7xl dark:text-white text-center my-4 font-comfortaa" >PiggyBank 🐷</h1>
+<h1 class="text-7xl dark:text-white text-center my-4 font-comfortaa">
+  PiggyBank 🐷
+</h1>
 <div
-  class="container mx-auto bg-zinc-900 rounded-2xl flex-col md:grid md:grid-cols-2 justify-between p-4"
+  class="container mx-auto bg-zinc-400 dark:bg-zinc-900 rounded-2xl flex-col md:grid md:grid-cols-2 justify-between p-4"
 >
   <!-- Colonna immagine -->
   <div class="flex-1 flex items-center justify-center">
     <img
-      class="w-[1000px] h-auto bg-zinc-700 rounded-2xl"
+      class="w-[1000px] h-auto bg-zinc-300 dark:bg-zinc-700 rounded-2xl"
       src="https://cdn3d.iconscout.com/3d/premium/thumb/budget-management-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--expense-tracking-budgeting-tools-personal-finance-saving-money-financial-planning-pack-business-illustrations-8060295.png"
       alt="Budget Management Icon"
     />
@@ -24,10 +25,10 @@
           <h1 class="text-black dark:text-white text-4xl font-normal">
             Create an account
           </h1>
-          <p class="text-gray-400 text-sm">
+          <p class="dark:text-gray-400 text-gray-600 text-sm">
             Already have an account?
             <a
-              class="text-decoration-underline text-violet-400 text-sm pointer"
+              class="text-decoration-underline dark:text-violet-400 text-violet-600 text-sm pointer"
               (click)="switchTemplate()"
               >Login</a
             >
@@ -124,6 +125,18 @@
             Password doesn't match
           </small>
 
+          <small
+            class="text-xs text-red-400"
+            *ngIf="
+              _arePasswordEquals &&
+              !_isPasswordLengthValid &&
+              (signupForm.get('password')?.touched ||
+                signupForm.get('repeatPassword')?.touched)
+            "
+          >
+            Password must have at least 8 characters
+          </small>
+
           <input
             formControlName="birthdate"
             type="date"
@@ -131,16 +144,23 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Birthdate"
             required
+            (change)="checkBirthdate()"
             [ngClass]="{
               'border-error':
                 !signupForm.get('birthdate')?.valid &&
                 signupForm.get('birthdate')?.touched
             }"
-            (blur)="signupForm.get('surname')?.markAsTouched()"
           />
+          <small
+              class="text-xs text-red-400"
+              *ngIf="!_isBirthdateValid && signupForm.get('birthdate')?.touched"
+            >
+              You must be 18+
+            </small>
 
           <div class="flex flex-row justify-start align-items-center">
             <input
+              formControlName="terms"
               type="checkbox"
               class="accent-black dark:accent-white text-sm"
             />
@@ -150,16 +170,29 @@
                 >Terms and Conditions</a
               ></span
             >
+            <small
+              class="text-xs text-red-400"
+              *ngIf="
+                signupForm.get('terms')?.invalid && 
+                signupForm.touched
+              "
+            >
+              You must accept the terms and conditions
+            </small>
           </div>
 
           <button
             type="submit"
-            [disabled]="(signupForm.invalid && signupForm.touched) || !_arePasswordEquals "
+            [disabled]="
+              (signupForm.invalid && signupForm.touched) || !_arePasswordEquals || !_isBirthdateValid
+            "
             class="bg-violet-500 hover:bg-violet-600 text-white rounded py-3 disabled:opacity-70 disabled:hover:bg-violet-500"
           >
             Create Account
           </button>
-          <small class="text-xs text-red-400 text-center">{{responseError}}</small>
+          <small class="text-xs text-red-400 text-center">{{
+            responseError
+          }}</small>
         </div>
       </form>
     </div>
@@ -175,10 +208,10 @@
     >
       <div class="grid gap-2">
         <h1 class="text-black dark:text-white text-4xl font-normal">Login</h1>
-        <p class="text-gray-400 text-sm">
+        <p class="dark:text-gray-400 text-gray-600 text-sm">
           Don't have an account yet?
           <a
-            class="text-decoration-underline text-violet-400 text-sm pointer"
+            class="text-decoration-underline dark:text-violet-400 text-violet-600  text-sm pointer"
             (click)="switchTemplate()"
             >Signup</a
           >
@@ -211,7 +244,9 @@
         >
           Login
         </button>
-        <small class="text-xs text-red-400 text-center">{{responseError}}</small>
+        <small class="text-xs text-red-400 text-center">{{
+          responseError
+        }}</small>
       </div>
     </form>
   </div>

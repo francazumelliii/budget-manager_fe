@@ -11,7 +11,7 @@
                 newExpenseForm.controls['name'].touched
             }"
             formControlName="name"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Subject"
           />
         </div>
@@ -25,7 +25,7 @@
                 newExpenseForm.controls['amount'].touched
             }"
             formControlName="amount"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             [placeholder]="authService.defaultCurrency + '100.00' "
             type="number"
           />
@@ -40,21 +40,22 @@
               newExpenseForm.controls['description'].touched
           }"
           formControlName="description"
-          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          class="resize-none w-full h-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
           placeholder="Add a description"
         ></textarea>
       </div>
 
       <!-- frequency select -->
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between p-0">
         <!-- select -->
-        <div class="w-full max-w-sm">
+        <div class="w-full max-w-sm rounded" [ngClass]="{'border border-red-400' : newExpenseForm.controls['frequency'].invalid && newExpenseForm.touched}">
           <app-select
             label="Frequency"
             [list]="frequencies"
             [control]="newExpenseForm.controls['frequency']"
           >
           </app-select>
+          
         </div>
         <!-- date input -->
         <div class="w-full max-w-sm">
@@ -65,7 +66,7 @@
                 newExpenseForm.controls['date'].touched
             }"
             formControlName="date"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="date"
             [value]="todayDate"
           />
@@ -91,7 +92,7 @@
                 newExpenseForm.controls['image'].touched
             }"
             formControlName="image"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="file"
           />
         </div>
@@ -136,7 +137,7 @@
                 newIncomeForm.controls['name'].touched
             }"
             formControlName="name"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Subject"
           />
         </div>
@@ -150,7 +151,7 @@
                 newIncomeForm.controls['amount'].touched
             }"
             formControlName="amount"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             [placeholder]="authService.defaultCurrency + '100.00'"
             type="number"
           />
@@ -165,7 +166,7 @@
               newIncomeForm.controls['description'].touched
           }"
           formControlName="description"
-          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          class="resize-none w-full h-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
           placeholder="Add a description"
         ></textarea>
       </div>
@@ -190,7 +191,7 @@
                 newIncomeForm.controls['date'].touched
             }"
             formControlName="date"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="date"
             [value]="todayDate"
           />
@@ -207,7 +208,7 @@
                 newExpenseForm.controls['image'].touched
             }"
             formControlName="image"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="file"
           />
         </div>
@@ -241,7 +242,7 @@
                 newTripForm.controls['name'].touched
             }"
             formControlName="name"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Subject"
           />
         </div>
@@ -255,7 +256,7 @@
                 newTripForm.controls['goalAmount'].touched
             }"
             formControlName="goalAmount"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             [placeholder]="authService.defaultCurrency + '100.00'" 
             type="number"
           />
@@ -270,7 +271,7 @@
               newTripForm.controls['description'].touched
           }"
           formControlName="description"
-          class="resize-none w-full h-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+          class="resize-none w-full h-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
           placeholder="Add a description"
         ></textarea>
       </div>
@@ -285,7 +286,7 @@
                 newTripForm.controls['image'].touched
             }"
             formControlName="image"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="file"
           />
         </div>
@@ -319,7 +320,7 @@
                 newChildForm.controls['name'].touched
             }"
             formControlName="name"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Name"
           />
         </div>
@@ -332,7 +333,7 @@
                 newChildForm.controls['surname'].touched
             }"
             formControlName="surname"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Surname"
           />
         </div>
@@ -347,7 +348,7 @@
                 newChildForm.controls['email'].touched
             }"
             formControlName="email"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Email"
           />
         </div>
@@ -361,7 +362,7 @@
             }"
             formControlName="birthdate"
             (input)="checkBirthdate()"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="date"
             placeholder="Birthdate"
           />
@@ -385,9 +386,10 @@
                 newChildForm.controls['password'].invalid &&
                 newChildForm.controls['password'].touched
             }"
+            
             formControlName="password"
             (input) = "checkPassword()"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Password"
           />
           <small
@@ -411,7 +413,7 @@
             }"
             formControlName="repeatPassword"
             (input) = "checkPassword()"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             placeholder="Repeat Password"
           />
         </div>
@@ -427,7 +429,7 @@
                 newChildForm.controls['image'].touched
             }"
             formControlName="image"
-            class="w-full bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
+            class="w-full dark:bg-zinc-700 placeholder:text-slate-400 text-slate-300 text-sm border dark:border-zinc-600 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow"
             type="file"
           />
         </div>

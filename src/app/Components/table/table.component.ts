@@ -10,6 +10,7 @@ import { Pagination } from '../../Interfaces/interface';
 })
 export class TableComponent {
   @Input() showPaginator: boolean = true;
+  @Input() list: any = null;
   @Input() fullHeight: boolean = true;
   @Input() height: string = "85vh";
   @Output() pageChange = new EventEmitter<PaginatorState>()

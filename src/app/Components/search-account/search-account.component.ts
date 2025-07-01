@@ -83,13 +83,13 @@ export class SearchAccountComponent {
    this.form.reset()
     
   }
-  removeAccountFromProject(email: string, option: 'keep' | 'remove'){
+  removeAccountFromProject(email: string){
     this.switchTemplate()
     const index = this.accounts.findIndex((a: SimpleAccount) => a.email === email)
     this.accounts.splice(index,1)
     const projectId = this.project.id
     if(email == null) return;
-    this.roleService.removeAccountFromProject(projectId, email, option)
+    this.roleService.removeAccountFromProject(projectId, email)
       .subscribe((response: Project) => {
         this.project = response;
         this.success.emit(response)
@@ -104,6 +104,8 @@ export class SearchAccountComponent {
   switchTemplate(){
     this.showConfirmDialog = !this.showConfirmDialog;
   }
+
+
 
 
 }

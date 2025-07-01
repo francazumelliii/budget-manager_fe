@@ -3,6 +3,8 @@ import { DatabaseService } from '../../Services/database.service';
 import { AuthenticationService } from '../../Services/authentication.service';
 import { Menu } from '../../Interfaces/interface';
 import { Router, Routes } from '@angular/router';
+import { AccountComponent } from '../account/account.component';
+import { ThemeService } from '../../Services/theme.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,9 +16,14 @@ export class SidebarComponent {
   constructor(
     private dbService: DatabaseService,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
+    
   ){
     this.getUserInfo()
+    this.authService.roleSwitched.subscribe((data: any)=> {
+      this.getUserInfo()
+    })
   }
 
   menuList: Menu[] = []

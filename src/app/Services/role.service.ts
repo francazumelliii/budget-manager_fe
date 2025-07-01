@@ -4,12 +4,15 @@ import { Delegate } from '../Classes/delegate';
 import { Parent } from '../Classes/parent';
 import { User } from '../Classes/user';
 import {
+  Account,
+  AuthResponse,
   Expense,
   Friend,
   Income,
   MonthlyStats,
   Page,
   PatchAccountRequest,
+  PatchChildRequest,
   PatchSharedRequest,
   PostChildRequest,
   PostExpenseRequest,
@@ -114,8 +117,8 @@ export class RoleService {
   postShareProject(emails: string[], projectId: number): Observable<Project>{
     return this.delegate.postShareProject(emails, projectId);
   }
-  removeAccountFromProject(projectId: number, email: string, option: 'keep' | 'remove'): Observable<Project>{
-    return this.delegate.removeAccountFromProject(projectId, email, option)
+  removeAccountFromProject(projectId: number, email: string): Observable<Project>{
+    return this.delegate.removeAccountFromProject(projectId, email)
   }
   deleteExpense(id: number):Observable<any>{
     return this.delegate.deleteExpense(id)
@@ -156,5 +159,17 @@ export class RoleService {
   }
   allChildProjects(id: number): Observable<Project[]>{
     return this.delegate.allChildProjects(id)
+  }
+  patchChild(childId: number | null, body: PatchChildRequest): Observable<Account>{
+    return this.delegate.patchChild(childId, body)
+  }
+  deleteChild(childId: number | null): Observable<any>{
+    return this.delegate.deleteChild(childId)
+  }
+  switchToParent():Observable<AuthResponse>{
+    return this.delegate.switchToParent()
+  }
+  exportData(): Observable<Blob>{
+    return this.delegate.exportData()
   }
 }

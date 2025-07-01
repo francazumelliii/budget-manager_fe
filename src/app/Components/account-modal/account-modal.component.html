@@ -72,9 +72,9 @@
 
       <!-- CSV Button-->
       <div class="flex flex-col items-start justify-center ps-1">
-        <p class="text-zinc-200 font-light w-full">CSV Export</p>
+        <p class="text-zinc-200 font-light w-full">Excel Export</p>
       </div>
-      <button class="p-3 rounded-lg bg-zinc-600  text-zinc-50 text-xs hover:bg-zinc-700">
+      <button class="p-3 rounded-lg bg-zinc-600  text-zinc-50 text-xs hover:bg-zinc-700" (click)="onExport.emit('')">
         DOWNLOAD
       </button>
 
@@ -100,10 +100,13 @@
        class="p-3 hover:text-gray-600 text-zinc-400 text-xs"
        *ngIf="authService.userInformation.parent !== null"
        (click)="onSwitch.emit('')"
+       [disabled]="!isAdult"
+       [ngClass]="{' cursor-not-allowed hover:text-zinc-400': !isAdult}"
      >
        SWITCH TO PARENT
      </button>
     </div>
+    <small class="mt-5 text-red-400">{{responseError}}</small>
 ¯
   </form>
 </section>

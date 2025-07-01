@@ -2,17 +2,19 @@
 
 
 
-UPDATE child page with projects
-
-ACCOUNT page (to finish )
-
-EDIT EXPENSE / INCOMES / CHILDREN 
-DELETE children
-SWITCH TO ACCOUNT 
-CHILD ACCOUNT ON SIGN IN
-CHANGE AVATAR MODAL
 
 
-DOWNLOAD
-CURRENCY CHANGE
-FIX DELETE ACCOUNT
+SingleProjectComponent(edit project)
+Backend split account's expenses on project when cancellation
+ChildComponent DELETE child
+
+AccountComponent(Role.USER) Switch to Parent Account
+
+
+Backend Check Birthdate on Sign In
+
+AccountComponent Change Avatar (modal)
+AccountComponent Download CSV (Settings)
+
+Backend Currency Change
+AccountComponent DELETE Account (fix)

@@ -1,10 +1,10 @@
 <div class="modal-overlay" (click)="close()">
-  <div class="modal-content bg-zinc-800 border border-zinc-600" 
+  <div class="modal-content dark:bg-zinc-800 bg-zinc-200 border dark:border-zinc-600" 
        (click)="$event.stopPropagation()"
        [ngStyle]="{'height': height}">
     <div class="modal-header aling-items-center border-b border-zinc-600 ">
-      <h2 class="text-gray-400 font-bold uppercase ">{{ title }}</h2>
-      <button class="close-button text-gray-400 font-light hover:text-red-400" (click)="close()">x</button>
+      <h2 class="dark:text-gray-400 text-gray-700 font-bold uppercase ">{{ title }}</h2>
+      <button class="close-button dark:text-gray-400 text-gray-700 font-light hover:text-red-400" (click)="close()">x</button>
     </div>
     <div class="modal-body" [ngStyle]="{'max-height': 'calc(100% - 56px)', 'overflow-y': 'auto'}">
       <ng-template #modalContent></ng-template>

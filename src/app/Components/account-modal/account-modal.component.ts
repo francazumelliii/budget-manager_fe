@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroupService } from '../../Services/form-group.service';
 import { AuthenticationService } from '../../Services/authentication.service';
 import { FormGroup } from '@angular/forms';
@@ -12,17 +12,21 @@ import { OptionModalComponent } from '../option-modal/option-modal.component';
 })
 export class AccountModalComponent {
   form!: FormGroup;
+  isAdult: boolean = false;
   constructor(
     private formService: FormGroupService,
     public authService: AuthenticationService,
     private modalService: ModalService
   ) {
     this.form = this.formService.signupForm;
+    this.isAdult = new Date().getFullYear() - new Date(this.authService.userInformation.birthdate).getFullYear() >=18
   }
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSave: EventEmitter<any> = new EventEmitter<any>();
   @Output() onSwitch: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onExport: EventEmitter<any> = new EventEmitter<any>();
+  @Input() responseError: string = "";
 
   defaultCurrencies: { name: string; id: string }[] = [
     { name: 'Euro (€)', id: '€' },

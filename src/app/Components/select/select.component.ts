@@ -11,6 +11,7 @@ export class SelectComponent  
   @Input() noneAvailable: boolean = false;
   @Input() list: any[] = [];
   @Input() selected!: any
+  @Input() class: string = "";
   @Input() label: string = "Select an option..";
   @Input() control!: AbstractControl;
   @Output() change = new EventEmitter<any>()

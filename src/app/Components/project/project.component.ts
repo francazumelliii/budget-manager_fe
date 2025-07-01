@@ -233,4 +233,31 @@ export class ProjectComponent {
         console.error(error)
       })
   }
+
+  async openExitModal(id: number){
+    const modalRef = await this.modalService.open(OptionModalComponent, {
+      title: "Are you sure you want to leave this project?",
+      subtitle: "All your expenses will be deleted.",
+      description: "The expenses you participate in will be redistributed among the other participants.",
+      confirmLabel: "CONFIRM",
+      cancelLabel: "CANCEL"
+    }, "LEAVE PROJECT")
+
+    modalRef.instance.confirm.subscribe((data: any)=> {
+      this.removeAccountFromProject(id)
+    })
+    modalRef.instance.cancel.subscribe((data: any)=> {
+      this.modalService.close()
+    })
+  }
+
+  removeAccountFromProject(projectId: number){
+    const email = this.authService.userInformation.email
+    this.roleService.removeAccountFromProject(projectId, email)
+      .subscribe((response: any)=> {
+        const index = this.projectsList.findIndex((p: Project) => p.id === projectId)
+        this.projectsList.splice(index,1)
+        this.modalService.close()
+      })
+  }
 }

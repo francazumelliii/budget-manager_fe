@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   Expense,
   LinearChart,
+  PostProjectRequest,
   Project,
   SimpleAccount,
 } from '../../Interfaces/interface';
@@ -16,6 +17,9 @@ import { ChoosePersonModalComponent } from '../choose-person-modal/choose-person
 import { FormGroup } from '@angular/forms';
 import { FormGroupService } from '../../Services/form-group.service';
 import { QuickaccessModalComponent } from '../quickaccess-modal/quickaccess-modal.component';
+import { OptionModalComponent } from '../option-modal/option-modal.component';
+import { SearchAccountComponent } from '../search-account/search-account.component';
+import { ExecOptions } from 'child_process';
 
 @Component({
   selector: 'app-single-project',
@@ -31,6 +35,7 @@ export class SingleProjectComponent {
     private formService: FormGroupService
   ) {
     this.newExpenseForm = formService.newExpenseForm
+    this.patchProjectForm = formService.newTripForm
   }
   @Input() childId: number | null = null;
   @Input() childProjectId : number | null = null
@@ -43,6 +48,7 @@ export class SingleProjectComponent {
   allExpenses: Expense[] = [];
   chartData: any[] = [];
   overBudget: boolean = false;
+  patchProjectForm !: FormGroup
   splitType: 'EQUAL' | 'NON EQUAL' = 'EQUAL';
   newExpenseForm!: FormGroup
   error: string = "";
@@ -219,6 +225,7 @@ export class SingleProjectComponent {
     this.roleService.postExpense(body).subscribe(
       (response: Expense) => {
         this.project.expenses.push(response)
+        this.getProject(this.project.id)
         this.modalService.close()
         this.newExpenseForm.get("project")?.enable()
         this.newExpenseForm.get("project")?.setValue("")
@@ -232,6 +239,77 @@ export class SingleProjectComponent {
     );
   }
   
+  async openEditModal(){
+    this.patchProjectForm.get("name")?.setValue(this.project.name)
+    this.patchProjectForm.get("description")?.setValue(this.project.description)
+    this.patchProjectForm.get("goalAmount")?.setValue(this.project.goalAmount)
+    this.patchProjectForm.get("image")?.setValue(this.project.image)
+
+    const modalRef = await this.modalService.open(QuickaccessModalComponent, {type:"trip", isUpdate: true}, "EDIT TRIP")
+    modalRef.instance.submit.subscribe((data: any) => {
+      this.patchProject(this.project.id);
+      this.modalService.close()
+    })
+    
+  }
+
+  patchProject(id: number){
+    const name = this.patchProjectForm.get("name")?.value;
+    const description = this.patchProjectForm.get("description")?.value;
+    const goalAmount = this.patchProjectForm.get("goalAmount")?.value;
+    const image = this.patchProjectForm.get("image")?.value;
+
+    const body: PostProjectRequest = {
+      name: name, 
+      description: description,
+      image: image,
+      goalAmount: goalAmount
+    }
+    this.roleService.patchProject(body,id ) 
+      .subscribe((response: Project) => {
+        this.project = response
+      },(error: any ) => {
+        console.error(error)
+      })
+  }
+
+  deleteProject(id: number){
+    this.roleService.deleteProject(id)
+      .subscribe((response: any) => {
+        this.authService.redirect("projects")
+        this.modalService.close()
+      },(error: any) => {
+        console.error(error)
+      })
+  }
+  async openDeleteModal(){
+    const modalRef = await this.modalService.open(OptionModalComponent, {
+      title: "Are you sure you want to delete this project?",
+      subtitle: "ATTENTION: All the project's expenses will be deleted!",
+      description: "The action is irreversible!",
+      confirmLabel: "CONFIRM",
+      cancelLable: "CANCEL"
+    }, "DELETE PROJECT")
+    modalRef.instance.confirm.subscribe((data: any) => {
+      this.deleteProject(this.project.id)
+    })
+    modalRef.instance.cancel.subscribe((data: any) => {
+      this.modalService.close()
+    })
+  }
+
+  async addAccountToProject(){
+
+    const modalRef = await this.modalService.open(SearchAccountComponent, {project: this.project}, "ADD NEW ACCOUNT")
+    modalRef.instance.success.subscribe((project: Project) => {
+      this.project = project
+    });
+    
+  }
   
-  
+  getUserName(expense: Expense){
+    const user = this.project.accounts.find((account: SimpleAccount) => account.id === expense.accountId)
+    if(user) return `${user.name} ${user.surname}`
+    return `${this.project.creator.name} ${this.project.creator.surname}`
+  }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Delegate } from "./delegate";
 import { DatabaseService } from "../Services/database.service";
-import { Observable } from "rxjs";
-import { Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
+import { Observable, of } from "rxjs";
+import { Account, AuthResponse, Expense, Friend, Income, MonthlyStats, Page, PatchAccountRequest, PatchChildRequest, PatchSharedRequest, PostChildRequest, PostExpenseRequest, PostIncomeRequest, PostProjectRequest, Project, Role, ShareRequest, SimpleAccount, WeeklyStats } from "../Interfaces/interface";
 import { User } from "./user";
 import { start } from "node:repl";
 
@@ -70,8 +70,8 @@ export class Parent implements Delegate{
         const body: ShareRequest = {emails: emails, projectId: projectId}
         return this.dbService.post(`/account/me/project/add`, body)
     }
-    removeAccountFromProject(projectId: number ,email: string, option: 'keep' | 'remove'): Observable<Project>{
-        return this.dbService.delete(`/account/me/projects/${projectId}/remove?email=${email}&option=${option}`)
+    removeAccountFromProject(projectId: number ,email: string): Observable<Project>{
+        return this.dbService.delete(`/account/me/projects/${projectId}/remove?email=${email}`)
     }
     deleteExpense(id: number):Observable<any>{
         return this.dbService.delete(`/account/me/expenses/${id}`)
@@ -111,5 +111,30 @@ export class Parent implements Delegate{
     }
     childProjectById(childId: number | null, projectId: number): Observable<Project>{
         return this.dbService.get(`/account/me/parent/${childId}/projects/${projectId}`)
+    }
+    patchChild(childId: number | null, body: PatchChildRequest): Observable<Account>{
+        return this.dbService.patch(`/account/me/parent/${childId}`, body)
+    }
+    deleteChild(childId: number | null): Observable<any>{
+        return this.dbService.delete(`/account/me/parent/${childId}`)
+    }
+    switchToParent():Observable<AuthResponse>{
+        const user: Account= {
+            id: 0,
+            name: "",
+            surname: "",
+            email: "", 
+            birthdate: "",
+            defaultCurrency: "",
+            image: "", 
+            children: null,
+            parent: null,
+            role: Role.USER
+          }
+          return of({jwt: "", user: user})
+    }
+
+    exportData(): Observable<Blob> {
+        return this.dbService.getBlob(`/account/me/export-excel`)
     }
 }

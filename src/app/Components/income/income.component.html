@@ -50,23 +50,27 @@
     </form>
   </div>
 
-  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination">
+  <app-table (pageChange)="handlePageChange($event)" [pagination]="pagination" [list]="incomesList">
     <thead>
-      <tr class="sticky top-0 z-10 bg-zinc-950 h-10">
-        <th class="w-1/12"></th>
-        <th>DETAILS</th>
-        <th>DESCRIPTION</th>
-        <th>AMOUNT</th>
-        <th>EXPIRING DATE</th>
-        <th>FREQUENCY</th>
-        <th *ngIf="_isUpdateAllowed" class="w-1/12"></th>
+    
+      <tr class="sticky top-0 z-10 bg-zinc-300 dark:bg-zinc-950 h-10">
+        <th class="w-1/12 text-xs md:text-base"></th>
+        <th  class="text-xs md:text-base">DETAILS</th>
+        <th class="text-xs md:text-base">DESCRIPTION</th>
+        <th class="text-xs md:text-base">AMOUNT</th>
+        <th class="text-xs md:text-base">EXPIRING DATE</th>
+        <th class="text-xs md:text-base">FREQUENCY</th>
+        <th *ngIf="_isUpdateAllowed" class="w-1/12 text-xs md:text-base"></th>
       </tr>
     </thead>
+  
     <tbody>
+
       <tr
         *ngFor="let item of incomesList; index as i"
-        class="h-9 outline outline-1 outline-zinc-950 text-sm bg-zinc-800"
-        [ngClass]="{ 'bg-zinc-900': i % 2 == 0 }"
+        class="h-9 outline outline-1 outline-zinc-200 dark:outline-zinc-950 text-sm bg-zinc-200 dark:bg-zinc-800"
+        [ngClass]="{ 'bg-zinc-50 dark:bg-zinc-900': i % 2 == 0 }"
+
       >
         <td class="w-1/12 text-center">
           <i class="fa-regular fa-credit-card"></i>
@@ -76,7 +80,7 @@
           <span class="dark:text-zinc-500 text-xs font-bold">{{
             item.date | date : "dd MMM yyyy"
           }}</span>
-          <p class="dark:text-zinc-200 font-bold">{{ item.name }}</p>
+          <p class="dark:text-zinc-200 font-bold text-xs md:text-base">{{ item.name }}</p>
         </td>
         <td class="dark:text-zinc-200 font-bold">
           <div class="flex flex-row justify-start items-center gap-x-3">
@@ -85,19 +89,20 @@
             </p>
           </div>
         </td>
-        <td class="dark:text-zinc-200 font-bold">
+        <td class="dark:text-zinc-200 font-bold text-xs md:text-base">
           <span
+          class="text-xs md:text-base"
             >{{ authService.defaultCurrency }}
             {{ item.amount.toFixed(2) }}</span
           >
         </td>
-        <td class="dark:text-zinc-200 font-bold">
-          <span [ngClass]="{ 'text-blue-200': !isExpired(item.date) }">{{
+        <td class="dark:text-zinc-200 font-bold text-xs md:text-base">
+          <span [ngClass]="{ ' text-blue-500 dark:text-blue-200': !isExpired(item.date) }" class="text-xs md:text-base">{{
             item.date | date : "dd MMM yyyy"
           }}</span>
         </td>
         <td class="dark:text-zinc-200 font-bold">
-          <app-frequency-icon [frequency]="item.frequency"></app-frequency-icon>
+          <app-frequency-icon [frequency]="item.frequency" ></app-frequency-icon>
         </td>
         <td *ngIf="_isUpdateAllowed" class="">
           <div class="flex flex-row justify-center gap-x-5 pointer">

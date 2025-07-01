@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { ThemeService } from '../../Services/theme.service';
 
 @Component({
   selector: 'app-chart',
@@ -7,6 +8,8 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
   styleUrls: ['./chart.component.sass']
 })
 export class ChartComponent implements OnChanges {
+
+  
   colorScheme: Color = {
     domain: ['#be123c', '#a21caf', '#7e22ce','#5AA454', '#4338ca', '#0e7490', '#0f766e', '#15803d', '#a16207', '#c2410c', '#b91c1c'],
     name: '',
@@ -69,7 +72,7 @@ export class ChartComponent implements OnChanges {
 
   }
 
-  constructor() {}
+  constructor(public themeService: ThemeService) {}
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));

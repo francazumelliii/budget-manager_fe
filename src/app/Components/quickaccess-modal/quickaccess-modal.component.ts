@@ -64,6 +64,8 @@ export class QuickaccessModalComponent implements OnInit{
     this.newIncomeForm = this.formService.newIncomeForm
     this.newTripForm = this.formService.newTripForm
     this.newChildForm = this.formService.signupForm
+    this.newChildForm.get("terms")?.setValue(true)
+
 
   }
   resetForms(){
